@@ -5,10 +5,13 @@
  */
 package sg.sjc.superhero.controllers;
 
+import org.springframework.stereotype.Controller;
+
 /**
  *
  * @author stephenespinal
  */
+@Controller
 public class LocationController {
     
 }
