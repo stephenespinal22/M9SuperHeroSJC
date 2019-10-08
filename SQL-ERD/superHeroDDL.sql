@@ -29,7 +29,6 @@ locationId int primary key auto_increment,
 `name` varchar(255) not null,
 `description` varchar(255) not null,
 address varchar(255) not null,
-sightingDate datetime not null,
 longitude decimal(8,6),
 latitude decimal(8,6)
 
