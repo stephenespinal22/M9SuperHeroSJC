@@ -3,6 +3,6 @@
 work on your branch 
 
 - Git checkout master
-- Git pull
+- Git pull origin master
 - Git checkout branch
-- Git merge master
+
