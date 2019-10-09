@@ -6,7 +6,7 @@
 package sg.sjc.daos;
 
 import java.util.List;
-import sg.sjc.dtos.SuperPersons;
+import sg.sjc.dtos.SuperPerson;
 
 /**
  *
@@ -14,12 +14,12 @@ import sg.sjc.dtos.SuperPersons;
  */
 public interface SuperPersonsDAO {
     
-    SuperPersons getSuperPersonById(int id);
-    List<SuperPersons> getAllSuperPersons();
-    List<SuperPersons> getAllHeroes();
-    List<SuperPersons> getAllVillains();
-    SuperPersons addSuperPerson(SuperPersons superPerson);
-    void updateSuperPerson(SuperPersons superPerson);
+    SuperPerson getSuperPersonById(int id);
+    List<SuperPerson> getAllSuperPersons();
+    List<SuperPerson> getAllHeroes();
+    List<SuperPerson> getAllVillains();
+    SuperPerson addSuperPerson(SuperPerson superPerson);
+    void updateSuperPerson(SuperPerson superPerson);
     void deleteSuperPersonById(int id);
     
 }

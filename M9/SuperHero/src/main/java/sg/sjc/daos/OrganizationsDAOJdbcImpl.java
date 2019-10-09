@@ -21,6 +21,7 @@ public class OrganizationsDAOJdbcImpl implements OrganizationsDAO {
     private final JdbcTemplate jdbc;
     
     private final String getOrg = "Select * From Organizations Where orgId = ?;";
+    private final String getAllOrgs = "Select * From Organizations;";
     
     @Autowired
     public OrganizationsDAOJdbcImpl(JdbcTemplate jdbcTemplate){
@@ -34,7 +35,7 @@ public class OrganizationsDAOJdbcImpl implements OrganizationsDAO {
 
     @Override
     public List<Organization> getAllOrgs() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.jdbc.query(getAllOrgs, new OrganizationsJDBCMapper());
     }
 
     @Override

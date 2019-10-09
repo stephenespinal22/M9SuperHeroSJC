@@ -18,7 +18,7 @@ public class Organization {
     private String name;
     private String description;
     private String contactInfo;
-    private List<SuperPersons> members;
+    private List<SuperPerson> members;
 
     public int getOrgId() {
         return orgId;
@@ -52,11 +52,11 @@ public class Organization {
         this.contactInfo = contactInfo;
     }
 
-    public List<SuperPersons> getMembers() {
+    public List<SuperPerson> getMembers() {
         return members;
     }
 
-    public void setMembers(List<SuperPersons> members) {
+    public void setMembers(List<SuperPerson> members) {
         this.members = members;
     }
 

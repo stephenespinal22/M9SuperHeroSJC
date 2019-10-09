@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author corey
  */
-public class SuperPersons {
+public class SuperPerson {
     
     private int superId;
     private String name;
@@ -91,7 +91,7 @@ public class SuperPersons {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SuperPersons other = (SuperPersons) obj;
+        final SuperPerson other = (SuperPerson) obj;
         if (this.superId != other.superId) {
             return false;
         }
