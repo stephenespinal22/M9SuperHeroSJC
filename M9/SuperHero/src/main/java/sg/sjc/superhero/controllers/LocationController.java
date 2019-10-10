@@ -5,7 +5,9 @@
  */
 package sg.sjc.superhero.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import sg.sjc.superhero.services.LocationService;
 
 /**
  *
@@ -13,5 +15,11 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class LocationController {
-    
+
+    private LocationService service;
+
+    @Autowired
+    public LocationController(LocationService service) {
+        this.service = service;
+    }
 }
