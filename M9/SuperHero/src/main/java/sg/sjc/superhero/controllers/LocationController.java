@@ -7,6 +7,8 @@ package sg.sjc.superhero.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import sg.sjc.superhero.services.LocationService;
 
 /**
@@ -22,4 +24,13 @@ public class LocationController {
     public LocationController(LocationService service) {
         this.service = service;
     }
+
+    @GetMapping("locations")
+    public String loadPage(Model model) {
+
+        model.addAttribute("location", service.readLocationById(1).getLatitude());
+
+        return "locations";
+    }
+
 }
