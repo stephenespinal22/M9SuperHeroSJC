@@ -22,10 +22,11 @@ public class LocationDaoImpl implements LocationDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String insertGame = "insert into Game (answer) values (?);"; //create
-    private final String selectAllGames = "select gameId, answer,isFinished from Game;"; //read all
-    private final String selectGameById = "select gameId,answer, isFinished from Game where gameId = ?;"; //readbyId
-    private final String updateGame = "update Game set isFinished = ? where gameId = ?;";
+    private final String insertLocation = "INSERT INTO Locations (`name`, `description`, address, longitude, latitude) VALUES (?,?,?,?,?)"; //create
+    private final String selectAllLocations = "SELECT locationId, `name`, `description`, address, longitude, latitude FROM Locations"; //read all
+    private final String selectLocationById = selectAllLocations + " WHERE locationId = ?"; //readbyId
+    private final String updateLocationById = "UPDATE Locations SET `name` = ?, `description` = ?, address = ?, longitude = ?, latitude = ? WHERE locationId = ?";
+    private final String deleteLocationById = "DELETE FROM LOCATIONS WHERE locationId = ?";
 
     @Autowired
     public LocationDaoImpl(JdbcTemplate jdbcTemplate) {
