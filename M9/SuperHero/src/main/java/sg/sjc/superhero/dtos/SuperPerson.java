@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sg.sjc.dtos;
+package sg.sjc.superhero.dtos;
 
 import java.util.Objects;
 

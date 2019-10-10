@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sg.sjc.daos;
+package sg.sjc.superhero.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import sg.sjc.dtos.SuperPerson;
+import sg.sjc.superhero.dtos.SuperPerson;
 
 @Repository
 public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
@@ -69,8 +69,8 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
         public SuperPerson mapRow(ResultSet rs, int index) throws SQLException {
             SuperPerson superPerson = new SuperPerson();
             superPerson.setSuperId(rs.getInt("superId"));
-            superPerson.setName(rs.getString("`name`"));
-            superPerson.setDescription(rs.getString("`description`"));
+            superPerson.setName(rs.getString("name"));
+            superPerson.setDescription(rs.getString("description"));
             superPerson.setIsVillain(rs.getBoolean("isVillain"));
             
             return superPerson;

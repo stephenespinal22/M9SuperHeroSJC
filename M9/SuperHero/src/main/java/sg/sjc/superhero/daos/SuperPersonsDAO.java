@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sg.sjc.daos;
+package sg.sjc.superhero.daos;
 
 import java.util.List;
-import sg.sjc.dtos.SuperPerson;
+import sg.sjc.superhero.dtos.SuperPerson;
 
 /**
  *

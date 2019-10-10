@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sg.sjc.controllers;
+package sg.sjc.superhero.controllers;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import sg.sjc.daos.OrganizationsDAO;
-import sg.sjc.daos.SuperPersonsDAO;
-import sg.sjc.dtos.SuperPerson;
+import sg.sjc.superhero.daos.SuperPersonsDAO;
+import sg.sjc.superhero.dtos.SuperPerson;
 
 /**
  *
@@ -22,8 +21,6 @@ import sg.sjc.dtos.SuperPerson;
 @Controller
 public class SuperPersonsController {
     
-    @Autowired
-    OrganizationsDAO orgDao;
     
     @Autowired
     SuperPersonsDAO spsDAO;
