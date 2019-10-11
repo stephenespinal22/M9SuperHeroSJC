@@ -33,8 +33,12 @@ and open the template in the editor.
 
 
 td{
-     word-wrap:break-word;
-        max-width: 15px;
-
+    word-wrap:break-word;
+    max-width: 15px;
 }
 
+#mapid{
+    width: 400px; 
+    height: 400px;
+    margin-bottom: 10px;
+}

@@ -40,13 +40,15 @@ public class LocationController {
 
     @PostMapping("addNewLocation")
     public String testForm(HttpServletRequest request) {
-        
+
         Location newLocation = new Location();
-        
+
         newLocation.setName(request.getParameter("name"));
         newLocation.setDescription(request.getParameter("description"));
         newLocation.setAddress(request.getParameter("address"));
-        
+        newLocation.setLatitude(Double.parseDouble(request.getParameter("latitude")));
+        newLocation.setLongitude(Double.parseDouble(request.getParameter("longitude")));
+
         service.createLocation(newLocation);
 
         //tell spring to redirect user to mapping locations
