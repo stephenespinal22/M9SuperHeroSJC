@@ -5,10 +5,14 @@
  */
 package sg.sjc.superhero.controllers;
 
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import sg.sjc.superhero.dtos.Location;
 import sg.sjc.superhero.services.LocationService;
 
 /**
@@ -27,10 +31,26 @@ public class LocationController {
 
     @GetMapping("locations")
     public String loadPage(Model model) {
+        List<Location> locationList = service.readAllLocations();
 
-        model.addAttribute("location", service.readLocationById(1).getLatitude());
+        model.addAttribute("locationList", locationList);
 
         return "locations";
+    }
+
+    @PostMapping("addNewLocation")
+    public String testForm(HttpServletRequest request) {
+        
+        Location newLocation = new Location();
+        
+        newLocation.setName(request.getParameter("name"));
+        newLocation.setDescription(request.getParameter("description"));
+        newLocation.setAddress(request.getParameter("address"));
+        
+        service.createLocation(newLocation);
+
+        //tell spring to redirect user to mapping locations
+        return "redirect:/locations";
     }
 
 }

@@ -13,3 +13,28 @@ and open the template in the editor.
     font-size: 350%;
     font-style: italic;
 }
+
+.verticalLineBreak {
+    float: left;
+    border-left: 1px solid black;
+    height: 100%;
+    padding-right: 15px;
+}
+
+.btn-primary
+{
+    margin-top: 15px;
+}
+
+.form-control{
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+
+td{
+     word-wrap:break-word;
+        max-width: 15px;
+
+}
+

@@ -20,9 +20,9 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-8">
 
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" >
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -34,23 +34,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                            <tr th:each="location : ${locationList}">
+                                <td> <span th:text="${location.name}" </span> </td>
+                                <td> <span th:text="${location.description}" </span> </td>
+                                <td> <span th:text="${location.address}" </span> </td>
+                                <td> <span th:text="${location.longitude}" </span> </td>
+                                <td> <span th:text="${location.latitude}" </span> </td>
                                 <td>
-                                    <!--  anchor and i icon from font awesome for trash can  -->
                                     <a href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     <span>  /  </span>
                                     <a href="#"><i class="fa fa-trash"></i></a>
-
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="verticalLineBreak"></div>
+                    <h2>Add Location</h2>
+                    <fieldset>
+                        <form action="addNewLocation" method="POST">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder= "Enter Location Name" required="" class="form-control input-md">
+                            <label>Description</label>
+                            <input type="text" name="description" placeholder= "Enter Location Description" required="" class="form-control input-md">
+                            <label>Address</label>
+                            <textarea class="form-control" name= "address" rows="3" ></textarea>
+                            <input type="submit" value="Add Location" class="btn btn-primary pull-right">
+                        </form>
+                    </fieldset>
                 </div>
             </div>
         </div>
