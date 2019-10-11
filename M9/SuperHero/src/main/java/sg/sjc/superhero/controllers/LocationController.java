@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import sg.sjc.superhero.dtos.Location;
 import sg.sjc.superhero.services.LocationService;
 
@@ -52,6 +54,33 @@ public class LocationController {
         service.createLocation(newLocation);
 
         //tell spring to redirect user to mapping locations
+        return "redirect:/locations";
+    }
+
+    @GetMapping("deleteLocation")
+    public String deleteLocation(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteLocation(id);
+
+        return "redirect:/locations";
+    }
+
+    @PostMapping("editLocation")
+    public String editLocation(HttpServletRequest request) {
+
+        Location locationToEdit = new Location();
+
+        locationToEdit.setLocationId(Integer.parseInt(request.getParameter("locationId")));
+        locationToEdit.setName(request.getParameter("name"));
+        locationToEdit.setDescription(request.getParameter("description"));
+        locationToEdit.setAddress(request.getParameter("address"));
+        locationToEdit.setLatitude(Double.parseDouble(request.getParameter("latitude")));
+        locationToEdit.setLongitude(Double.parseDouble(request.getParameter("longitude")));
+
+        System.out.println(locationToEdit.getAddress());
+
+        service.updateLocation(locationToEdit);
+
         return "redirect:/locations";
     }
 

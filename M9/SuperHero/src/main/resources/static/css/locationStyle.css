@@ -8,6 +8,14 @@ and open the template in the editor.
     Author     : stephenespinal
 */
 
+body {
+  background-color: #fef9ff;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #0d1f2d;
+  max-width: 99%;
+  margin: auto;
+}
+
 #header {
     text-align: center;
     font-size: 350%;
@@ -31,19 +39,28 @@ and open the template in the editor.
     margin-bottom: 15px;
 }
 
+th
+{
+    text-align: center;
 
-td,th{
+}
+td{
     text-align: center;
     word-wrap:break-word;
-    max-width: 15px;
 }
 
 #mapid{
-    width: 400px; 
+    width: 99%; 
     height: 400px;
     margin-bottom: 10px;
 }
 
-.fa{
-    font-size: 25px;
+.fa-edit{
+    font-size: 40px;
+    color: cornflowerblue;
+}
+
+.fa-trash-o{
+    font-size: 40px;
+    color: #cc3300;
 }

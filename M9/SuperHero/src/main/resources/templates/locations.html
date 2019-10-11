@@ -34,7 +34,8 @@
                                 <th>Address</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
-                                <th>Edit/Delete</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,19 +45,64 @@
                                 <td> <span th:text="${location.address}" </span> </td>
                                 <td> <span th:text="${location.latitude}" </span> </td>
                                 <td> <span th:text="${location.longitude}" </span> </td>
-                                <td>
-                                    <a href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <span>  /  </span>
-                                    <a href="#"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
+                                <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${location.locationId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-edit fade" th:id="modal-edit+${location.locationId}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5>Edit Location</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <fieldset>
+                                            <form action="editLocation" method="POST">
+                                                <input type="hidden" name="locationId" th:value="${location.locationId}">
+                                                <label>Address</label>
+                                                <textarea class="form-control" name= "address" rows="2" th:text="${location.address}"></textarea>
+                                                <label>Latitude</label>
+                                                <input type="number" step=".000001" name="latitude" required="" class="form-control input-md" th:value="${location.latitude}">
+                                                <label>Longitude</label>
+                                                <input type="number" step=".000001" name="longitude" required="" class="form-control input-md" th:value="${location.longitude}">
+                                                <label>Name</label>
+                                                <input type="text" name="name" required="" class="form-control input-md" th:value="${location.name}">
+                                                <label>Description</label>
+                                                <input type="text" name="description" required="" class="form-control input-md" th:value="${location.description}">
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Edit Location" class="btn btn-success pull-right">
+                                                </div>
+                                            </form>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${location.locationId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-warning fade" th:id="modal-warning+${location.locationId}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header alert alert-danger">
+                                        <h5>Delete Location</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure want to delete this location?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                                        <a th:href="@{/deleteLocation(id=${location.locationId})}" ><button class="btn btn-danger">Delete</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </tr>
                         </tbody>
                     </table>
-
                 </div>
 
                 <div class="col-lg-4">
-                    
+
                     <div class="verticalLineBreak"></div>
                     <h2>Add Location</h2>
                     <fieldset>
@@ -75,10 +121,11 @@
                             <input type="submit" value="Add Location" class="btn btn-primary pull-right">
                         </form>
                     </fieldset>
-                    
+
                 </div>
             </div>
         </div>
+
         ​
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
                 integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
@@ -97,7 +144,7 @@
         <script>
             var lat = document.getElementById("geoLatitude");
             var long = document.getElementById("geoLongitude");
-            var genAddress = document.getElementById("geoAddress");
+            var geoAddress = document.getElementById("geoAddress");
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);

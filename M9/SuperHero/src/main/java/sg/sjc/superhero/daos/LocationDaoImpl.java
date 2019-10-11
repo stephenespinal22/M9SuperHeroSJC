@@ -25,7 +25,7 @@ public class LocationDaoImpl implements LocationDao {
     private final String insertLocation = "INSERT INTO Locations (`name`, `description`, address, longitude, latitude) VALUES (?,?,?,?,?)"; //create
     private final String selectAllLocations = "SELECT locationId, `name`, `description`, address, longitude, latitude FROM Locations"; //read all
     private final String selectLocationById = selectAllLocations + " WHERE locationId = ?"; //readbyId
-    private final String updateLocationById = "UPDATE Locations SET `name` = ?, `description` = ?, address = ?, longitude = ?, latitude = ? WHERE locationId = ?"; //update
+    private final String updateLocation = "UPDATE Locations SET `name` = ?, `description` = ?, address = ?, longitude = ?, latitude = ? WHERE locationId = ?"; //update
     private final String deleteLocationById = "DELETE FROM LOCATIONS WHERE locationId = ?"; //delete
 
     @Autowired
@@ -53,7 +53,7 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public void updateLocation(Location location) {
-        jdbcTemplate.update(updateLocationById,location.getName(),location.getDescription(),
+        jdbcTemplate.update(updateLocation,location.getName(),location.getDescription(),
                 location.getAddress(),location.getLongitude(),location.getLatitude(),location.getLocationId());
     }
 
