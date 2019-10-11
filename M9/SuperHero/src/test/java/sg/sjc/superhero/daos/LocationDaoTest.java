@@ -84,6 +84,7 @@ public class LocationDaoTest {
      */
     @Test
     public void testReadAllLocations() {
+        
     }
 
     /**

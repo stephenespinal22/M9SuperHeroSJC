@@ -77,8 +77,6 @@ public class LocationController {
         locationToEdit.setLatitude(Double.parseDouble(request.getParameter("latitude")));
         locationToEdit.setLongitude(Double.parseDouble(request.getParameter("longitude")));
 
-        System.out.println(locationToEdit.getAddress());
-
         service.updateLocation(locationToEdit);
 
         return "redirect:/locations";
