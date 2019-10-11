@@ -32,7 +32,8 @@ and open the template in the editor.
 }
 
 
-td{
+td,th{
+    text-align: center;
     word-wrap:break-word;
     max-width: 15px;
 }
@@ -41,4 +42,8 @@ td{
     width: 400px; 
     height: 400px;
     margin-bottom: 10px;
+}
+
+.fa{
+    font-size: 25px;
 }
