@@ -64,3 +64,7 @@ SuperPersonOrganizationId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 FOREIGN KEY fk_SuperPersons_superId(superId) REFERENCES SuperPersons(superId),
 FOREIGN KEY fk_Organizations_orgId(orgId) REFERENCES Organizations(orgId)
 );
+
+Insert Into superpersons(`name`, `description`, isVillain) values ('All Might', 'Number One Heero', false),
+('Stain', 'Hero Killer', true);
+

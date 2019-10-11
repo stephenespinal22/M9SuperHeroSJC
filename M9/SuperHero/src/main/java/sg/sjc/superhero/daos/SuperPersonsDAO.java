@@ -16,8 +16,6 @@ public interface SuperPersonsDAO {
     
     SuperPerson getSuperPersonById(int id);
     List<SuperPerson> getAllSuperPersons();
-    List<SuperPerson> getAllHeroes();
-    List<SuperPerson> getAllVillains();
     SuperPerson addSuperPerson(SuperPerson superPerson);
     void updateSuperPerson(SuperPerson superPerson);
     void deleteSuperPersonById(int id);

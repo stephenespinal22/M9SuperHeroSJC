@@ -36,13 +36,15 @@ public class SuperPerson {
         this.name = name;
     }
 
-    public boolean isVillain() {
+    public boolean isIsVillain() {
         return isVillain;
     }
 
     public void setIsVillain(boolean isVillain) {
         this.isVillain = isVillain;
     }
+
+
 
     public String getDescription() {
         return description;

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import sg.sjc.superhero.dtos.SuperPerson;
 
 @Repository
@@ -21,6 +22,9 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
     
     private final String getSuperPerson = "Select * From SuperPersons Where superId = ?;";
     private final String getAllSuperPersons = "Select * From SuperPersons;";
+    private final String addHeroVillain = "Insert Into SuperPersons(`name`, `description`, isVillain) values (?,?,?);";
+    private final String updateHeroVillain = "Update SuperPersons Set `name` = ?, `description` = ?, isVillain = ? Where superId = ?;";
+    private final String deleteHeroVillain = "Delete From SuperPersons Where superId = ?;";
 
     @Autowired
     public SuperPersonsDAOJdbcImpl(JdbcTemplate jdbcTemplate){
@@ -39,28 +43,23 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
     }
 
     @Override
-    public List<SuperPerson> getAllHeroes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<SuperPerson> getAllVillains() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
+    @Transactional
     public SuperPerson addSuperPerson(SuperPerson superPerson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      jdbc.update(addHeroVillain, superPerson.getName(), superPerson.getDescription(), superPerson.isIsVillain());
+      int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+      superPerson.setSuperId(newId);
+      return superPerson;
     }
 
     @Override
     public void updateSuperPerson(SuperPerson superPerson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(updateHeroVillain, superPerson.getName(), superPerson.getDescription(), superPerson.isIsVillain(), superPerson.getSuperId());
     }
 
     @Override
+    @Transactional
     public void deleteSuperPersonById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(deleteHeroVillain, id);
     }
     
     public static final class SuperPersonsJDBCMapper implements RowMapper<SuperPerson> {

@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
   <meta charset="UTF-8">
@@ -20,6 +14,7 @@ and open the template in the editor.
       </style>
 </head>
 <body>
+   
 <div class="container">
             <div class="row m-4">
                 <div class="col text-center border border-dark">
@@ -34,178 +29,133 @@ and open the template in the editor.
                     <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
                 </div>
             </div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6">
-                <table class="table table-bordered table-striped" id="superTable">
-                <thead>
-                <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Orientation</th>
-                <th>Powers</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="superPerson : ${superPersons}">
-                        <td th:text="${superPerson.superId}"></td>
-                        <td th:text="${superPerson.name}"></td>
-                        <td th:text="${superPerson.description}"></td>
-                        <td th:text="${superPerson.isVillain}"></td>
-                        <td>
-                                <a href="#"><i class="fa fa-trash"></i></a>
-                                <a href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6">
-                <form class="form-horizontal" id="">
-                        <fieldset>
-                        
-                        <!-- Form Name -->
-                        <legend></legend>
-                        
-                        <!-- Text input-->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="name">Name</label>  
-                          <div class="col-md-4">
-                          <input id="name" name="name" type="text" placeholder="" class="form-control input-md">
-                            
-                          </div>
-                        </div>
-                        
-                        <!-- Text input-->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="description">Description</label>  
-                          <div class="col-md-4">
-                          <input id="description" name="description" type="text" placeholder="" class="form-control input-md">
-                            
-                          </div>
-                        </div>
-                        
-                        <!-- Text input-->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="orientation">Orientation</label>  
-                          <div class="col-md-4">
-                          <input id="orientation" name="orientation" type="text" placeholder="" class="form-control input-md">
-                            
-                          </div>
-                        </div>
-                        
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="powers">Powers</label>
-                          <div class="col-md-4">
-                            <select id="powers" name="powers" class="form-control">
-                              <option value="1"></option>
-                              <option value="2"></option>
-                              <option value="3"></option>
-                              <option value="4"></option>
-                            </select>
-                          </div>
-                        </div>
 
-                        <!-- Button -->
-                        <div class="form-group">
-                        <label class="col-md-4 control-label" for="submit"></label>
-                        <div class="col-md-4">
-                            <button id="submit" name="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        </div>
-                        
-                        </fieldset>
-                        </form>
-                        <div class="modal" tabindex="-1" role="dialog" id="editSuperModule">
-                                <div class="modal-dialog" role="document">                     
-                                  <div class="modal-content">                     
-                                    <div class="modal-header">                     
-                                      <h5 class="modal-title">Edit Hero/Villain</h5>                     
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">                      
-                                        <span aria-hidden="true">&times;</span>                     
-                                      </button>                      
-                                    </div>                      
-                                    <div class="modal-body">                     
-                                        <form class="form-horizontal" id="editSuperPerson">                      
-                                            <fieldset>
-                      
-                                            
-                      
-                                            <!-- Form Name -->                     
-                                            <!-- <legend>Form Name</legend> -->                     
-                                              <input type="hidden" name="superId" id="editSuperId">                     
-                                            <!-- Text input-->                     
-                                            <div class="form-group">                     
-                                              <label class="col-md-4 control-label" for="title">Name</label>                       
-                                              <div class="col-md-4">                      
-                                              <input id="editName" name="name" type="text" placeholder="" class="form-control input-md" required="">                                                
-                      
-                                              </div>                      
-                                            </div>
-                                                 <!-- Text input-->
-
-                      <div class="form-group">
-                            <label class="col-md-4 control-label" for="description">Description</label>      
-                            <div class="col-md-4">
-                            <input id="editDescription" name="director" type="text" placeholder="" class="form-control input-md" required="">
-    
-                              
-    
-                            </div>
-                          </div>
-    
-                          
-    
-                          <!-- Text input-->   
-                          <div class="form-group">   
-                            <label class="col-md-4 control-label" for="orientation">Orientation</label>  
-                            <div class="col-md-4">   
-                            <input id="editOrientation" name="orientation" type="text" placeholder="" class="form-control input-md" required="">
-       
-                            </div>   
-                          </div>
-    
-                          
-    
-                          <!-- Select Basic -->   
-                          <div class="form-group">   
-                            <label class="col-md-4 control-label" for="powers">Powers</label>    
-                            <div class="col-md-4">    
-                              <select id="editPowers" name="powers" class="form-control">    
-                                <option value=""></option>    
-                                <option value=""></option>   
-                                <option value=""></option>    
-                              </select>    
-                            </div>    
-                          </div>
-    
-                          
-    
-                          <!-- Button -->
-    
-                          <div class="form-group">    
-                            <label class="col-md-4 control-label" for="submit"></label>    
-                            <div class="col-md-4">    
-                              <button id="editSubmit" name="submit" class="btn btn-primary">Submit</button>    
-                            </div>    
-                          </div>                                  
-                          </fieldset>    
-                          </form>    
-                  </div>   
-                  <div class="modal-footer">   
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>   
-                  </div>    
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Occupation</th>
+<!--                                <th>Organization</th>
+                                <th>Powers</th>-->
+                                <th>Edit/Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    <tr th:each="superPerson : ${SuperPersons}">
+                        <td><span th:text="${superPerson.superId}"></span></td>
+                        <td><span th:text="${superPerson.name}"></span></td>
+                        <td><span th:text="${superPerson.description}"></span></td>
+                        <td><span th:text="${superPerson.isVillain}"></span></td>
+                                <td>
+<!--                                      anchor and i icon from font awesome for trash can  -->
+                                    <a href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <span>  /  </span>
+                                    <a href="#"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <div class="col-md-6">
+                    <form class="form-horizontal" action="addHeroVillain" method="POST">
+<fieldset>
 
-        </div>
-    </div>
-</div>
+<!-- Form Name -->
+<legend>Add Hero/Villain</legend>
+
+<!-- Text input-->
+<!--<div class="form-group">
+  <label class="col-md-4 control-label" for="superId">Super ID:</label>  
+  <div class="col-md-4">
+  <input id="superId" name="superId" type="text" placeholder="" class="form-control input-md">
     
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  </div>
+</div>-->
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="name">Hero/Villain Name:</label>  
+  <div class="col-md-4">
+  <input id="name" name="name" type="text" placeholder="" class="form-control input-md">
+    
+  </div>
+</div>
+<!--
+ Textarea -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="description">Description:</label>
+  <div class="col-md-4">                     
+    <textarea class="form-control" id="description" name="description"></textarea>
+  </div>
+</div>
+
+<!-- Multiple Radios -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="isVillain">Hero or Villain?:</label>
+  <div class="col-md-4">
+  <div class="radio">
+    <label for="isVillain-0">
+      <input type="radio" name="isVillain" id="isVillain-0" value="hero" checked="checked">
+      Hero
+    </label>
+	</div>
+  <div class="radio">
+    <label for="isVillain-1">
+      <input type="radio" name="isVillain" id="isVillain-1" value="villain">
+      Villain
+    </label>
+	</div>
+  </div>
+</div>
+
+<!-- Select Multiple -->
+<!--<div class="form-group">
+  <label class="col-md-4 control-label" for="organizations">Affiliations</label>
+  <div class="col-md-4">
+    <select id="organizations" name="organizations" class="form-control" multiple="multiple">
+      <option value="1">Option one</option>
+      <option value="2">Option two</option>
+    </select>
+  </div>
+</div>-->
+
+<!-- Select Multiple -->
+<!--<div class="form-group">
+  <label class="col-md-4 control-label" for="powers">Powers:</label>
+  <div class="col-md-4">
+    <select id="powers" name="powers" class="form-control" multiple="multiple">
+      <option value="1">Option one</option>
+      <option value="2">Option two</option>
+    </select>
+  </div>
+</div>-->
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="submit"></label>
+  <div class="col-md-4">
+    <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+                </div>
+            </div>
+        </div>
+    
+<!--     Optional JavaScript 
+     jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
+
+
