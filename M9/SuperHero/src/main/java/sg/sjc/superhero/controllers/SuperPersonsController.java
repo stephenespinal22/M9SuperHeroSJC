@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import sg.sjc.superhero.daos.SuperPersonsDAO;
 import sg.sjc.superhero.dtos.SuperPerson;
+import sg.sjc.superhero.services.SuperPersonsService;
 
 /**
  *
@@ -26,11 +27,11 @@ public class SuperPersonsController {
     
     
     @Autowired
-    SuperPersonsDAO spsDAO;
+    SuperPersonsService service;
     
     @GetMapping("supers")
     public String displayHeroesVillains(Model model) {
-        List<SuperPerson> superPersons = spsDAO.getAllSuperPersons();
+        List<SuperPerson> superPersons = service.getAllSuperPersons();
         model.addAttribute("SuperPersons", superPersons);
         return "supers";
     }
@@ -46,7 +47,29 @@ public class SuperPersonsController {
         superPerson.setDescription(description);
         superPerson.setIsVillain(Boolean.parseBoolean(isVillain));
         
-        spsDAO.addSuperPerson(superPerson);
+        service.addSuperPerson(superPerson);
+        return "redirect:/supers";
+    }
+    
+    @PostMapping("editHeroVillain")
+    public String editHeroVillain(HttpServletRequest request){
+        SuperPerson editSuper = new SuperPerson();
+        editSuper.setSuperId(Integer.parseInt(request.getParameter("superId")));
+        editSuper.setName(request.getParameter("name"));
+        editSuper.setDescription(request.getParameter("description"));
+        editSuper.setIsVillain(Boolean.parseBoolean(request.getParameter("isVillain")));
+        
+        service.updateSuperPerson(editSuper);
+        
+        return "redirect:/supers";
+    }
+    
+    @GetMapping("deleteHeroVillain")
+    public String deleteHeroVillain(HttpServletRequest request){
+        System.out.println(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteSuperPersonById(id);
+        
         return "redirect:/supers";
     }
     
