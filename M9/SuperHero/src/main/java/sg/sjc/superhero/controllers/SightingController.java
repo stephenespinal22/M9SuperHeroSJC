@@ -6,9 +6,12 @@
 package sg.sjc.superhero.controllers;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import sg.sjc.superhero.dtos.Sighting;
+import sg.sjc.superhero.services.SightingService;
 
 /**
  *
@@ -17,11 +20,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SightingController {
     
+    SightingService service;
+
+    @Autowired
+    public SightingController(SightingService service) {
+        this.service = service;
+    }
+    
      @GetMapping("sightings")
     public String loadPage(Model model) {
-        //List<Sighting> sightingList = service.readAllLocations();
+        List<Sighting> sightingList = service.readAllSightings();
 
-        model.addAttribute("sightingList", 1);
+        model.addAttribute("sightingList", sightingList);
 
         return "sightings";
     }

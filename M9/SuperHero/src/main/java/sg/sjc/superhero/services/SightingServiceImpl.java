@@ -11,36 +11,44 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import sg.sjc.superhero.daos.SightingDao;
 import sg.sjc.superhero.dtos.Sighting;
 
 @Service
 public class SightingServiceImpl implements SightingService {
 
+    SightingDao sightingDao;
+
+    @Autowired
+    public SightingServiceImpl(SightingDao sightingDao) {
+        this.sightingDao = sightingDao;
+    }
+    
     @Override
     public Sighting createSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.createSighting(sighting);
     }
 
     @Override
     public List<Sighting> readAllSightings() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.readAllSightings();
     }
 
     @Override
     public Sighting readSightingById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.readSightingById(id);
     }
 
     @Override
     public void updateSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sightingDao.updateSighting(sighting);
     }
 
     @Override
     public void deleteSighting(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sightingDao.deleteSighting(id);
     }
+
 
 }
