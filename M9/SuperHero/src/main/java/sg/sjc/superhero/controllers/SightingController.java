@@ -32,6 +32,7 @@ public class SightingController {
     @GetMapping("sightings")
     public String loadPage(Model model) {
         List<Sighting> sightingList = service.readAllSightings();
+        
 
         model.addAttribute("sightingList", sightingList);
 
