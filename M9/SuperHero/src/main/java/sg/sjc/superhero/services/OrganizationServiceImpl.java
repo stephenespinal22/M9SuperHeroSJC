@@ -6,34 +6,44 @@
 package sg.sjc.superhero.services;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import sg.sjc.superhero.daos.OrganizationDao;
 import sg.sjc.superhero.dtos.Organization;
 
-
+@Service
 public class OrganizationServiceImpl implements OrganizationService {
 
+    OrganizationDao organizationDao;
+
+    @Autowired
+    public OrganizationServiceImpl(OrganizationDao organizationDao) {
+        this.organizationDao = organizationDao;
+    }
+    
     @Override
     public Organization createOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.createOrganization(organization);
     }
 
     @Override
     public List<Organization> readAllOrganizations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.readAllOrganizations();
     }
 
     @Override
     public Organization readOrganizationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.readOrganizationById(id);
     }
 
     @Override
     public void updateOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        organizationDao.updateOrganization(organization);
     }
 
     @Override
     public void deleteOrganization(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        organizationDao.deleteOrganization(id);
     }
     
 }
