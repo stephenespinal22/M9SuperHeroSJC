@@ -109,6 +109,11 @@
                         <form action="addNewSighting" method="POST">
                             <label>Description</label>
                             <textarea class="form-control" name= "description" rows="2" required></textarea>
+                            <select name="location" class="form-control">
+                                <option value="PG">PG</option>
+                                <option value="PG-13">PG-13</option>
+                                <option value="R">R</option>
+                            </select>
                             <label>Sighting Date</label>
                             <div class='input-group date' id="datetimepicker1">
                                 <input type='text' class="form-control" name="dateTime" required/>

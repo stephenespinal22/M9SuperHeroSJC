@@ -19,6 +19,7 @@ import sg.sjc.superhero.services.SightingService;
  *
  * @author stephenespinal
  */
+
 @Controller
 public class SightingController {
 
