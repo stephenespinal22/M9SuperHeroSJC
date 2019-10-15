@@ -5,6 +5,8 @@
  */
 package sg.sjc.superhero.daos;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,11 +18,11 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String insertOrganization = "INSERT INTO Organizations (`name`, `description`, address, longitude, latitude) VALUES (?,?,?,?,?)"; //create
-    private final String selectAllOrganizations = "SELECT organizationId, `name`, `description`, address, longitude, latitude FROM Organizations"; //read all
-    private final String selectOrganizationById = selectAllOrganizations + " WHERE organizationId = ?"; //readbyId
-    private final String updateOrganization = "UPDATE Organizations SET `name` = ?, `description` = ?, address = ?, longitude = ?, latitude = ? WHERE organizationId = ?"; //update
-    private final String deleteOrganizationById = "DELETE FROM LOCATIONS WHERE organizationId = ?"; //delete
+    private final String insertOrganization = "INSERT INTO Organizations (`name`,`description`, contactInfo) VALUES (?,?,?)"; //create
+    private final String selectAllOrganizations = "SELECT orgId, `name`,`description`, contactInfo FROM Organizations"; //read all
+    private final String selectOrganizationById = selectAllOrganizations + " WHERE orgId = ?"; //readbyId
+    private final String updateOrganization = "UPDATE Organizations SET `name` = ?, `description` = ?, contactInfo = ? WHERE orgId = ?"; //update
+    private final String deleteOrganizationById = "DELETE FROM Organizations WHERE orgId = ?"; //delete
 
     @Autowired
     public OrganizationDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -28,27 +30,46 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
     @Override
     public Organization createOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(insertOrganization, organization.getName(), organization.getDescription(), organization.getContactInfo());
+        organization.setOrgId(jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class));
+        return organization;
     }
 
     @Override
     public List<Organization> readAllOrganizations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbcTemplate.query(selectAllOrganizations, new OrganizationJDBCMapper());
     }
 
     @Override
     public Organization readOrganizationById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbcTemplate.queryForObject(selectOrganizationById, new OrganizationJDBCMapper(),id);
     }
 
     @Override
     public void updateOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(updateOrganization,organization.getName(),organization.getDescription(),
+                organization.getContactInfo(),organization.getOrgId()); 
     }
 
     @Override
     public void deleteOrganization(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(deleteOrganizationById,id);
     }
     
+        private class OrganizationJDBCMapper implements org.springframework.jdbc.core.RowMapper<Organization> {
+
+        @Override
+        public Organization mapRow(ResultSet rs, int i) throws SQLException {
+            Organization organization = new Organization();
+            
+            organization.setOrgId(rs.getInt("orgId"));
+            organization.setName(rs.getString("name"));
+            organization.setDescription(rs.getString("description"));
+            organization.setContactInfo(rs.getString("contactInfo"));
+
+
+            return organization;
+        }
+
+    }
 }

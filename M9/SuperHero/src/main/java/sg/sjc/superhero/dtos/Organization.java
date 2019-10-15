@@ -12,9 +12,19 @@ import java.util.Objects;
  * @author stephenespinal
  */
 public class Organization {
+    
+    private int orgId;
     private String name;
     private String description;
     private String contactInfo;
+
+    public int getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(int orgId) {
+        this.orgId = orgId;
+    }
 
     public String getName() {
         return name;
@@ -43,9 +53,10 @@ public class Organization {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.name);
-        hash = 67 * hash + Objects.hashCode(this.description);
-        hash = 67 * hash + Objects.hashCode(this.contactInfo);
+        hash = 71 * hash + this.orgId;
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.description);
+        hash = 71 * hash + Objects.hashCode(this.contactInfo);
         return hash;
     }
 
@@ -61,6 +72,9 @@ public class Organization {
             return false;
         }
         final Organization other = (Organization) obj;
+        if (this.orgId != other.orgId) {
+            return false;
+        }
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
@@ -72,6 +86,8 @@ public class Organization {
         }
         return true;
     }
+
+
     
     
 }
