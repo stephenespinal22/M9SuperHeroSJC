@@ -39,7 +39,7 @@ create table Sightings(
 sightingId int primary key auto_increment,
 `description` varchar(255) not null,
 locationId int not null,
-sightingDate datetime not null,
+sightingDate varchar(50) not null,
 
 FOREIGN KEY fk_Locations_locationId(locationId) REFERENCES Locations(locationId) 
 
