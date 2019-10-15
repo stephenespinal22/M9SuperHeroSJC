@@ -19,7 +19,6 @@ import sg.sjc.superhero.services.SightingService;
  *
  * @author stephenespinal
  */
-
 @Controller
 public class SightingController {
 
@@ -33,8 +32,6 @@ public class SightingController {
     @GetMapping("sightings")
     public String loadPage(Model model) {
         List<Sighting> sightingList = service.readAllSightings();
-        
-        System.out.println(sightingList.get(0).getSightingDate());
 
         model.addAttribute("sightingList", sightingList);
 
@@ -42,7 +39,7 @@ public class SightingController {
     }
 
     @PostMapping("addNewSighting")
-    public String testForm(HttpServletRequest request) {
+    public String addSighting(HttpServletRequest request) {
 
         Sighting newSighting = new Sighting();
 
@@ -50,8 +47,31 @@ public class SightingController {
         newSighting.setSightingDate(request.getParameter("dateTime"));
 
         service.createSighting(newSighting);
-        
+
         //tell spring to redirect user to mapping locations
+        return "redirect:/sightings";
+    }
+
+    @GetMapping("deleteSighting")
+    public String deleteSighting(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteSighting(id);
+
+        return "redirect:/sightings";
+    }
+
+    @PostMapping("editSighting")
+    public String editSighting(HttpServletRequest request) {
+
+        Sighting sightingToEdit = new Sighting();
+
+        sightingToEdit.setSightingId(Integer.parseInt(request.getParameter("sightingId")));
+        sightingToEdit.setDescription(request.getParameter("description"));
+        sightingToEdit.setSightingDate(request.getParameter("dateTime"));
+
+
+        service.updateSighting(sightingToEdit);
+
         return "redirect:/sightings";
     }
 }

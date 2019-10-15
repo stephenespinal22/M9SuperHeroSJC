@@ -22,7 +22,7 @@ public class SightingDaoImpl implements SightingDao {
     private final String insertSighting = "INSERT INTO Sightings (`description`, locationId, sightingDate) VALUES (?,?,?)"; //create
     private final String selectAllSightings = "SELECT sightingId, `description`, locationId, sightingDate FROM Sightings"; //read all
     private final String selectSightingsById = selectAllSightings + " WHERE sightingId = ?"; //readbyId
-    private final String updateSighting = "UPDATE Sightings SET `description` = '?', locationId = ?, sightingDate = '?' WHERE sightingId = ?"; //update
+    private final String updateSighting = "UPDATE Sightings SET `description` = ?, locationId = ?, sightingDate = ? WHERE sightingId = ?"; //update
     private final String deleteSightingById = "DELETE FROM Sightings WHERE sightingId = ?"; //delete
 
     @Autowired

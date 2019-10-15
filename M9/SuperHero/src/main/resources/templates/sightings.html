@@ -46,57 +46,56 @@
                                 <td> <span th:text="1" </span> </td>
                                 <td> <span th:text="${sighting.sightingDate}" </span> </td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${sighting.sightingId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-                                <!--                        <div class="modal modal-edit fade" th:id="modal-edit+${sighting.sightingId}" >
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5>Edit Location</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">×</span></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <fieldset>
-                                                                            <form action="editLocation" method="POST">
-                                                                                <input type="hidden" name="locationId" th:value="${location.locationId}">
-                                                                                <label>Address</label>
-                                                                                <textarea class="form-control" name= "address" rows="2" th:text="${location.address}"></textarea>
-                                                                                <label>Latitude</label>
-                                                                                <input type="number" step=".000001" name="latitude" required="" class="form-control input-md" th:value="${location.latitude}">
-                                                                                <label>Longitude</label>
-                                                                                <input type="number" step=".000001" name="longitude" required="" class="form-control input-md" th:value="${location.longitude}">
-                                                                                <label>Name</label>
-                                                                                <input type="text" name="name" required="" class="form-control input-md" th:value="${location.name}">
-                                                                                <label>Description</label>
-                                                                                <input type="text" name="description" required="" class="form-control input-md" th:value="${location.description}">
-                                                                                <div class="modal-footer">
-                                                                                    <input type="submit" value="Edit Location" class="btn btn-success pull-right">
-                                                                                </div>
-                                                                            </form>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>-->
-                                <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${sighting.sightingId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
-                                <!--                        <div class="modal modal-warning fade" th:id="modal-warning+${location.locationId}" >
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header alert alert-danger">
-                                                                        <h5>Delete Location</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">×</span></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <h3>Are you sure want to delete this location?</h3>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                                                                        <a th:href="@{/deleteLocation(id=${location.locationId})}" ><button class="btn btn-danger">Delete</button></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>-->
-                            </tr>
+                        <div class="modal modal-edit fade" th:id="modal-edit+${sighting.sightingId}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5>Edit Location</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <fieldset>
+                                            <form action="editSighting" method="POST">
+                                                <input type="hidden" name="sightingId" th:value="${sighting.sightingId}">
+                                                <label>Description</label>
+                                                <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}"></textarea>
+                                                <select name="location" class="form-control">
+                                                    <option value="PG">PG</option>
+                                                    <option value="PG-13">PG-13</option>
+                                                    <option value="R">R</option>
+                                                </select>
+                                                <label>Sighting Date</label>
+                                                <div class='input-group date' id="datetimepicker2">
+                                                    <input type='text' class="form-control" name="dateTime" required th:value="${sighting.sightingDate}"/>
+                                                </div>
+                                                <input type="submit" value="Edit Sighting" class="btn btn-primary pull-right">
+                                            </form>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${sighting.sightingId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-warning fade" th:id="modal-warning+${sighting.sightingId}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header alert alert-danger">
+                                        <h5>Delete Sighting</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure want to delete this sighting?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                                        <a th:href="@{/deleteSighting(id=${sighting.sightingId})}" ><button class="btn btn-danger">Delete</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -129,6 +128,9 @@
         <!-- link cdn to bootstrap, jquery, popper -->
         ​    <script type="text/javascript">
             $('#datetimepicker1').datetimepicker({
+                allowInputToggle: true
+            });
+            $('#datetimepicker2').datetimepicker({
                 allowInputToggle: true
             });
         </script>
