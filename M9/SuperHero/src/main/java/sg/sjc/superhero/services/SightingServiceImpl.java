@@ -32,6 +32,7 @@ public class SightingServiceImpl implements SightingService {
 
     @Override
     public List<Sighting> readAllSightings() {
+        
         return sightingDao.readAllSightings();
     }
 

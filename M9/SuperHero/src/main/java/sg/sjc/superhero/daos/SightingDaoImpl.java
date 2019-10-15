@@ -65,8 +65,7 @@ public class SightingDaoImpl implements SightingDao {
 
             sighting.setSightingId(rs.getInt("sightingId"));
             sighting.setDescription(rs.getString("description"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            sighting.setSightingDate(LocalDateTime.parse(rs.getString("sightingDate"), formatter));
+            sighting.setSightingDate(rs.getString("sightingDate"));
 
             return sighting;
         }

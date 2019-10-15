@@ -16,7 +16,7 @@ public class Sighting {
     
     private int sightingId;
     private String description;
-    private LocalDateTime sightingDate;
+    private String sightingDate;
 
     public int getSightingId() {
         return sightingId;
@@ -34,20 +34,20 @@ public class Sighting {
         this.description = description;
     }
 
-    public LocalDateTime getSightingDate() {
+    public String getSightingDate() {
         return sightingDate;
     }
 
-    public void setSightingDate(LocalDateTime sightingDate) {
+    public void setSightingDate(String sightingDate) {
         this.sightingDate = sightingDate;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + this.sightingId;
-        hash = 67 * hash + Objects.hashCode(this.description);
-        hash = 67 * hash + Objects.hashCode(this.sightingDate);
+        int hash = 3;
+        hash = 59 * hash + this.sightingId;
+        hash = 59 * hash + Objects.hashCode(this.description);
+        hash = 59 * hash + Objects.hashCode(this.sightingDate);
         return hash;
     }
 
@@ -74,7 +74,6 @@ public class Sighting {
         }
         return true;
     }
-    
-    
-    
+
+
 }
