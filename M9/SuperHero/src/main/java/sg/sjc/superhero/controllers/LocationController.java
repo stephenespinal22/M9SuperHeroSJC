@@ -41,7 +41,7 @@ public class LocationController {
     }
 
     @PostMapping("addNewLocation")
-    public String testForm(HttpServletRequest request) {
+    public String addLocation(HttpServletRequest request) {
 
         Location newLocation = new Location();
 
