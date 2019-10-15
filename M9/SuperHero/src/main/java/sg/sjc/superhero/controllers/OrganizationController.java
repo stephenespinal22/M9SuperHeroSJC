@@ -39,7 +39,7 @@ public class OrganizationController {
     }
 
     @PostMapping("addNewOrganization")
-    public String testForm(HttpServletRequest request) {
+    public String addOrganization(HttpServletRequest request) {
 
         Organization newOrganization = new Organization();
 
@@ -54,7 +54,7 @@ public class OrganizationController {
     }
 
     @GetMapping("deleteOrganization")
-    public String deleteLocation(HttpServletRequest request) {
+    public String deleteOrganization(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
         service.deleteOrganization(id);
 
@@ -62,7 +62,7 @@ public class OrganizationController {
     }
 
     @PostMapping("editOrganization")
-    public String editLocation(HttpServletRequest request) {
+    public String editOrganization(HttpServletRequest request) {
 
         Organization organizationToEdit = new Organization();
         
