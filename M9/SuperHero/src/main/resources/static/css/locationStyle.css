@@ -47,6 +47,7 @@ th
 td{
     text-align: center;
     word-wrap:break-word;
+    max-width: 15px;
 }
 
 #mapid{
