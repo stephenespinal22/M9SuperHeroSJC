@@ -85,8 +85,19 @@ public class SightingController {
         return "redirect:/sightings";
     }
 
+    //NAVIGATION BAR METHODS
     @RequestMapping("/locations")
     public String directToLocations() {
         return "locations";
+    }
+
+    @RequestMapping("/organizations")
+    public String directToOrganizations() {
+        return "organizations";
+    }
+
+    @RequestMapping("/sightings")
+    public String directToSightings() {
+        return "sightings";
     }
 }
