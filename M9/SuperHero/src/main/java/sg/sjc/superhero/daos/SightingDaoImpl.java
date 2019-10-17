@@ -25,6 +25,9 @@ public class SightingDaoImpl implements SightingDao {
     private final String selectAllSightings = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude,"
             + " sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
             + "ON loc.locationId = Sightings.locationId "; //read all
+    private final String selectAllSightingsOrdered = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude,"
+            + " sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
+            + "ON loc.locationId = Sightings.locationId ORDER BY STR_TO_DATE(sightingDate, '%m/%d/%Y %h:%i %p') DESC"; //read all
     private final String selectSightingsById = selectAllSightings + " WHERE sightingId = ?"; //readbyId
     private final String selectSightingsByLocationId = " WHERE locationId = ?";
     private final String updateSighting = "UPDATE Sightings SET `description` = ?, locationId = ?, sightingDate = ? WHERE sightingId = ?"; //update
@@ -44,7 +47,7 @@ public class SightingDaoImpl implements SightingDao {
 
     @Override
     public List<Sighting> readAllSightings() {
-        return jdbcTemplate.query(selectAllSightings, new SightingJDBCMapper());
+        return jdbcTemplate.query(selectAllSightingsOrdered, new SightingJDBCMapper());
     }
 
     @Override

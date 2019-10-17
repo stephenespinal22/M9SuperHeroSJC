@@ -78,6 +78,7 @@ public class SightingController {
         sightingToEdit.setSightingId(Integer.parseInt(request.getParameter("sightingId")));
         sightingToEdit.setDescription(request.getParameter("description"));
         sightingToEdit.setSightingDate(request.getParameter("dateTime"));
+        sightingToEdit.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
         sightingService.updateSighting(sightingToEdit);
 
