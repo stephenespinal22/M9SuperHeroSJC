@@ -13,15 +13,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import sg.sjc.superhero.dtos.Location;
 import sg.sjc.superhero.dtos.Sighting;
 
 @Repository
 public class SightingDaoImpl implements SightingDao {
-   private final JdbcTemplate jdbcTemplate;
+
+    private final JdbcTemplate jdbcTemplate;
 
     private final String insertSighting = "INSERT INTO Sightings (`description`, locationId, sightingDate) VALUES (?,?,?)"; //create
     private final String selectAllSightings = "SELECT sightingId, `description`, locationId, sightingDate FROM Sightings"; //read all
     private final String selectSightingsById = selectAllSightings + " WHERE sightingId = ?"; //readbyId
+    private final String selectLocationBySightingId = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude FROM Locations AS loc JOIN Sightings \n"
+            + "ON loc.locationId = Sightings.locationId WHERE sightingId = ?";
     private final String updateSighting = "UPDATE Sightings SET `description` = ?, locationId = ?, sightingDate = ? WHERE sightingId = ?"; //update
     private final String deleteSightingById = "DELETE FROM Sightings WHERE sightingId = ?"; //delete
 
@@ -56,6 +60,11 @@ public class SightingDaoImpl implements SightingDao {
     public void deleteSighting(int id) {
         jdbcTemplate.update(deleteSightingById, id);
     }
+//
+//    private Location getLocationForSighting(Sighting sighting) {
+//        return jdbcTemplate.queryForObject(selectLocationBySightingId, new LocationJDBCMapper(), sighting.getSightingId());
+//
+//    }
 
     private class SightingJDBCMapper implements org.springframework.jdbc.core.RowMapper<Sighting> {
 
