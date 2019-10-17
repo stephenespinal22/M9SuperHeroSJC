@@ -22,10 +22,11 @@ public class SightingDaoImpl implements SightingDao {
     private final JdbcTemplate jdbcTemplate;
 
     private final String insertSighting = "INSERT INTO Sightings (`description`, locationId, sightingDate) VALUES (?,?,?)"; //create
-    private final String selectAllSightings = "SELECT sightingId, `description`, locationId, sightingDate FROM Sightings"; //read all
+    private final String selectAllSightings = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude,"
+            + " sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
+            + "ON loc.locationId = Sightings.locationId "; //read all
     private final String selectSightingsById = selectAllSightings + " WHERE sightingId = ?"; //readbyId
-    private final String selectLocationBySightingId = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude FROM Locations AS loc JOIN Sightings \n"
-            + "ON loc.locationId = Sightings.locationId WHERE sightingId = ?";
+    private final String selectSightingsByLocationId = " WHERE locationId = ?";
     private final String updateSighting = "UPDATE Sightings SET `description` = ?, locationId = ?, sightingDate = ? WHERE sightingId = ?"; //update
     private final String deleteSightingById = "DELETE FROM Sightings WHERE sightingId = ?"; //delete
 
@@ -36,7 +37,7 @@ public class SightingDaoImpl implements SightingDao {
 
     @Override
     public Sighting createSighting(Sighting sighting) {
-        jdbcTemplate.update(insertSighting, sighting.getDescription(), 1, sighting.getSightingDate());
+        jdbcTemplate.update(insertSighting, sighting.getDescription(), sighting.getLocation().getLocationId(), sighting.getSightingDate());
         sighting.setSightingId(jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class));
         return sighting;
     }
@@ -53,28 +54,39 @@ public class SightingDaoImpl implements SightingDao {
 
     @Override
     public void updateSighting(Sighting sighting) {
-        jdbcTemplate.update(updateSighting, sighting.getDescription(), 1, sighting.getSightingDate(), sighting.getSightingId());
+        jdbcTemplate.update(updateSighting, sighting.getDescription(), sighting.getLocation().getLocationId(), sighting.getSightingDate(), sighting.getSightingId());
     }
 
     @Override
     public void deleteSighting(int id) {
         jdbcTemplate.update(deleteSightingById, id);
     }
-//
-//    private Location getLocationForSighting(Sighting sighting) {
-//        return jdbcTemplate.queryForObject(selectLocationBySightingId, new LocationJDBCMapper(), sighting.getSightingId());
-//
-//    }
+
+    @Override
+    public List<Sighting> readSightingsByLocationId(int locationId) {
+        return jdbcTemplate.query(selectSightingsByLocationId, new SightingJDBCMapper(),locationId);
+
+    }
 
     private class SightingJDBCMapper implements org.springframework.jdbc.core.RowMapper<Sighting> {
 
         @Override
         public Sighting mapRow(ResultSet rs, int i) throws SQLException {
+
+            Location locationForThisSighting = new Location();
+            locationForThisSighting.setLocationId(rs.getInt("locationId"));
+            locationForThisSighting.setName(rs.getString("name"));
+            locationForThisSighting.setDescription(rs.getString("description"));
+            locationForThisSighting.setAddress(rs.getString("address"));
+            locationForThisSighting.setLongitude(rs.getDouble("longitude"));
+            locationForThisSighting.setLatitude(rs.getDouble("latitude"));
+
             Sighting sighting = new Sighting();
 
             sighting.setSightingId(rs.getInt("sightingId"));
-            sighting.setDescription(rs.getString("description"));
+            sighting.setDescription(rs.getString(8)); //8th column in query
             sighting.setSightingDate(rs.getString("sightingDate"));
+            sighting.setLocation(locationForThisSighting);
 
             return sighting;
         }
