@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    ​
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Locations</title>
+        <title>Sightings</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
-
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-
+        <!-- Load Leaflet from CDN -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+              integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+              crossorigin=""/>
         <link rel="stylesheet" href="css/sightingsStyle.css">
     </head>
-    ​
     <body>
-        <header class="jumbotron">
-            <h1 id="header">Sightings</h1>
-        </header>   
-        ​
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">SuperHeroTracker</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{sightings}">Sightings <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{locations}">Locations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{organizations}">Organizations</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <h1 id="header" class="jumbotron">Sightings</h1>
+        </header>    
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8">
-                    ​
+                <div id="mapid"></div>
+                <div class="col-lg-8">                  ​
                     <table class="table table-bordered table-striped" >
                         <thead>
                             <tr>
@@ -43,7 +60,7 @@
                         <tbody>
                             <tr th:each="sighting : ${sightingList}">
                                 <td> <span th:text="${sighting.description}" </span> </td>
-                                <td> <span th:text="1" </span> </td>
+                                <td> <span th:text="${sighting.location.address}" </span> </td>
                                 <td> <span th:text="${sighting.sightingDate}" </span> </td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${sighting.sightingId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${sighting.sightingId}" >
@@ -60,16 +77,16 @@
                                                 <input type="hidden" name="sightingId" th:value="${sighting.sightingId}">
                                                 <label>Description</label>
                                                 <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}"></textarea>
+                                                <label>Location</label>
                                                 <select name="location" class="form-control">
-                                                    <option value="PG">PG</option>
-                                                    <option value="PG-13">PG-13</option>
-                                                    <option value="R">R</option>
+                                                    <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                                                 </select>
                                                 <label>Sighting Date</label>
-                                                <div class='input-group date' id="datetimepicker2">
+                                                <div class='input-group date editDateTime'>
                                                     <input type='text' class="form-control" name="dateTime" required th:value="${sighting.sightingDate}"/>
                                                 </div>
-                                                <input type="submit" value="Edit Sighting" class="btn btn-primary pull-right">
+                                                <br>
+                                                <input type="submit" value="Edit Sighting" class="btn btn-success pull-right">
                                             </form>
                                         </fieldset>
                                     </div>
@@ -98,51 +115,86 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
-                ​
-                <div class="col-lg-4">
-                    ​
+                </div> ​
+                <div class="col-lg-4">             ​
                     <div class="verticalLineBreak"></div>
                     <h2>Add Sighting</h2>
                     <fieldset>
                         <form action="addNewSighting" method="POST">
                             <label>Description</label>
                             <textarea class="form-control" name= "description" rows="2" required></textarea>
-                            <select name="location" class="form-control">
-                                <option value="PG">PG</option>
-                                <option value="PG-13">PG-13</option>
-                                <option value="R">R</option>
+                            <label>Location</label>
+                            <p>(If you need to add a new location that isn't shown, click <a th:href="@{locations}">here</a>)</p>
+                            <select name="location" class="form-control" required>
+                                <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
                             <label>Sighting Date</label>
-                            <div class='input-group date' id="datetimepicker1">
+                            <div class='input-group date' id="datetimepicker">
                                 <input type='text' class="form-control" name="dateTime" required/>
                             </div>
                             <input type="submit" value="Add Sighting" class="btn btn-primary pull-right">
                         </form>
-                    </fieldset>
-                    ​
+                    </fieldset>             ​
                 </div>
             </div>
         </div>
-
         <!-- link cdn to bootstrap, jquery, popper -->
         ​    <script type="text/javascript">
-            $('#datetimepicker1').datetimepicker({
-                allowInputToggle: true
+            $('.editDateTime').datetimepicker({
+                allowInputToggle: true,
+                widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
             });
-            $('#datetimepicker2').datetimepicker({
-                allowInputToggle: true
+            $('#datetimepicker').datetimepicker({
+                allowInputToggle: true,
+                widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
             });
         </script>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+                integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+        <!-- Load Esri Leaflet from CDN -->
+        <script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"
+                integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q=="
+        crossorigin=""></script>
+        <!-- Load Esri Leaflet Geocoder from CDN -->
+        <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.14/dist/esri-leaflet-geocoder.css"
+              integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ=="
+              crossorigin="">
+        <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.14/dist/esri-leaflet-geocoder.js"
+                integrity="sha512-uK5jVwR81KVTGe8KpJa1QIN4n60TsSV8+DPbL5wWlYQvb0/nYNgSOg9dZG6ViQhwx/gaMszuWllTemL+K+IXjg=="
+        crossorigin=""></script>
+        <script>
+            var map = L.map('mapid').setView([40.725, -73.985], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var geocodeService = L.esri.Geocoding.geocodeService();
+            map.on('click', function (e) {
+                geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
+                    if (error) {
+                        return;
+                    }
+
+                    L.marker(result.latlng).addTo(map).bindPopup(result.address.Match_addr).openPopup();
+                });
+            });
+        </script>
+        <!-- link cdn to bootstrap, jquery, popper -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
                 integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" 
-        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-
-    </body>
-    ​
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </html>

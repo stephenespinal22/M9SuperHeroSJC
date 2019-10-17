@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import sg.sjc.superhero.dtos.Location;
 
 /**
@@ -26,7 +27,8 @@ public class LocationDaoImpl implements LocationDao {
     private final String selectAllLocations = "SELECT locationId, `name`, `description`, address, longitude, latitude FROM Locations"; //read all
     private final String selectLocationById = selectAllLocations + " WHERE locationId = ?"; //readbyId
     private final String updateLocation = "UPDATE Locations SET `name` = ?, `description` = ?, address = ?, longitude = ?, latitude = ? WHERE locationId = ?"; //update
-    private final String deleteLocationById = "DELETE FROM LOCATIONS WHERE locationId = ?"; //delete
+    private final String deleteLocationById = "DELETE FROM Locations WHERE locationId = ?"; //delete
+    private final String deleteAllSightingsByLocationId = "DELETE FROM Sightings WHERE locationId = ?"; //delete
 
     @Autowired
     public LocationDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -48,18 +50,22 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public Location readLocationById(int id) {
-        return jdbcTemplate.queryForObject(selectLocationById, new LocationJDBCMapper(),id);
+        return jdbcTemplate.queryForObject(selectLocationById, new LocationJDBCMapper(), id);
     }
 
     @Override
     public void updateLocation(Location location) {
-        jdbcTemplate.update(updateLocation,location.getName(),location.getDescription(),
-                location.getAddress(),location.getLongitude(),location.getLatitude(),location.getLocationId());
+        jdbcTemplate.update(updateLocation, location.getName(), location.getDescription(),
+                location.getAddress(), location.getLongitude(), location.getLatitude(), location.getLocationId());
     }
 
     @Override
+    @Transactional
     public void deleteLocation(int id) {
-        jdbcTemplate.update(deleteLocationById,id);
+        
+        jdbcTemplate.update(deleteAllSightingsByLocationId, id);
+
+        jdbcTemplate.update(deleteLocationById, id);
     }
 
     private class LocationJDBCMapper implements org.springframework.jdbc.core.RowMapper<Location> {
@@ -67,7 +73,7 @@ public class LocationDaoImpl implements LocationDao {
         @Override
         public Location mapRow(ResultSet rs, int i) throws SQLException {
             Location location = new Location();
-            
+
             location.setLocationId(rs.getInt("locationId"));
             location.setName(rs.getString("name"));
             location.setDescription(rs.getString("description"));

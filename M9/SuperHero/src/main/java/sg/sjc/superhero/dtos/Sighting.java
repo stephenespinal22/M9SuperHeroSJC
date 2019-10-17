@@ -16,6 +16,7 @@ public class Sighting {
     
     private int sightingId;
     private String description;
+    private Location location;
     private String sightingDate;
 
     public int getSightingId() {
@@ -34,6 +35,14 @@ public class Sighting {
         this.description = description;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public String getSightingDate() {
         return sightingDate;
     }
@@ -44,10 +53,11 @@ public class Sighting {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + this.sightingId;
-        hash = 59 * hash + Objects.hashCode(this.description);
-        hash = 59 * hash + Objects.hashCode(this.sightingDate);
+        int hash = 7;
+        hash = 29 * hash + this.sightingId;
+        hash = 29 * hash + Objects.hashCode(this.description);
+        hash = 29 * hash + Objects.hashCode(this.location);
+        hash = 29 * hash + Objects.hashCode(this.sightingDate);
         return hash;
     }
 
@@ -72,8 +82,11 @@ public class Sighting {
         if (!Objects.equals(this.sightingDate, other.sightingDate)) {
             return false;
         }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
         return true;
     }
-
-
+    
+    
 }

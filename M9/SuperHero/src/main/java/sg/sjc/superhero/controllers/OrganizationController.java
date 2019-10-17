@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.services.OrganizationService;
 
@@ -65,7 +66,7 @@ public class OrganizationController {
     public String editOrganization(HttpServletRequest request) {
 
         Organization organizationToEdit = new Organization();
-        
+
         organizationToEdit.setOrgId(Integer.parseInt(request.getParameter("orgId")));
         organizationToEdit.setName(request.getParameter("name"));
         organizationToEdit.setDescription(request.getParameter("description"));
@@ -75,4 +76,5 @@ public class OrganizationController {
 
         return "redirect:/organizations";
     }
+    
 }
