@@ -7,8 +7,6 @@ package sg.sjc.superhero.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -68,7 +66,6 @@ public class SightingDaoImpl implements SightingDao {
     @Override
     public List<Sighting> readSightingsByLocationId(int locationId) {
         return jdbcTemplate.query(selectSightingsByLocationId, new SightingJDBCMapper(), locationId);
-
     }
 
     private class SightingJDBCMapper implements org.springframework.jdbc.core.RowMapper<Sighting> {
