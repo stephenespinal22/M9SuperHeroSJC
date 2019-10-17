@@ -7,7 +7,7 @@
         <title>Heroes and Villains</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://kit.fontawesome.com/77b2fa8649.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="css/supersStyle.css">
     </head>
     <body>
@@ -45,9 +45,9 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Villain?</th>
+                                <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i>Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i>Villain</th>
                                 <th>Organization</th>
-                                <!--                                <th>Powers</th>-->
+                                <!--<th>Powers</th>-->
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -57,7 +57,10 @@
                                 <td><span th:text="${superPerson.superId}"></span></td>
                                 <td><span th:text="${superPerson.name}"></span></td>
                                 <td><span th:text="${superPerson.description}"></span></td>
-                                <td><span th:text="${superPerson.isVillain}"></span></td>
+                                <td>
+                                    <span th:if="${superPerson.isVillain}"><i class="fas fa-skull-crossbones fa-2x" aria-hidden="true"></i></span>
+                                    <span th:unless="${superPerson.isVillain}"><i class="fas fa-mask fa-2x" aria-hidden="true"></i></span>
+                                </td>
                                 <td><span></span></td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
@@ -164,7 +167,7 @@
                     <div class="verticalLineBreak"></div>
                     <h2>Add Hero/Villain</h2>
                     <fieldset>
-                        <form action="addNewOrganization" method="POST">
+                        <form action="addHeroVillain" method="POST">
                             <label>Name</label>
                             <input type="text" name="name" placeholder= "Enter Person's Name" required="" class="form-control input-md">
                             <label>Description</label>
