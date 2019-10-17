@@ -20,6 +20,9 @@ public interface SightingDao {
 
     Sighting readSightingById(int id);
 
+    //one to many reads
+    List<Sighting> readSightingsByLocationId(int locationId);
+
     void updateSighting(Sighting sighting);
 
     void deleteSighting(int id);

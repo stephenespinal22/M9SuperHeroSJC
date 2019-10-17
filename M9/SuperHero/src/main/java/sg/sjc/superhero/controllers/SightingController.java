@@ -9,10 +9,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import sg.sjc.superhero.dtos.Location;
 import sg.sjc.superhero.dtos.Sighting;
+import sg.sjc.superhero.services.LocationService;
 import sg.sjc.superhero.services.SightingService;
 
 /**
@@ -22,31 +26,37 @@ import sg.sjc.superhero.services.SightingService;
 @Controller
 public class SightingController {
 
-    SightingService service;
+    private SightingService sightingService;
+    private LocationService locationService;
 
     @Autowired
-    public SightingController(SightingService service) {
-        this.service = service;
+    public SightingController(SightingService sightingService, LocationService locationService) {
+        this.sightingService = sightingService;
+        this.locationService = locationService;
     }
 
     @GetMapping("sightings")
     public String loadPage(Model model) {
-        List<Sighting> sightingList = service.readAllSightings();
+        List<Sighting> sightingList = sightingService.readAllSightings();
+        List<Location> locationList = locationService.readAllLocations();
 
         model.addAttribute("sightingList", sightingList);
+        model.addAttribute("locationList", locationList);
 
         return "sightings";
     }
 
     @PostMapping("addNewSighting")
+    @Transactional
     public String addSighting(HttpServletRequest request) {
 
         Sighting newSighting = new Sighting();
 
         newSighting.setDescription(request.getParameter("description"));
         newSighting.setSightingDate(request.getParameter("dateTime"));
+        newSighting.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
-        service.createSighting(newSighting);
+        sightingService.createSighting(newSighting);
 
         //tell spring to redirect user to mapping locations
         return "redirect:/sightings";
@@ -55,7 +65,7 @@ public class SightingController {
     @GetMapping("deleteSighting")
     public String deleteSighting(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        service.deleteSighting(id);
+        sightingService.deleteSighting(id);
 
         return "redirect:/sightings";
     }
@@ -68,10 +78,26 @@ public class SightingController {
         sightingToEdit.setSightingId(Integer.parseInt(request.getParameter("sightingId")));
         sightingToEdit.setDescription(request.getParameter("description"));
         sightingToEdit.setSightingDate(request.getParameter("dateTime"));
+        sightingToEdit.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
-
-        service.updateSighting(sightingToEdit);
+        sightingService.updateSighting(sightingToEdit);
 
         return "redirect:/sightings";
+    }
+
+    //NAVIGATION BAR METHODS
+    @RequestMapping("/locations")
+    public String directToLocations() {
+        return "locations";
+    }
+
+    @RequestMapping("/organizations")
+    public String directToOrganizations() {
+        return "organizations";
+    }
+
+    @RequestMapping("/sightings")
+    public String directToSightings() {
+        return "sightings";
     }
 }
