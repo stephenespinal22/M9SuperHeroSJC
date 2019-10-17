@@ -125,7 +125,7 @@
                             <textarea class="form-control" name= "description" rows="2" required></textarea>
                             <label>Location</label>
                             <p>(If you need to add a new location that isn't shown, click <a th:href="@{locations}">here</a>)</p>
-                            <select name="location" class="form-control">
+                            <select name="location" class="form-control" required>
                                 <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
                             <label>Sighting Date</label>
