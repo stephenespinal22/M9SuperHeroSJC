@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Locations</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Load Leaflet from CDN -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+              integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+              crossorigin=""/>
+        <link rel="stylesheet" href="css/locationStyle.css">
+
+    </head>
+
+    <body>
+        <header class="jumbotron">
+            <h1 id="header">Locations</h1>
+        </header>   
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <table class="table table-bordered table-striped" >
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Address</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="location : ${locationList}">
+                                <td> <span th:text="${location.name}" </span> </td>
+                                <td> <span th:text="${location.description}" </span> </td>
+                                <td> <span th:text="${location.address}" </span> </td>
+                                <td> <span th:text="${location.latitude}" </span> </td>
+                                <td> <span th:text="${location.longitude}" </span> </td>
+                                <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${location.locationId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-edit fade" th:id="modal-edit+${location.locationId}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5>Edit Location</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <fieldset>
+                                            <form action="editLocation" method="POST">
+                                                <input type="hidden" name="locationId" th:value="${location.locationId}">
+                                                <label>Address</label>
+                                                <textarea class="form-control" name= "address" rows="2" th:text="${location.address}"></textarea>
+                                                <label>Latitude</label>
+                                                <input type="number" step=".000001" name="latitude" required="" class="form-control input-md" th:value="${location.latitude}">
+                                                <label>Longitude</label>
+                                                <input type="number" step=".000001" name="longitude" required="" class="form-control input-md" th:value="${location.longitude}">
+                                                <label>Name</label>
+                                                <input type="text" name="name" required="" class="form-control input-md" th:value="${location.name}">
+                                                <label>Description</label>
+                                                <input type="text" name="description" required="" class="form-control input-md" th:value="${location.description}">
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Edit Location" class="btn btn-success pull-right">
+                                                </div>
+                                            </form>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${location.locationId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-warning fade" th:id="modal-warning+${location.locationId}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header alert alert-danger">
+                                        <h5>Delete Location</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure want to delete this location?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                                        <a th:href="@{/deleteLocation(id=${location.locationId})}" ><button class="btn btn-danger">Delete</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="verticalLineBreak"></div>
+                    <h2>Add Location</h2>
+                    <p>Click on the map to add a location automatically! <br>(Or fill out this form manually)</p>
+                    <fieldset>
+                        <form action="addNewLocation" method="POST">
+                            <div id="mapid"></div>
+                            <label>Address</label>
+                            <textarea id="geoAddress" class="form-control" name= "address" rows="2" ></textarea>
+                            <label>Latitude</label>
+                            <input id="geoLatitude" type="number" step=".000001" name="latitude" placeholder= "Enter Latitude" required="" class="form-control input-md">
+                            <label>Longitude</label>
+                            <input id="geoLongitude" type="number" step=".000001" name="longitude" placeholder= "Enter Longitude" required="" class="form-control input-md">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder= "Enter Location Name" required="" class="form-control input-md">
+                            <label>Description</label>
+                            <input type="text" name="description" placeholder= "Enter Location Description" required="" class="form-control input-md">
+                            <input type="submit" value="Add Location" class="btn btn-primary pull-right">
+                        </form>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+
+        ​
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+                integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+        <!-- Load Esri Leaflet from CDN -->
+        <script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"
+                integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q=="
+        crossorigin=""></script>
+        <!-- Load Esri Leaflet Geocoder from CDN -->
+        <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.14/dist/esri-leaflet-geocoder.css"
+              integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ=="
+              crossorigin="">
+        <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.14/dist/esri-leaflet-geocoder.js"
+                integrity="sha512-uK5jVwR81KVTGe8KpJa1QIN4n60TsSV8+DPbL5wWlYQvb0/nYNgSOg9dZG6ViQhwx/gaMszuWllTemL+K+IXjg=="
+        crossorigin=""></script>
+        <script>
+            var lat = document.getElementById("geoLatitude");
+            var long = document.getElementById("geoLongitude");
+            var geoAddress = document.getElementById("geoAddress");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+            function showPosition(position) {
+                //popuate lat and long
+                lat.value = position.coords.latitude.toFixed(6);
+                long.value = position.coords.longitude.toFixed(6);
+
+                //populate address
+                var geocodeService = L.esri.Geocoding.geocodeService();
+                geocodeService.reverse().latlng([lat.value, long.value]).run(function (error, result) {
+                    if (error) {
+                        return;
+                    }
+                    geoAddress.value = result.address.Match_addr;
+                });
+
+                //get map to display
+                var map = L.map('mapid').setView([lat.value, long.value], 15);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                var marker = L.marker([lat.value, long.value]);
+                marker.addTo(map).bindPopup("<b>Hello there!</b><br />Are you close to this location?").openPopup();
+
+                var popup = L.popup();
+
+                //on map click - update
+                function onMapClick(e) {
+                    popup
+                            .setLatLng(e.latlng)
+                            .setContent("Coordinates at ( " + e.latlng.lat.toFixed(6) + " , " + e.latlng.lng.toFixed(6) + " )")
+                            .openOn(map);
+                    lat.value = e.latlng.lat.toFixed(6);
+                    long.value = e.latlng.lng.toFixed(6);
+
+                    var geocodeService = L.esri.Geocoding.geocodeService();
+                    geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
+                        if (error) {
+                            return;
+                        }
+                        geoAddress.value = result.address.Match_addr;
+                    });
+                }
+                //on marker click - update
+                function onMarkerClick(e) {
+                    popup
+                            .setLatLng(e.latlng)
+                            .setContent("Coordinates at ( " + e.latlng.lat.toFixed(6) + " , " + e.latlng.lng.toFixed(6) + " )")
+                            .openOn(map);
+                    lat.value = e.latlng.lat.toFixed(6);
+                    long.value = e.latlng.lng.toFixed(6);
+
+                    var geocodeService = L.esri.Geocoding.geocodeService();
+                    geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
+                        if (error) {
+                            return;
+                        }
+                        geoAddress.value = result.address.Match_addr;
+                    });
+                }
+                map.on('click', onMapClick);
+                marker.on('click', onMarkerClick);
+            }
+        </script>
+        <!-- link cdn to bootstrap, jquery, popper -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    </body>
+
+</html>

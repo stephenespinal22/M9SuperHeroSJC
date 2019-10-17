@@ -5,6 +5,7 @@
  */
 package sg.sjc.superhero.dtos;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,7 +19,7 @@ public class SuperPerson {
     private boolean isVillain;
     private String description;
     private String powers;
-    private String organization;
+    private List<Organization> organizations;
 
     public int getSuperId() {
         return superId;
@@ -44,8 +45,6 @@ public class SuperPerson {
         this.isVillain = isVillain;
     }
 
-
-
     public String getDescription() {
         return description;
     }
@@ -62,23 +61,23 @@ public class SuperPerson {
         this.powers = powers;
     }
 
-    public String getOrganization() {
-        return organization;
+    public List<Organization> getOrganizations() {
+        return organizations;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + this.superId;
-        hash = 41 * hash + Objects.hashCode(this.name);
-        hash = 41 * hash + (this.isVillain ? 1 : 0);
-        hash = 41 * hash + Objects.hashCode(this.description);
-        hash = 41 * hash + Objects.hashCode(this.powers);
-        hash = 41 * hash + Objects.hashCode(this.organization);
+        hash = 79 * hash + this.superId;
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + (this.isVillain ? 1 : 0);
+        hash = 79 * hash + Objects.hashCode(this.description);
+        hash = 79 * hash + Objects.hashCode(this.powers);
+        hash = 79 * hash + Objects.hashCode(this.organizations);
         return hash;
     }
 
@@ -109,11 +108,17 @@ public class SuperPerson {
         if (!Objects.equals(this.powers, other.powers)) {
             return false;
         }
-        if (!Objects.equals(this.organization, other.organization)) {
+        if (!Objects.equals(this.organizations, other.organizations)) {
             return false;
         }
         return true;
     }
+
+   
+    
+    
+
+    
     
     
     

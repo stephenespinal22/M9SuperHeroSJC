@@ -30,8 +30,8 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Villain?</th>
-<!--                                <th>Organization</th>
-                                <th>Powers</th>-->
+                                <th>Organization</th>
+<!--                                <th>Powers</th>-->
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -42,6 +42,7 @@
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
                         <td><span th:text="${superPerson.isVillain}"></span></td>
+                        <td><span></span></td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
                             <div class="modal-dialog">
@@ -93,15 +94,15 @@
                                                 </div>
 
                                                 <!-- Select Multiple -->
-                                                <!--<div class="form-group">
+                                                <div class="form-group">
                                                   <label class="col-md-4 control-label" for="organizations">Affiliations</label>
                                                   <div class="col-md-4">
                                                     <select id="organizations" name="organizations" class="form-control" multiple="multiple">
-                                                      <option value="1">Option one</option>
+                                                      <option >Option one</option>
                                                       <option value="2">Option two</option>
                                                     </select>
                                                   </div>
-                                                </div>-->
+                                                </div>
 
                                                 <!-- Select Multiple -->
                                                 <!--<div class="form-group">
@@ -194,12 +195,11 @@
                         </div>
 
                         <!-- Select Multiple -->
-                        <!--<div class="form-group">
+<!--                        <div class="form-group">
                           <label class="col-md-4 control-label" for="organizations">Affiliations</label>
-                          <div class="col-md-4">
+                          <div class="col-md-6">
                             <select id="organizations" name="organizations" class="form-control" multiple="multiple">
-                              <option value="1">Option one</option>
-                              <option value="2">Option two</option>
+                              <option value="1" th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
                             </select>
                           </div>
                         </div>-->

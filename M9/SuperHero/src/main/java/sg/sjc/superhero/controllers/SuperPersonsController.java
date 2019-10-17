@@ -5,7 +5,6 @@
  */
 package sg.sjc.superhero.controllers;
 
-import static java.lang.System.console;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import sg.sjc.superhero.daos.SuperPersonsDAO;
+import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
+import sg.sjc.superhero.services.OrganizationService;
 import sg.sjc.superhero.services.SuperPersonsService;
 
 /**
@@ -29,12 +29,18 @@ public class SuperPersonsController {
     @Autowired
     SuperPersonsService service;
     
+    @Autowired
+    OrganizationService orgService;
+    
     @GetMapping("supers")
     public String displayHeroesVillains(Model model) {
         List<SuperPerson> superPersons = service.getAllSuperPersons();
+        List<Organization> organizations = orgService.readAllOrganizations();
         model.addAttribute("SuperPersons", superPersons);
+        model.addAttribute("Organizations", organizations);
         return "supers";
     }
+    
     
     @PostMapping("addHeroVillain")
     public String addHeroVillain(HttpServletRequest request) {

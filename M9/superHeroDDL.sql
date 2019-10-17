@@ -52,7 +52,7 @@ FOREIGN KEY fk_Sightings_sightingId(sightingId) REFERENCES Sightings(sightingId)
 CREATE TABLE SuperPersonOrganization(
 superId INT NOT NULL,
 orgId INT NOT NULL,
-SuperPersonOrganizationId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+spoId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 FOREIGN KEY fk_SuperPersons_superId(superId) REFERENCES SuperPersons(superId),
 FOREIGN KEY fk_Organizations_orgId(orgId) REFERENCES Organizations(orgId)
 );

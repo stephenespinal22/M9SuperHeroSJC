@@ -71,6 +71,7 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
             superPerson.setName(rs.getString("name"));
             superPerson.setDescription(rs.getString("description"));
             superPerson.setIsVillain(rs.getBoolean("isVillain"));
+//            superPerson.setOrganizations();
             
             return superPerson;
             
