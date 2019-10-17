@@ -64,7 +64,7 @@ public class SightingDaoImpl implements SightingDao {
 
     @Override
     public List<Sighting> readSightingsByLocationId(int locationId) {
-        return jdbcTemplate.query(selectSightingsByLocationId, new SightingJDBCMapper(),locationId);
+        return jdbcTemplate.query(selectSightingsByLocationId, new SightingJDBCMapper(), locationId);
 
     }
 
