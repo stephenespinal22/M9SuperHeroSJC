@@ -72,16 +72,16 @@
                                                 <input type="hidden" name="sightingId" th:value="${sighting.sightingId}">
                                                 <label>Description</label>
                                                 <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}"></textarea>
+                                                <label>Location</label>
                                                 <select name="location" class="form-control">
-                                                    <option value="PG">PG</option>
-                                                    <option value="PG-13">PG-13</option>
-                                                    <option value="R">R</option>
+                                                    <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                                                 </select>
                                                 <label>Sighting Date</label>
-                                                <div class='input-group date' id="datetimepicker2">
+                                                <div class='input-group date editDateTime'>
                                                     <input type='text' class="form-control" name="dateTime" required th:value="${sighting.sightingDate}"/>
                                                 </div>
-                                                <input type="submit" value="Edit Sighting" class="btn btn-primary pull-right">
+                                                <br>
+                                                <input type="submit" value="Edit Sighting" class="btn btn-success pull-right">
                                             </form>
                                         </fieldset>
                                     </div>
@@ -124,7 +124,7 @@
                                 <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
                             <label>Sighting Date</label>
-                            <div class='input-group date' id="datetimepicker1">
+                            <div class='input-group date' id="datetimepicker">
                                 <input type='text' class="form-control" name="dateTime" required/>
                             </div>
                             <input type="submit" value="Add Sighting" class="btn btn-primary pull-right">
@@ -135,11 +135,19 @@
         </div>
         <!-- link cdn to bootstrap, jquery, popper -->
         ​    <script type="text/javascript">
-            $('#datetimepicker1').datetimepicker({
-                allowInputToggle: true
+            $('.editDateTime').datetimepicker({
+                allowInputToggle: true,
+                widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
             });
-            $('#datetimepicker2').datetimepicker({
-                allowInputToggle: true
+            $('#datetimepicker').datetimepicker({
+                allowInputToggle: true,
+                widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
             });
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
