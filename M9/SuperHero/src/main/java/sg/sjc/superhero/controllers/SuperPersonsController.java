@@ -87,8 +87,9 @@ public class SuperPersonsController {
     public String deleteHeroVillain(HttpServletRequest request){
         System.out.println(request.getParameter("id"));
         int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteMember(id);
         service.deleteSuperPersonById(id);
-        
+    
         return "redirect:/supers";
     }
     

@@ -57,5 +57,10 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     public void createNewMember(int superId, int orgId) {
         spoDAO.Create(superId, orgId);
     }
+
+    @Override
+    public void deleteMember(int superId) {
+        spoDAO.deleteSuperPersonById(superId);
+    }
     
 }
