@@ -100,4 +100,9 @@ public class SightingController {
     public String directToSightings() {
         return "sightings";
     }
+
+    @RequestMapping("/supers")
+    public String directToSupers() {
+        return "supers";
+    }
 }

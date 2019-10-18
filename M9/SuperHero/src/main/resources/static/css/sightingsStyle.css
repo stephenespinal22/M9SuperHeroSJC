@@ -46,11 +46,18 @@ td{
     height: 400px;
     margin-bottom: 10px;
 }
+
+#mapidSightings{
+    width: 100%; 
+    height: 550px;
+    margin-bottom: 10px;
+}
+
 .fa-edit{
-    font-size: 40px;
+    font-size: 30px;
     color: cornflowerblue;
 }
 .fa-trash-o{
-    font-size: 40px;
+    font-size: 30px;
     color: #cc3300;
 }
