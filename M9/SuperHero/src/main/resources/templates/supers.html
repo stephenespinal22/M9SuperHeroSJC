@@ -120,10 +120,9 @@
                                                 <!-- Select Multiple -->
                                                 <div class="form-group">
                                                   <label class="col-md-4 control-label" for="organizations">Affiliations</label>
-                                                  <div class="col-md-4">
-                                                    <select id="organizations" name="organizations" class="form-control" multiple="multiple">
-                                                      <option >Option one</option>
-                                                      <option value="2">Option two</option>
+                                                  <div class="col-md-6">
+                                                      <select multiple id="organizations" name="organizations" class="form-control" required="">
+                                                      <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
                                                     </select>
                                                   </div>
                                                 </div>
@@ -222,7 +221,7 @@
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="organizations">Affiliations</label>
                           <div class="col-md-6">
-                              <select multiple id="organizations" name="organizations" class="form-control">
+                              <select multiple id="organizations" name="organizations" class="form-control" required="">
                               <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
                             </select>
                           </div>
