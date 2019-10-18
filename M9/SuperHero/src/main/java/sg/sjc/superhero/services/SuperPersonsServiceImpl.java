@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sg.sjc.superhero.daos.SPOrgDAO;
 import sg.sjc.superhero.daos.SuperPersonsDAO;
 import sg.sjc.superhero.dtos.SuperPerson;
 
@@ -16,10 +17,12 @@ import sg.sjc.superhero.dtos.SuperPerson;
 public class SuperPersonsServiceImpl implements SuperPersonsService {
     
     private final SuperPersonsDAO spsDAO;
+    private final SPOrgDAO spoDAO;
     
     @Autowired
-    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO){
+    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO){
        this.spsDAO = spsDAO; 
+       this.spoDAO = spoDAO;
     }
 
     @Override
@@ -47,6 +50,12 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     @Transactional
     public void deleteSuperPersonById(int id) {
         spsDAO.deleteSuperPersonById(id);
+    }
+
+    @Override
+    @Transactional
+    public void createNewMember(int superId, int orgId) {
+        spoDAO.Create(superId, orgId);
     }
     
 }

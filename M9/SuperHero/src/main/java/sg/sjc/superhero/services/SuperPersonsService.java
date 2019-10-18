@@ -16,6 +16,7 @@ public interface SuperPersonsService {
     SuperPerson getSuperPersonById(int id);
     List<SuperPerson> getAllSuperPersons();
     SuperPerson addSuperPerson(SuperPerson superPerson);
+    void createNewMember(int superId, int orgId);
     void updateSuperPerson(SuperPerson superPerson);
     void deleteSuperPersonById(int id);
 }

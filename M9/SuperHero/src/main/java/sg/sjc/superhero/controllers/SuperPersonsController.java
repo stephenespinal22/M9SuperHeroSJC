@@ -5,6 +5,8 @@
  */
 package sg.sjc.superhero.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +49,31 @@ public class SuperPersonsController {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String isVillain = request.getParameter("isVillain");
+        String[] orgIds = request.getParameterValues("organizations");
+        
+        List<Organization> orgList = new ArrayList<>();
+        List<Integer> orgsId = new ArrayList<>();
+        
+        int[] orgId = new int[orgIds.length];
+        for (int i = 0; i < orgIds.length; i++) {
+            orgId[i] = Integer.parseInt(orgIds[i]);
+            orgsId.add(orgId[i]);
+        }
+        
+        for (int OrgId : orgsId){
+            Organization organization = orgService.readOrganizationById(OrgId);
+            orgList.add(organization);
+        }
+          
         
         SuperPerson superPerson = new SuperPerson();
         superPerson.setName(name);
         superPerson.setDescription(description);
         superPerson.setIsVillain(Boolean.parseBoolean(isVillain));
-        
+        superPerson.setOrganizations(orgList);
+        System.out.println(orgList);
         service.addSuperPerson(superPerson);
+        
         return "redirect:/supers";
     }
     
