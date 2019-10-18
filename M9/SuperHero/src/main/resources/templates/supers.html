@@ -64,8 +64,8 @@
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
                         <td><span th:text="${superPerson.isVillain}"></span></td>
-                        <td><span th:each="organization, iterStat : ${superPerson.organizations}">
-                                <span th:text="${organization.name}"/><th:block th:if="!iterStat.last}">,</th:block>
+                        <td><span>
+                                <span>
                             </span></td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
@@ -222,8 +222,8 @@
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="organizations">Affiliations</label>
                           <div class="col-md-6">
-                              <select id="organizations" name="organizations" class="form-control" multiple="multiple">
-                              <option value="1" th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
+                              <select multiple id="organizations" name="organizations" class="form-control">
+                              <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
                             </select>
                           </div>
                         </div>

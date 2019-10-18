@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import sg.sjc.superhero.dtos.Organization;
@@ -35,7 +37,7 @@ public class SuperPersonsController {
     OrganizationService orgService;
     
     @GetMapping("supers")
-    public String displayHeroesVillains(Model model) {
+    public String displayHeroesVillains(Integer id, Model model) {
         List<SuperPerson> superPersons = service.getAllSuperPersons();
         List<Organization> organizations = orgService.readAllOrganizations();
         model.addAttribute("SuperPersons", superPersons);
@@ -45,34 +47,25 @@ public class SuperPersonsController {
     
     
     @PostMapping("addHeroVillain")
-    public String addHeroVillain(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String isVillain = request.getParameter("isVillain");
+    public String addHeroVillain(HttpServletRequest request, @Valid SuperPerson superPerson, BindingResult result) {
+        
         String[] orgIds = request.getParameterValues("organizations");
+        List<Organization> organizations = new ArrayList<>();
         
-        List<Organization> orgList = new ArrayList<>();
-        List<Integer> orgsId = new ArrayList<>();
-        
-        int[] orgId = new int[orgIds.length];
-        for (int i = 0; i < orgIds.length; i++) {
-            orgId[i] = Integer.parseInt(orgIds[i]);
-            orgsId.add(orgId[i]);
+        for (String orgId : orgIds) {
+            organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
         }
-        
-        for (int OrgId : orgsId){
-            Organization organization = orgService.readOrganizationById(OrgId);
-            orgList.add(organization);
-        }
-          
-        
-        SuperPerson superPerson = new SuperPerson();
-        superPerson.setName(name);
-        superPerson.setDescription(description);
-        superPerson.setIsVillain(Boolean.parseBoolean(isVillain));
-        superPerson.setOrganizations(orgList);
-        System.out.println(orgList);
+                
+        superPerson.setName(request.getParameter("name"));
+        superPerson.setDescription(request.getParameter("description"));
+        superPerson.setIsVillain(Boolean.parseBoolean(request.getParameter("isVillain")));
+        superPerson.setOrganizations(organizations);
+
         service.addSuperPerson(superPerson);
+        
+        for (String orgId : orgIds){
+            service.createNewMember(superPerson.getSuperId(), Integer.parseInt(orgId));
+        }
         
         return "redirect:/supers";
     }
