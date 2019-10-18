@@ -16,6 +16,7 @@ public class SPOrgDAOJdbcImpl implements SPOrgDAO {
     
     private final String insertSuperOrgMerge = "Insert Into SuperPersonOrganization(superId, orgId) values (?,?);";
     private final String deleteMember = "Delete From SuperPersonOrganization where superId = ?;";
+    private final String deleteOrg = "Delete From SuperPersonOrganization where orgId = ?;";
     
     @Autowired
     public SPOrgDAOJdbcImpl(JdbcTemplate jdbcTemplate) {
@@ -39,7 +40,7 @@ public class SPOrgDAOJdbcImpl implements SPOrgDAO {
 
     @Override
     public void deleteOrgById(int orgId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(deleteOrg, orgId);
     }
     
 }
