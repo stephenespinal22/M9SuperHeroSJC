@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-​
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +7,9 @@
         <title>Heroes and Villains</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-   
+        <script src="https://kit.fontawesome.com/77b2fa8649.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="css/supersStyle.css">
-​
     </head>
-​
     <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,9 +19,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{supers}">Heroes & Villains</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{sightings}">Sightings</a>
                         </li>
@@ -35,39 +28,41 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{organizations}">Organizations</a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{supers}">Supers<span class="sr-only">(current)</span></a>
+                        </li>
                     </ul>
                 </div>
             </nav>
-            <h1 id="header" class="jumbotron">Heroes & Villains</h1>
+            <h1 class="jumbotron" id="header">Heroes & Villains</h1>
         </header>   
-​
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8">
-​
                     <table class="table table-bordered table-striped" >
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Villain?</th>
+                                <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i>Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i>Villain</th>
                                 <th>Organization</th>
-<!--                                <th>Powers</th>-->
+                                <!--<th>Powers</th>-->
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="superPerson : ${SuperPersons}">
-                        <td><span th:text="${superPerson.superId}"></span></td>
-                        <td><span th:text="${superPerson.name}"></span></td>
-                        <td><span th:text="${superPerson.description}"></span></td>
-                        <td><span th:text="${superPerson.isVillain}"></span></td>
-                        <td><span>
-                                <span>
-                            </span></td>
-                        <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+                            <tr th:each="superPerson : ${SuperPersons}">
+                                <td><span th:text="${superPerson.superId}"></span></td>
+                                <td><span th:text="${superPerson.name}"></span></td>
+                                <td><span th:text="${superPerson.description}"></span></td>
+                                <td>
+                                    <span th:if="${superPerson.isVillain}"><i class="fas fa-skull-crossbones fa-2x" aria-hidden="true"></i></span>
+                                    <span th:unless="${superPerson.isVillain}"><i class="fas fa-mask fa-2x" aria-hidden="true"></i></span>
+                                </td>
+                                <td><span></span></td>
+                                <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -78,56 +73,51 @@
                                     </div>
                                     <div class="modal-body">
                                         <fieldset>
-                                            
                                             <form action="editHeroVillain" method="POST">
                                                 <input type="hidden" name="superId" th:value="${superPerson.superId}">
-
                                                 <!-- Text input-->
                                                 <div class="form-group">
-                                                  <label class="col-md-4 control-label" for="name">Hero/Villain Name:</label>  
-                                                  <div class="col-md-4">
-                                                  <input id="name" name="name" type="text" placeholder="" class="form-control input-md" th:value="${superPerson.name}">
-                                                  </div>
+                                                    <label class="col-md-4 control-label" for="name">Hero/Villain Name:</label>  
+                                                    <div class="col-md-4">
+                                                        <input id="name" name="name" type="text" placeholder="" class="form-control input-md" th:value="${superPerson.name}">
+                                                    </div>
                                                 </div>
                                                 <!--
                                                  Textarea -->
                                                 <div class="form-group">
-                                                  <label class="col-md-4 control-label" for="description">Description:</label>
-                                                  <div class="col-md-6">                     
-                                                    <textarea class="form-control" id="description" name="description" th:text="${superPerson.description}"></textarea>
-                                                  </div>
+                                                    <label class="col-md-4 control-label" for="description">Description:</label>
+                                                    <div class="col-md-6">                     
+                                                        <textarea class="form-control" id="description" name="description" th:text="${superPerson.description}"></textarea>
+                                                    </div>
                                                 </div>
-
                                                 <!-- Multiple Radios -->
                                                 <div class="form-group">
-                                                  <label class="col-md-4 control-label" for="isVillain">Hero or Villain?</label>
-                                                  <div class="col-md-4">
-                                                  <div class="radio">
-                                                    <label for="isVillain-0">
-                                                      <input type="radio" name="isVillain" id="isVillain-0" value="false" checked="checked">
-                                                      Hero
-                                                    </label>
+                                                    <label class="col-md-4 control-label" for="isVillain">Hero or Villain?</label>
+                                                    <div class="col-md-4">
+                                                        <div class="radio">
+                                                            <label for="isVillain-0">
+                                                                <input type="radio" name="isVillain" id="isVillain-0" value="false" checked="checked">
+                                                                Hero
+                                                            </label>
                                                         </div>
-                                                  <div class="radio">
-                                                    <label for="isVillain-1">
-                                                      <input type="radio" name="isVillain" id="isVillain-1" value="true">
-                                                      Villain
-                                                    </label>
+                                                        <div class="radio">
+                                                            <label for="isVillain-1">
+                                                                <input type="radio" name="isVillain" id="isVillain-1" value="true">
+                                                                Villain
+                                                            </label>
                                                         </div>
-                                                  </div>
+                                                    </div>
                                                 </div>
-
                                                 <!-- Select Multiple -->
                                                 <div class="form-group">
-                                                  <label class="col-md-4 control-label" for="organizations">Affiliations</label>
-                                                  <div class="col-md-4">
-                                                    <select id="organizations" name="organizations" class="form-control" multiple="multiple">
-                                                      <option >Option one</option>
-                                                      <option value="2">Option two</option>
-                                                    </select>
-                                                  </div>
+                                                    <label class="col-md-4 control-label" for="organizations">Affiliations</label>
+                                                    <div class="col-md-4">
+                                                        <select id="organizations" name="organizations" class="form-control" multiple="multiple">
+                                                            <option >Option one</option>
+                                                            <option value="2">Option two</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-
                                                 <!-- Select Multiple -->
                                                 <!--<div class="form-group">
                                                   <label class="col-md-4 control-label" for="powers">Powers:</label>
@@ -144,7 +134,6 @@
                                                     </a>
                                                 </div>
                                             </form>
-                                            
                                         </fieldset>
                                     </div>
                                 </div>
@@ -174,85 +163,35 @@
                         </tbody>
                     </table>
                 </div>
-​
                 <div class="col-lg-4">
-​
                     <div class="verticalLineBreak"></div>
                     <h2>Add Hero/Villain</h2>
                     <fieldset>
                         <form action="addHeroVillain" method="POST">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder= "Enter Person's Name" required="" class="form-control input-md">
+                            <label>Description</label>
+                            <textarea class="form-control" name= "description" rows="2" required></textarea>
+                            <label>Hero or Villain?</label>
+                            <div class="radio">
+                                <label for="isVillain-0">
+                                    <input type="radio" name="isVillain" id="isVillain-0" value="false" checked="checked">
+                                    Hero
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label for="isVillain-1">
+                                    <input type="radio" name="isVillain" id="isVillain-1" value="true">
+                                    Villain
+                                </label>
+                            </div>
+                            <input type="submit" value="Add Person" class="btn btn-primary pull-right">
 
-                        <!-- Text input-->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="name">Hero/Villain Name:</label>  
-                          <div class="col-md-4">
-                              <input id="name" name="name" type="text" placeholder="" required="" class="form-control input-md">
-
-                          </div>
-                        </div>
-                        <!--
-                         Textarea -->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="description">Description:</label>
-                          <div class="col-md-6">                     
-                              <textarea class="form-control" id="description" name="description" required=""></textarea>
-                          </div>
-                        </div>
-
-                        <!-- Multiple Radios -->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="isVillain">Hero or Villain?</label>
-                          <div class="col-md-4">
-                          <div class="radio">
-                            <label for="isVillain-0">
-                              <input type="radio" name="isVillain" id="isVillain-0" value="false" checked="checked">
-                              Hero
-                            </label>
-                                </div>
-                          <div class="radio">
-                            <label for="isVillain-1">
-                              <input type="radio" name="isVillain" id="isVillain-1" value="true">
-                              Villain
-                            </label>
-                                </div>
-                          </div>
-                        </div>
-
-                        <!-- Select Multiple -->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="organizations">Affiliations</label>
-                          <div class="col-md-6">
-                              <select multiple id="organizations" name="organizations" class="form-control">
-                              <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <!-- Select Multiple -->
-                        <!--<div class="form-group">
-                          <label class="col-md-4 control-label" for="powers">Powers:</label>
-                          <div class="col-md-4">
-                            <select id="powers" name="powers" class="form-control" multiple="multiple">
-                              <option value="1">Option one</option>
-                              <option value="2">Option two</option>
-                            </select>
-                          </div>
-                        </div>-->
-
-                        <!-- Button -->
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="submit"></label>
-                          <div class="col-md-4">
-                            <button id="submit" name="submit" class="btn btn-primary">Submit</button>
-                          </div>
-                        </div>
                         </form>
-                    </fieldset>
-​
+                    </fieldset>    
                 </div>
             </div>
         </div>
-​
         <!-- link cdn to bootstrap, jquery, popper -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -264,5 +203,4 @@
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     </body>
-​
 </html>
