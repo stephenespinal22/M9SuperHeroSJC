@@ -19,6 +19,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
+<<<<<<< HEAD
+=======
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{supers}">Heroes & Villains</a>
+                        </li>
+>>>>>>> 0807c5ac64fc063af5806a4ccc0287050a5086f6
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{sightings}">Sightings</a>
                         </li>
@@ -28,6 +34,7 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{organizations}">Organizations</a>
                         </li>
+<<<<<<< HEAD
                         <li class="nav-item active">
                             <a class="nav-link" th:href="@{supers}">Supers<span class="sr-only">(current)</span></a>
                         </li>
@@ -35,6 +42,12 @@
                 </div>
             </nav>
             <h1 class="jumbotron" id="header">Heroes & Villains</h1>
+=======
+                    </ul>
+                </div>
+            </nav>
+            <h1 id="header" class="jumbotron">Heroes & Villains</h1>
+>>>>>>> 0807c5ac64fc063af5806a4ccc0287050a5086f6
         </header>   
         <div class="container-fluid">
             <div class="row">
@@ -53,6 +66,7 @@
                             </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                             <tr th:each="superPerson : ${SuperPersons}">
                                 <td><span th:text="${superPerson.superId}"></span></td>
                                 <td><span th:text="${superPerson.name}"></span></td>
@@ -63,6 +77,17 @@
                                 </td>
                                 <td><span></span></td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+=======
+                        <tr th:each="superPerson : ${SuperPersons}">
+                        <td><span th:text="${superPerson.superId}"></span></td>
+                        <td><span th:text="${superPerson.name}"></span></td>
+                        <td><span th:text="${superPerson.description}"></span></td>
+                        <td><span th:text="${superPerson.isVillain}"></span></td>
+                        <td><span>
+                                <span>
+                            </span></td>
+                        <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+>>>>>>> 0807c5ac64fc063af5806a4ccc0287050a5086f6
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -168,6 +193,7 @@
                     <h2>Add Hero/Villain</h2>
                     <fieldset>
                         <form action="addHeroVillain" method="POST">
+<<<<<<< HEAD
                             <label>Name</label>
                             <input type="text" name="name" placeholder= "Enter Person's Name" required="" class="form-control input-md">
                             <label>Description</label>
@@ -186,6 +212,73 @@
                                 </label>
                             </div>
                             <input type="submit" value="Add Person" class="btn btn-primary pull-right">
+=======
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="name">Hero/Villain Name:</label>  
+                          <div class="col-md-4">
+                              <input id="name" name="name" type="text" placeholder="" required="" class="form-control input-md">
+
+                          </div>
+                        </div>
+                        <!--
+                         Textarea -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="description">Description:</label>
+                          <div class="col-md-6">                     
+                              <textarea class="form-control" id="description" name="description" required=""></textarea>
+                          </div>
+                        </div>
+
+                        <!-- Multiple Radios -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="isVillain">Hero or Villain?</label>
+                          <div class="col-md-4">
+                          <div class="radio">
+                            <label for="isVillain-0">
+                              <input type="radio" name="isVillain" id="isVillain-0" value="false" checked="checked">
+                              Hero
+                            </label>
+                                </div>
+                          <div class="radio">
+                            <label for="isVillain-1">
+                              <input type="radio" name="isVillain" id="isVillain-1" value="true">
+                              Villain
+                            </label>
+                                </div>
+                          </div>
+                        </div>
+
+                        <!-- Select Multiple -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="organizations">Affiliations</label>
+                          <div class="col-md-6">
+                              <select multiple id="organizations" name="organizations" class="form-control">
+                              <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"></option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <!-- Select Multiple -->
+                        <!--<div class="form-group">
+                          <label class="col-md-4 control-label" for="powers">Powers:</label>
+                          <div class="col-md-4">
+                            <select id="powers" name="powers" class="form-control" multiple="multiple">
+                              <option value="1">Option one</option>
+                              <option value="2">Option two</option>
+                            </select>
+                          </div>
+                        </div>-->
+
+                        <!-- Button -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="submit"></label>
+                          <div class="col-md-4">
+                            <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+>>>>>>> 0807c5ac64fc063af5806a4ccc0287050a5086f6
                         </form>
                     </fieldset>    
                 </div>
