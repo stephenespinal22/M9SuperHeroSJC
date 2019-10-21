@@ -24,7 +24,7 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top">
                 <a class="navbar-brand" href="#">SuperHeroTracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -137,10 +137,9 @@
                             <select name="location" class="form-control" required>
                                 <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
+                            <label>Super Persons</label>
                             <select name='superPersons'class="form-control" required multiple>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
                             </select>
                             <label>Sighting Date</label>
                             <div class='input-group date' id="datetimepicker">

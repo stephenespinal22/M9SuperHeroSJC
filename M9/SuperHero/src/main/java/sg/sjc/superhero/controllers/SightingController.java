@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sg.sjc.superhero.dtos.Location;
 import sg.sjc.superhero.dtos.Sighting;
+import sg.sjc.superhero.dtos.SuperPerson;
 import sg.sjc.superhero.services.LocationService;
 import sg.sjc.superhero.services.SightingService;
+import sg.sjc.superhero.services.SuperPersonsService;
 
 /**
  *
@@ -28,20 +30,24 @@ public class SightingController {
 
     private SightingService sightingService;
     private LocationService locationService;
+    private SuperPersonsService superPersonService;
 
     @Autowired
-    public SightingController(SightingService sightingService, LocationService locationService) {
+    public SightingController(SightingService sightingService, LocationService locationService, SuperPersonsService superPersonService) {
         this.sightingService = sightingService;
         this.locationService = locationService;
+        this.superPersonService = superPersonService;
     }
 
     @GetMapping("sightings")
     public String loadPage(Model model) {
         List<Sighting> sightingList = sightingService.readAllSightings();
         List<Location> locationList = locationService.readAllLocations();
+        List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
 
         model.addAttribute("sightingList", sightingList);
         model.addAttribute("locationList", locationList);
+        model.addAttribute("superPersonList", superPersonList);
 
         return "sightings";
     }
@@ -57,7 +63,6 @@ public class SightingController {
         newSighting.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
         //System.out.println(request.getParameterValues("superPersons"));
-
         sightingService.createSighting(newSighting);
 
         //tell spring to redirect user to mapping locations
