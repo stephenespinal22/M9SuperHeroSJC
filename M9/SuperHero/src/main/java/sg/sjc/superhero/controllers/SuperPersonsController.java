@@ -79,10 +79,12 @@ public class SuperPersonsController {
         String[] orgIds = request.getParameterValues("organizations");
         List<Organization> organizations = new ArrayList<>();
 
-        for (String orgId : orgIds) {
-            organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
-        }
+        if (orgIds != null) {
 
+            for (String orgId : orgIds) {
+                organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
+            }
+        }
         SuperPerson editSuper = new SuperPerson();
         editSuper.setSuperId(Integer.parseInt(request.getParameter("superId")));
         editSuper.setName(request.getParameter("name"));
@@ -92,10 +94,13 @@ public class SuperPersonsController {
 
         service.deleteMember(editSuper.getSuperId());
         service.updateSuperPerson(editSuper);
-        for (String orgId : orgIds) {
-            service.createNewMember(editSuper.getSuperId(), Integer.parseInt(orgId));
-        }
 
+        if (orgIds != null) {
+
+            for (String orgId : orgIds) {
+                service.createNewMember(editSuper.getSuperId(), Integer.parseInt(orgId));
+            }
+        }
         return "redirect:/supers";
     }
 

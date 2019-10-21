@@ -16,7 +16,6 @@ import org.springframework.data.annotation.Id;
  */
 public class SuperPerson {
     
-    @Id
     private int superId;
     
     @NotEmpty(message = "Please enter a name.")

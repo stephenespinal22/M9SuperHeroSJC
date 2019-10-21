@@ -48,6 +48,7 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Contact Info</th>
+                                <th>Members</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -57,6 +58,10 @@
                                 <td> <span th:text="${organization.name}" </span> </td>
                                 <td> <span th:text="${organization.description}" </span> </td>
                                 <td> <span th:text="${organization.contactInfo}" </span> </td>
+                                <td> 
+                                    <p th:if="${#lists.isEmpty(organization.superPersons)}">No Members</p>
+                                    <p th:each="superPersonDisplay : ${organization.superPersons}" th:text="${superPersonDisplay.name}"  </p>
+                                </td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${organization.orgId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${organization.orgId}" >
                             <div class="modal-dialog">
@@ -76,6 +81,11 @@
                                                 <textarea class="form-control" name= "description" rows="2" required th:text="${organization.description}"></textarea>
                                                 <label>Contact Info</label>
                                                 <textarea class="form-control" name= "contactInfo" rows="2" required th:text="${organization.contactInfo}"></textarea>
+                                                <label>Members (To Edit: Please Re-Select Members)</label>
+                                                <select name='members'class="form-control" multiple>
+                                                    <!--th:selected="${superPerson.organizations[iter.index].orgId} == ${organization.orgId}"-->
+                                                    <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}" > </option>
+                                                </select>
                                                 <div class="modal-footer">
                                                     <input type="submit" value="Edit Organization" class="btn btn-success pull-right">
                                                 </div>
@@ -121,6 +131,10 @@
                             <textarea class="form-control" name= "description" rows="2" required></textarea>
                             <label>Contact Info</label>
                             <textarea class="form-control" name= "contactInfo" rows="2" required></textarea>
+                            <label>Members</label>
+                            <select name='members'class="form-control" multiple>
+                                <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
+                            </select>
                             <input type="submit" value="Add Organization" class="btn btn-primary pull-right">
                         </form>
                     </fieldset>

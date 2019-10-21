@@ -5,16 +5,20 @@
  */
 package sg.sjc.superhero.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sg.sjc.superhero.dtos.Organization;
+import sg.sjc.superhero.dtos.SuperPerson;
 import sg.sjc.superhero.services.OrganizationService;
+import sg.sjc.superhero.services.SuperPersonsService;
 
 /**
  *
@@ -23,32 +27,54 @@ import sg.sjc.superhero.services.OrganizationService;
 @Controller
 public class OrganizationController {
 
-    private OrganizationService service;
+    private OrganizationService orgService;
+
+    private SuperPersonsService superPersonService;
 
     @Autowired
-    public OrganizationController(OrganizationService service) {
-        this.service = service;
+    public OrganizationController(OrganizationService orgService, SuperPersonsService superPersonService) {
+        this.orgService = orgService;
+        this.superPersonService = superPersonService;
     }
 
     @GetMapping("organizations")
     public String loadPage(Model model) {
-        List<Organization> organizationList = service.readAllOrganizations();
+        List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
+        List<Organization> organizationList = orgService.readAllOrganizations();
 
         model.addAttribute("organizationList", organizationList);
+        model.addAttribute("superPersonList", superPersonList);
 
         return "organizations";
     }
 
     @PostMapping("addNewOrganization")
     public String addOrganization(HttpServletRequest request) {
+        String[] superPersonIds = request.getParameterValues("members");
+
+        List<SuperPerson> superPersons = new ArrayList<SuperPerson>();
+
+        if (superPersonIds != null) {
+            for (String superId : superPersonIds) {
+                superPersons.add(superPersonService.getSuperPersonById(Integer.parseInt(superId)));
+            }
+        }
 
         Organization newOrganization = new Organization();
 
         newOrganization.setName(request.getParameter("name"));
         newOrganization.setDescription(request.getParameter("description"));
         newOrganization.setContactInfo(request.getParameter("contactInfo"));
+        newOrganization.setSuperPersons(superPersons);
 
-        service.createOrganization(newOrganization);
+        orgService.createOrganization(newOrganization);
+
+        if (superPersonIds != null) {
+
+            for (String superId : superPersonIds) {
+                orgService.createNewMember(Integer.parseInt(superId), newOrganization.getOrgId());
+            }
+        }
 
         //tell spring to redirect user to mapping locations
         return "redirect:/organizations";
@@ -57,14 +83,24 @@ public class OrganizationController {
     @GetMapping("deleteOrganization")
     public String deleteOrganization(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        service.deleteOrgById(id);
-        service.deleteOrganization(id);
+        orgService.deleteOrgById(id);
+        orgService.deleteOrganization(id);
 
         return "redirect:/organizations";
     }
 
     @PostMapping("editOrganization")
+    @Transactional
     public String editOrganization(HttpServletRequest request) {
+        String[] superPersonIds = request.getParameterValues("members");
+
+        List<SuperPerson> superPersons = new ArrayList<SuperPerson>();
+
+        if (superPersonIds != null) {
+            for (String superId : superPersonIds) {
+                superPersons.add(superPersonService.getSuperPersonById(Integer.parseInt(superId)));
+            }
+        }
 
         Organization organizationToEdit = new Organization();
 
@@ -73,9 +109,17 @@ public class OrganizationController {
         organizationToEdit.setDescription(request.getParameter("description"));
         organizationToEdit.setContactInfo(request.getParameter("contactInfo"));
 
-        service.updateOrganization(organizationToEdit);
+        orgService.deleteOrgById(organizationToEdit.getOrgId());
+        orgService.updateOrganization(organizationToEdit);
+
+        if (superPersonIds != null) {
+
+            for (String superId : superPersonIds) {
+                orgService.createNewMember(Integer.parseInt(superId), organizationToEdit.getOrgId());
+            }
+        }
 
         return "redirect:/organizations";
     }
-    
+
 }
