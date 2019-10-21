@@ -45,7 +45,7 @@ public class SightingController {
         List<Sighting> sightingList = sightingService.readAllSightings();
         List<Location> locationList = locationService.readAllLocations();
         List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
-
+        
         model.addAttribute("sightingList", sightingList);
         model.addAttribute("locationList", locationList);
         model.addAttribute("superPersonList", superPersonList);
@@ -56,6 +56,7 @@ public class SightingController {
     @PostMapping("addNewSighting")
     @Transactional
     public String addSighting(HttpServletRequest request) {
+        
         String[] superPersonsIds = request.getParameterValues("superPersons");
 
         List<SuperPerson> superPersonsInSightingList = new ArrayList<SuperPerson>();

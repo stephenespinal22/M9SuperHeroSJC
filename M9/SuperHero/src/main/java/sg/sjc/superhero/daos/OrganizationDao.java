@@ -20,6 +20,8 @@ public interface OrganizationDao {
 
     Organization readOrganizationById(int id);
 
+    List<Organization> getOrganizationsBySuperPersonId(int id);
+ 
     void updateOrganization(Organization organization);
 
     void deleteOrganization(int id);
