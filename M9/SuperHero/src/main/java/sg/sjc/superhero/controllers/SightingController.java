@@ -56,6 +56,7 @@ public class SightingController {
     @PostMapping("addNewSighting")
     @Transactional
     public String addSighting(HttpServletRequest request) {
+        
         String[] superPersonsIds = request.getParameterValues("superPersons");
 
         List<SuperPerson> superPersonsInSightingList = new ArrayList<SuperPerson>();

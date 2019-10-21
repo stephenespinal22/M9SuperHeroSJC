@@ -6,6 +6,7 @@
 package sg.sjc.superhero.daos;
 
 import java.util.List;
+import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
 
 /**
