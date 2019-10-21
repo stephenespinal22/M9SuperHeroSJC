@@ -45,7 +45,7 @@ public class SightingController {
         List<Sighting> sightingList = sightingService.readAllSightings();
         List<Location> locationList = locationService.readAllLocations();
         List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
-
+        
         model.addAttribute("sightingList", sightingList);
         model.addAttribute("locationList", locationList);
         model.addAttribute("superPersonList", superPersonList);
