@@ -100,9 +100,10 @@
                                             </label>
                                         </div>
                                         <br>
-                                        <label>Organizations</label>
+                                        <label>Organizations (To Edit: Please Re-Select Organizations)</label>
                                         <select name='organizations'class="form-control" multiple>
-                                            <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}" th:selected="${superPerson.superId} == ${organization.orgId}"> </option>
+                                            <!--                                            th:selected="${superPerson.organizations[iter.index].orgId} == ${organization.orgId}"-->
+                                            <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}" > </option>
                                         </select>
                                         <div class="modal-footer">
                                             <input type="submit" value="Edit Person" class="btn btn-success pull-right">
