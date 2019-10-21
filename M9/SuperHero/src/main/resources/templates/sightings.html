@@ -211,10 +211,9 @@
                 marker.desc = "Description: " + description
                         + "<br>Address: " + address
                         + "<br>SightingDate: " + date;
+                //marker.bindPopup(address).openPopup();
                 map.addLayer(marker); //must add layer to map with marker
                 oms.addMarker(marker);  // <-- here
-
-
             }
         </script>
         <!-- link cdn to bootstrap, jquery, popper -->
