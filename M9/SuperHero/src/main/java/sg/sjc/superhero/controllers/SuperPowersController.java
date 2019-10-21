@@ -31,12 +31,14 @@ public class SuperPowersController {
     }
 
     @GetMapping("powers")
+
     public String loadPage(Model model) {
         List<SuperPowers> superPowersList = service.readAllSuperPowers();
 
         model.addAttribute("superPowersList", superPowersList);
 
         return "powers";
+
     }
 
     @PostMapping("addNewSuperPower")
@@ -50,6 +52,7 @@ public class SuperPowersController {
 
         //tell spring to redirect user to mapping locations
         return "redirect:/powers";
+
     }
 
     @GetMapping("deleteSuperPowers")
@@ -58,6 +61,7 @@ public class SuperPowersController {
         service.deleteSuperPowers(id);
 
         return "redirect:/powers";
+
     }
 
     @PostMapping("editSuperPower")
@@ -71,6 +75,7 @@ public class SuperPowersController {
         service.updateSuperPowers(superPowersToEdit);
 
         return "redirect:/powers";
+
     }
     
 }
