@@ -7,7 +7,6 @@ package sg.sjc.superhero.dtos;
 
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 
@@ -26,7 +25,6 @@ public class SuperPerson {
     private String description;
     private String powers;
     
-    @ManyToMany(mappedBy = "supers")
     private List<Organization> organizations;
 
     public int getSuperId() {

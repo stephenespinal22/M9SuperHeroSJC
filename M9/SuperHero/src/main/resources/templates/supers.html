@@ -65,7 +65,9 @@
                             <span th:if="${superPerson.isVillain}"><i class="fas fa-skull-crossbones fa-2x" aria-hidden="true"></i></span>
                             <span th:unless="${superPerson.isVillain}"><i class="fas fa-mask fa-2x" aria-hidden="true"></i></span>
                         </td>
-                        <td><span></span></td>
+                        <td> 
+                            <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p> 
+                        </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                 <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
                     <div class="modal-dialog">

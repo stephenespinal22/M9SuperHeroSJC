@@ -42,6 +42,7 @@ public class SuperPersonsController {
         List<Organization> organizations = orgService.readAllOrganizations();
         model.addAttribute("SuperPersons", superPersons);
         model.addAttribute("Organizations", organizations);
+        
         return "supers";
     }
     

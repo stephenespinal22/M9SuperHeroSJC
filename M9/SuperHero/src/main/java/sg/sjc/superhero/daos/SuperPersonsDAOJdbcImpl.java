@@ -31,7 +31,6 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
         this.jdbc = jdbcTemplate;
     }
     
-    
     @Override
     public SuperPerson getSuperPersonById(int id) {
         return this.jdbc.queryForObject(getSuperPerson, new SuperPersonsJDBCMapper(), id);
