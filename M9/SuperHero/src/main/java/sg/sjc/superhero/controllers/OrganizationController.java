@@ -57,6 +57,7 @@ public class OrganizationController {
     @GetMapping("deleteOrganization")
     public String deleteOrganization(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteOrgById(id);
         service.deleteOrganization(id);
 
         return "redirect:/organizations";

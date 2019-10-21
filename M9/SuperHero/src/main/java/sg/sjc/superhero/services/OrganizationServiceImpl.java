@@ -9,16 +9,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sg.sjc.superhero.daos.OrganizationDao;
+import sg.sjc.superhero.daos.SPOrgDAO;
 import sg.sjc.superhero.dtos.Organization;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 
     OrganizationDao organizationDao;
+    SPOrgDAO spoDAO;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationDao organizationDao) {
+    public OrganizationServiceImpl(OrganizationDao organizationDao, SPOrgDAO spoDAO) {
         this.organizationDao = organizationDao;
+        this.spoDAO = spoDAO;
     }
     
     @Override
@@ -44,6 +47,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public void deleteOrganization(int id) {
         organizationDao.deleteOrganization(id);
+    }
+
+    @Override
+    public void deleteOrgById(int orgId) {
+        spoDAO.deleteOrgById(orgId);
     }
     
 }

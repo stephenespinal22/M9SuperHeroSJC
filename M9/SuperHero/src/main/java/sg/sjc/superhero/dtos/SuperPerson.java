@@ -22,6 +22,8 @@ public class SuperPerson {
     @NotEmpty(message = "Please enter a name.")
     private String name;
     private boolean isVillain;
+    
+    @NotEmpty(message = "Please enter a description.")
     private String description;
     private String powers;
     
