@@ -35,13 +35,10 @@ public class SuperPersonsController {
     OrganizationService orgService;
 
     @GetMapping("supers")
-    public String displayHeroesVillains(Integer id, Model model) {
+    public String displayHeroesVillains(Model model) {
         List<SuperPerson> superPersons = service.getAllSuperPersons();
         List<Organization> organizations = orgService.readAllOrganizations();
 
-        if (superPersons.get(3).getOrganizations() == null) {
-            System.out.println("its null");
-        }
 
         model.addAttribute("SuperPersons", superPersons);
         model.addAttribute("Organizations", organizations);
