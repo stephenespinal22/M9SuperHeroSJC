@@ -1,0 +1,57 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 10, 2019, 3:08:22 PM
+    Author     : stephenespinal
+*/
+
+body {
+    background-color: #fef9ff;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #0d1f2d;
+}
+#header {
+    padding-top: 100px;
+    text-align: center;
+    font-size: 350%;
+    font-style: italic;
+}
+.verticalLineBreak {
+    float: left;
+    border-left: 1px solid black;
+    height: 100%;
+    padding-right: 15px;
+}
+.btn-primary
+{
+    margin-top: 15px;
+}
+.form-control{
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+th
+{
+    text-align: center;
+}
+td{
+    text-align: center;
+    word-wrap:break-word;
+    max-width: 15px;
+}
+#mapid{
+    width: 99%; 
+    height: 400px;
+    margin-bottom: 10px;
+}
+.fa-edit{
+    font-size: 30px;
+    color: cornflowerblue;
+}
+.fa-trash-o{
+    font-size: 30px;
+    color: #cc3300;
+}
