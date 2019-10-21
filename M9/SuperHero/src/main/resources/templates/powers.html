@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Organizations</title>
+        <title>SuperPowers</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/77b2fa8649.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="css/organizationStyle.css">
+        <link rel="stylesheet" href="css/superPowersStyle.css">
     </head>
     <body>
         <header>
@@ -25,19 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{locations}">Locations</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{organizations}">Organizations <span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{organizations}">Organizations</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{supers}">Supers</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{powers}">Super Powers</a>
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{powers}">Super Powers<span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
                 </div>
             </nav>
-            <h1 id="header" class="jumbotron">Organizations</h1>
+            <h1 id="header" class="jumbotron"><i class="fas fa-fist-raised"></i> Super Powers</h1>
         </header>    
         <div class="container-fluid">
             <div class="row">
@@ -45,61 +45,52 @@
                     <table class="table table-bordered table-striped" >
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Contact Info</th>
+                                <th>Power Name</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="organization : ${organizationList}">
-                                <td> <span th:text="${organization.name}" </span> </td>
-                                <td> <span th:text="${organization.description}" </span> </td>
-                                <td> <span th:text="${organization.contactInfo}" </span> </td>
-                                <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${organization.orgId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-                        <div class="modal modal-edit fade" th:id="modal-edit+${organization.orgId}" >
+                            <tr th:each="superPower : ${superPowersList}">
+                                <td> <span th:text="${superPower.name}" </span> </td>
+                                <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPower.spwId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-edit fade" th:id="modal-edit+${superPower.spwId}" >
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5>Edit Organization</h5>
+                                        <h5>Edit Super Power</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body">
                                         <fieldset>
-                                            <form action="editOrganization" method="POST">
-                                                <input type="hidden" name="orgId" th:value="${organization.orgId}">
+                                            <form action="editSuperPower" method="POST">
+                                                <input type="hidden" name="powId" th:value="${superPower.spwId}">
                                                 <label>Name</label>
-                                                <input type="text" name="name" placeholder= "Enter Organization Name" required="" class="form-control input-md" th:value="${organization.name}">
-                                                <label>Description</label>
-                                                <textarea class="form-control" name= "description" rows="2" required th:text="${organization.description}"></textarea>
-                                                <label>Contact Info</label>
-                                                <textarea class="form-control" name= "contactInfo" rows="2" required th:text="${organization.contactInfo}"></textarea>
-                                                <div class="modal-footer">
-                                                    <input type="submit" value="Edit Organization" class="btn btn-success pull-right">
-                                                </div>
+                                                <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" class="form-control input-md" th:value="${superPower.name}">
+
+                                                <input type="submit" value="Edit Super Power" class="btn btn-success pull-right">
                                             </form>
                                         </fieldset>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${organization.orgId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
-                        <div class="modal modal-warning fade" th:id="modal-warning+${organization.orgId}" >
+                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${superPower.spwId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                        <div class="modal modal-warning fade" th:id="modal-warning+${superPower.spwId}" >
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header alert alert-danger">
-                                        <h5>Delete Organization</h5>
+                                        <h5>Delete Super Power</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h3>Are you sure want to delete this organization?</h3>
+                                        <h3>Are you sure want to delete this Super Power?</h3>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                                        <a th:href="@{/deleteOrganization(id=${organization.orgId})}" ><button class="btn btn-danger">Delete</button></a>
+                                        <a th:href="@{/deleteSuperPowers(id=${superPower.spwId})}" ><button class="btn btn-danger">Delete</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -112,16 +103,13 @@
                 <div class="col-lg-4">
                     ​
                     <div class="verticalLineBreak"></div>
-                    <h2>Add Organization</h2>
+                    <h2><i class="fas fa-fist-raised"></i> Add Super Powers</h2>
                     <fieldset>
-                        <form action="addNewOrganization" method="POST">
-                            <label>Name</label>
-                            <input type="text" name="name" placeholder= "Enter Organization Name" required="" class="form-control input-md">
-                            <label>Description</label>
-                            <textarea class="form-control" name= "description" rows="2" required></textarea>
-                            <label>Contact Info</label>
-                            <textarea class="form-control" name= "contactInfo" rows="2" required></textarea>
-                            <input type="submit" value="Add Organization" class="btn btn-primary pull-right">
+                        <form action="addNewSuperPower" method="POST">
+                            <label>Super Power Name</label>
+                            <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" class="form-control input-md">
+                            <hr/>
+                            <input type="submit" value="Submit!" class="btn btn-primary pull-right">
                         </form>
                     </fieldset>
                 </div>
