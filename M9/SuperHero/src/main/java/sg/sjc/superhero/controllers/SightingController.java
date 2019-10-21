@@ -56,6 +56,8 @@ public class SightingController {
         newSighting.setSightingDate(request.getParameter("dateTime"));
         newSighting.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
+        //System.out.println(request.getParameterValues("superPersons"));
+
         sightingService.createSighting(newSighting);
 
         //tell spring to redirect user to mapping locations

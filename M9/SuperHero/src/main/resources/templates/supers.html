@@ -189,6 +189,9 @@
                             Villain
                         </label>
                     </div>
+                    <select name='organizations'class="form-control" required multiple>
+                        <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"> </option>
+                    </select>
                     <input type="submit" value="Add Person" class="btn btn-primary pull-right">
                 </form>
             </fieldset>    
