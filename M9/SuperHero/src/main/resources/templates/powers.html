@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
@@ -25,19 +27,19 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{locations}">Locations</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{organizations}">Organizations</a>
+                         <li class="nav-item">
+                            <a class="nav-link" th:href="@{locations}">Organizations</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{organizations}">SuperPowers <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{supers}">Supers</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{powers}">Super Powers<span class="sr-only">(current)</span></a>
-                        </li>
                     </ul>
                 </div>
             </nav>
-            <h1 id="header" class="jumbotron"><i class="fas fa-fist-raised"></i> Super Powers</h1>
+            <h1 id="header" class="jumbotron"><i class="fas fa-fist-raised"></i>Super Powers</h1>
         </header>    
         <div class="container-fluid">
             <div class="row">
@@ -68,7 +70,7 @@
                                                 <input type="hidden" name="powId" th:value="${superPower.spwId}">
                                                 <label>Name</label>
                                                 <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" class="form-control input-md" th:value="${superPower.name}">
-
+                                               
                                                 <input type="submit" value="Edit Super Power" class="btn btn-success pull-right">
                                             </form>
                                         </fieldset>
@@ -103,7 +105,7 @@
                 <div class="col-lg-4">
                     ​
                     <div class="verticalLineBreak"></div>
-                    <h2><i class="fas fa-fist-raised"></i> Add Super Powers</h2>
+                    <h2><i class="fas fa-fist-raised"></i>Add Super Powers</h2>
                     <fieldset>
                         <form action="addNewSuperPower" method="POST">
                             <label>Super Power Name</label>
