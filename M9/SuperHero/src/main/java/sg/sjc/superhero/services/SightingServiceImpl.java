@@ -24,7 +24,7 @@ public class SightingServiceImpl implements SightingService {
     public SightingServiceImpl(SightingDao sightingDao) {
         this.sightingDao = sightingDao;
     }
-    
+
     @Override
     public Sighting createSighting(Sighting sighting) {
         return sightingDao.createSighting(sighting);
@@ -32,7 +32,6 @@ public class SightingServiceImpl implements SightingService {
 
     @Override
     public List<Sighting> readAllSightings() {
-        
         return sightingDao.readAllSightings();
     }
 
@@ -50,6 +49,5 @@ public class SightingServiceImpl implements SightingService {
     public void deleteSighting(int id) {
         sightingDao.deleteSighting(id);
     }
-
 
 }

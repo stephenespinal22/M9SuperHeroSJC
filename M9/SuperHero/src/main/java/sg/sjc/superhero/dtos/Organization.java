@@ -51,6 +51,11 @@ public class Organization {
     }
 
     @Override
+    public String toString() {
+        return "Organization{" + "orgId=" + orgId + ", name=" + name + ", description=" + description + ", contactInfo=" + contactInfo + '}';
+    }
+
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 71 * hash + this.orgId;

@@ -5,6 +5,7 @@
  */
 package sg.sjc.superhero.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sg.sjc.superhero.dtos.Location;
 import sg.sjc.superhero.dtos.Sighting;
+import sg.sjc.superhero.dtos.SuperPerson;
 import sg.sjc.superhero.services.LocationService;
 import sg.sjc.superhero.services.SightingService;
+import sg.sjc.superhero.services.SuperPersonsService;
 
 /**
  *
@@ -28,20 +31,24 @@ public class SightingController {
 
     private SightingService sightingService;
     private LocationService locationService;
+    private SuperPersonsService superPersonService;
 
     @Autowired
-    public SightingController(SightingService sightingService, LocationService locationService) {
+    public SightingController(SightingService sightingService, LocationService locationService, SuperPersonsService superPersonService) {
         this.sightingService = sightingService;
         this.locationService = locationService;
+        this.superPersonService = superPersonService;
     }
 
     @GetMapping("sightings")
     public String loadPage(Model model) {
         List<Sighting> sightingList = sightingService.readAllSightings();
         List<Location> locationList = locationService.readAllLocations();
-
+        List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
+        
         model.addAttribute("sightingList", sightingList);
         model.addAttribute("locationList", locationList);
+        model.addAttribute("superPersonList", superPersonList);
 
         return "sightings";
     }
@@ -49,13 +56,22 @@ public class SightingController {
     @PostMapping("addNewSighting")
     @Transactional
     public String addSighting(HttpServletRequest request) {
+        
+        String[] superPersonsIds = request.getParameterValues("superPersons");
 
+        List<SuperPerson> superPersonsInSightingList = new ArrayList<SuperPerson>();
+
+        for (String superPersonId : superPersonsIds) {
+            superPersonsInSightingList.add(superPersonService.getSuperPersonById(Integer.parseInt(superPersonId)));
+        }
+        
         Sighting newSighting = new Sighting();
 
         newSighting.setDescription(request.getParameter("description"));
         newSighting.setSightingDate(request.getParameter("dateTime"));
         newSighting.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
-
+        newSighting.setSuperPersons(superPersonsInSightingList);
+        
         sightingService.createSighting(newSighting);
 
         //tell spring to redirect user to mapping locations
@@ -85,24 +101,4 @@ public class SightingController {
         return "redirect:/sightings";
     }
 
-    //NAVIGATION BAR METHODS
-    @RequestMapping("/locations")
-    public String directToLocations() {
-        return "locations";
-    }
-
-    @RequestMapping("/organizations")
-    public String directToOrganizations() {
-        return "organizations";
-    }
-
-    @RequestMapping("/sightings")
-    public String directToSightings() {
-        return "sightings";
-    }
-
-    @RequestMapping("/supers")
-    public String directToSupers() {
-        return "supers";
-    }
 }

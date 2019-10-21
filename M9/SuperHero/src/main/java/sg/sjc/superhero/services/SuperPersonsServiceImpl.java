@@ -5,24 +5,29 @@
  */
 package sg.sjc.superhero.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sg.sjc.superhero.daos.OrganizationDao;
 import sg.sjc.superhero.daos.SPOrgDAO;
 import sg.sjc.superhero.daos.SuperPersonsDAO;
+import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
 
 @Service
 public class SuperPersonsServiceImpl implements SuperPersonsService {
-    
+
     private final SuperPersonsDAO spsDAO;
     private final SPOrgDAO spoDAO;
-    
+    private final OrganizationDao orgDAO;
+
     @Autowired
-    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO){
-       this.spsDAO = spsDAO; 
-       this.spoDAO = spoDAO;
+    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO) {
+        this.spsDAO = spsDAO;
+        this.spoDAO = spoDAO;
+        this.orgDAO = orgDAO;
     }
 
     @Override
@@ -32,7 +37,17 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
 
     @Override
     public List<SuperPerson> getAllSuperPersons() {
-       return spsDAO.getAllSuperPersons();
+
+        List<SuperPerson> superPersonsList = spsDAO.getAllSuperPersons();
+        
+        List<Organization> orgList = new ArrayList<Organization>();
+
+        for (SuperPerson superPerson : superPersonsList) {
+            orgList = orgDAO.getOrganizationsBySuperPersonId(superPerson.getSuperId());
+            superPerson.setOrganizations(orgList);
+        }
+
+        return superPersonsList;
     }
 
     @Override
@@ -62,5 +77,5 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     public void deleteMember(int superId) {
         spoDAO.deleteSuperPersonById(superId);
     }
-    
+
 }

@@ -24,7 +24,7 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top">
                 <a class="navbar-brand" href="#">SuperHeroTracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -58,19 +58,23 @@
                                 <th>Description</th>
                                 <th>Location Address</th>
                                 <th>Sighting Date</th>
+                                <th>Super Persons</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="sighting : ${sightingList}">
+                            <tr th:each="sighting,iter : ${sightingList}">
                                 <!--longitude and latitude for markers-->
-                        <span type="hidden" th:attr="class='latitude'+${sighting.sightingId},data-latitude=''+${sighting.location.latitude}"></span>
-                        <span type="hidden" th:attr="class='longitude'+${sighting.sightingId},data-longitude=''+${sighting.location.longitude}"></span>
+                        <span type="hidden" th:attr="class='latitude'+${iter.index},data-latitude=''+${sighting.location.latitude}"></span>
+                        <span type="hidden" th:attr="class='longitude'+${iter.index},data-longitude=''+${sighting.location.longitude}"></span>
 
-                        <td th:attr="class='description'+${sighting.sightingId},data-description=''+${sighting.description}"> <span th:text="${sighting.description}" </span> </td>
-                        <td th:attr="class='address'+${sighting.sightingId},data-address=''+${sighting.location.address}"> <span th:text="${sighting.location.address}" </span> </td>
-                        <td th:attr="class='date'+${sighting.sightingId},data-date=''+${sighting.sightingDate}"> <span th:text="${sighting.sightingDate}" </span> </td>
+                        <td th:attr="class='description'+${iter.index},data-description=''+${sighting.description}"> <span th:text="${sighting.description}" </span> </td>
+                        <td th:attr="class='address'+${iter.index},data-address=''+${sighting.location.address}"> <span th:text="${sighting.location.address}" </span> </td>
+                        <td th:attr="class='date'+${iter.index},data-date=''+${sighting.sightingDate}"> <span th:text="${sighting.sightingDate}" </span> </td>
+                        <td th:attr="class='superPersons'+${iter.index},data-superPersons=''+${sighting.superPersons}"> 
+                            <p th:each="superPersonDisplay : ${sighting.superPersons}" th:text="${superPersonDisplay.name}" </p> 
+                        </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${sighting.sightingId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${sighting.sightingId}" >
                             <div class="modal-dialog">
@@ -137,6 +141,10 @@
                             <select name="location" class="form-control" required>
                                 <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
+                            <label>Super Persons</label>
+                            <select name='superPersons'class="form-control" required multiple>
+                                <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
+                            </select>
                             <label>Sighting Date</label>
                             <div class='input-group date' id="datetimepicker">
                                 <input type='text' class="form-control" name="dateTime" required/>
@@ -196,20 +204,19 @@
 
             for (i = 0; i < 10; i++)
             {
-                lat = parseFloat($(".latitude" + (i + 1)).data('latitude'));
-                long = parseFloat($(".longitude" + (i + 1)).data('longitude'));
-                description = $(".description" + (i + 1)).data('description');
-                address = $(".address" + (i + 1)).data('address');
-                date = $(".date" + (i + 1)).data('date');
+                lat = parseFloat($(".latitude" + i).data('latitude'));
+                long = parseFloat($(".longitude" + i).data('longitude'));
+                description = $(".description" + i).data('description');
+                address = $(".address" + i).data('address');
+                date = $(".date" + i).data('date');
 
                 var marker = marker = L.marker([lat, long]);
                 marker.desc = "Description: " + description
                         + "<br>Address: " + address
                         + "<br>SightingDate: " + date;
+                //marker.bindPopup(address).openPopup();
                 map.addLayer(marker); //must add layer to map with marker
                 oms.addMarker(marker);  // <-- here
-
-
             }
         </script>
         <!-- link cdn to bootstrap, jquery, popper -->

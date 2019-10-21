@@ -9,11 +9,12 @@ and open the template in the editor.
 */
 
 body {
-  background-color: #fef9ff;
-  font-family: 'Roboto Condensed', sans-serif;
-  color: #0d1f2d;
+    background-color: #fef9ff;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #0d1f2d;
 }
 #header {
+    padding-top: 100px;
     text-align: center;
     font-size: 350%;
     font-style: italic;
