@@ -45,7 +45,6 @@
             <table class="table table-bordered table-striped" >
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i>Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i>Villain</th>
@@ -57,16 +56,15 @@
                 </thead>
                 <tbody>
                     <tr th:each="superPerson : ${SuperPersons}">
-                        <td><span th:text="${superPerson.superId}"></span></td>
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
                         <td>
-
                             <span th:if="${superPerson.isVillain}"><i class="fas fa-skull-crossbones fa-2x" aria-hidden="true"></i></span>
                             <span th:unless="${superPerson.isVillain}"><i class="fas fa-mask fa-2x" aria-hidden="true"></i></span>
                         </td>
                         <td> 
-                            <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p> 
+                            <p th:if="${#lists.isEmpty(superPerson.organizations)}">Free Agent</p>
+                            <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p>
                         </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                 <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
@@ -81,63 +79,30 @@
                                 <fieldset>
                                     <form action="editHeroVillain" method="POST">
                                         <input type="hidden" name="superId" th:value="${superPerson.superId}">
-                                        <!-- Text input-->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="name">Hero/Villain Name:</label>  
-                                            <div class="col-md-4">
-                                                <input id="name" name="name" type="text" placeholder="" class="form-control input-md" th:value="${superPerson.name}">
-                                            </div>
+                                        <label>Name</label>
+                                        <input type="text" name="name" required="" th:value="${superPerson.name}" class="form-control input-md">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name= "description" th:text="${superPerson.description}" rows="2" required></textarea>
+                                        <label>Hero or Villain?</label>
+                                        <div class="radio">
+                                            <label for="isVillain-0">
+                                                <input type="radio" name="isVillain" id="isVillain-0" th:value="${superPerson.isVillain}" th:checked="${!superPerson.isVillain}">
+                                                Hero
+                                            </label>
                                         </div>
-                                        <!--
-                                         Textarea -->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="description">Description:</label>
-                                            <div class="col-md-6">                     
-                                                <textarea class="form-control" id="description" name="description" th:text="${superPerson.description}"></textarea>
-                                            </div>
+                                        <div class="radio">
+                                            <label for="isVillain-1">
+                                                <input type="radio" name="isVillain" id="isVillain-1" th:value="${superPerson.isVillain}" th:checked="${superPerson.isVillain}">
+                                                Villain
+                                            </label>
                                         </div>
-                                        <!-- Multiple Radios -->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="isVillain">Hero or Villain?</label>
-                                            <div class="col-md-4">
-                                                <div class="radio">
-                                                    <label for="isVillain-0">
-                                                        <input type="radio" name="isVillain" id="isVillain-0" value="false" checked="checked">
-                                                        Hero
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label for="isVillain-1">
-                                                        <input type="radio" name="isVillain" id="isVillain-1" value="true">
-                                                        Villain
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Select Multiple -->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="organizations">Affiliations</label>
-                                            <div class="col-md-4">
-                                                <select id="organizations" name="organizations" class="form-control" multiple="multiple">
-                                                    <option >Option one</option>
-                                                    <option value="2">Option two</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!-- Select Multiple -->
-                                        <!--<div class="form-group">
-                                          <label class="col-md-4 control-label" for="powers">Powers:</label>
-                                          <div class="col-md-4">
-                                            <select id="powers" name="powers" class="form-control" multiple="multiple">
-                                              <option value="1">Option one</option>
-                                              <option value="2">Option two</option>
-                                            </select>
-                                          </div>
-                                        </div>-->
+                                        <br>
+                                        <label>Organizations</label>
+                                        <select name='organizations'class="form-control" multiple>
+                                            <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}" th:selected="${superPerson.superId} == ${organization.orgId}"> </option>
+                                        </select>
                                         <div class="modal-footer">
-                                            <a href="#" th:href="@{/editHeroVillain(id=${superPerson.superId})}" >
-                                                <input type="submit" value="Edit Hero/Villain" class="btn btn-success pull-right">
-                                            </a>
+                                            <input type="submit" value="Edit Person" class="btn btn-success pull-right">
                                         </div>
                                     </form>
                                 </fieldset>
@@ -156,7 +121,7 @@
                             </div>
                             <div class="modal-body">
                                 <h3>Are you sure want to delete this Super Person?</h3>
-                                <h2><span th:text="${superPerson.name}"></span></h2>
+                                <h4><span th:text="${superPerson.name}"></span></h4>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
@@ -193,7 +158,7 @@
                     </div>
                     <br>
                     <label>Organizations</label>
-                    <select name='organizations'class="form-control" required multiple>
+                    <select name='organizations'class="form-control" multiple>
                         <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}"> </option>
                     </select>
                     <input type="submit" value="Add Person" class="btn btn-primary pull-right">

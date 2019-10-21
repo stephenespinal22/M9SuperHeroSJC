@@ -39,10 +39,6 @@ public class SuperPersonsController {
         List<SuperPerson> superPersons = service.getAllSuperPersons();
         List<Organization> organizations = orgService.readAllOrganizations();
 
-        if (superPersons.get(3).getOrganizations() == null) {
-            System.out.println("its null");
-        }
-
         model.addAttribute("SuperPersons", superPersons);
         model.addAttribute("Organizations", organizations);
 
@@ -55,8 +51,10 @@ public class SuperPersonsController {
         String[] orgIds = request.getParameterValues("organizations");
         List<Organization> organizations = new ArrayList<>();
 
-        for (String orgId : orgIds) {
-            organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
+        if (orgIds != null) {
+            for (String orgId : orgIds) {
+                organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
+            }
         }
 
         superPerson.setName(request.getParameter("name"));
@@ -66,10 +64,12 @@ public class SuperPersonsController {
 
         service.addSuperPerson(superPerson);
 
-        for (String orgId : orgIds) {
-            service.createNewMember(superPerson.getSuperId(), Integer.parseInt(orgId));
-        }
+        if (orgIds != null) {
 
+            for (String orgId : orgIds) {
+                service.createNewMember(superPerson.getSuperId(), Integer.parseInt(orgId));
+            }
+        }
         return "redirect:/supers";
     }
 
