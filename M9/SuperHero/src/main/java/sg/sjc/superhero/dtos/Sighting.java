@@ -22,6 +22,15 @@ public class Sighting {
     
     private List<SuperPerson> superPersons;
 
+    public List<SuperPerson> getSuperPersons() {
+        return superPersons;
+    }
+
+    public void setSuperPersons(List<SuperPerson> superPersons) {
+        this.superPersons = superPersons;
+    }
+
+    
     public int getSightingId() {
         return sightingId;
     }
@@ -55,17 +64,13 @@ public class Sighting {
     }
 
     @Override
-    public String toString() {
-        return "Sighting{" + "sightingId=" + sightingId + ", description=" + description + ", location=" + location + ", sightingDate=" + sightingDate + ", superPersons=" + superPersons + '}';
-    }
-
-    @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + this.sightingId;
-        hash = 29 * hash + Objects.hashCode(this.description);
-        hash = 29 * hash + Objects.hashCode(this.location);
-        hash = 29 * hash + Objects.hashCode(this.sightingDate);
+        int hash = 5;
+        hash = 13 * hash + this.sightingId;
+        hash = 13 * hash + Objects.hashCode(this.description);
+        hash = 13 * hash + Objects.hashCode(this.location);
+        hash = 13 * hash + Objects.hashCode(this.sightingDate);
+        hash = 13 * hash + Objects.hashCode(this.superPersons);
         return hash;
     }
 
@@ -93,8 +98,12 @@ public class Sighting {
         if (!Objects.equals(this.location, other.location)) {
             return false;
         }
+        if (!Objects.equals(this.superPersons, other.superPersons)) {
+            return false;
+        }
         return true;
     }
+
     
     
 }
