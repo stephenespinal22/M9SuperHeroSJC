@@ -5,6 +5,7 @@
  */
 package sg.sjc.superhero.dtos;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,6 +18,8 @@ public class Organization {
     private String name;
     private String description;
     private String contactInfo;
+    
+    private List<SuperPerson> superPersons;
 
     public int getOrgId() {
         return orgId;
@@ -50,18 +53,22 @@ public class Organization {
         this.contactInfo = contactInfo;
     }
 
-    @Override
-    public String toString() {
-        return "Organization{" + "orgId=" + orgId + ", name=" + name + ", description=" + description + ", contactInfo=" + contactInfo + '}';
+    public List<SuperPerson> getSuperPersons() {
+        return superPersons;
+    }
+
+    public void setSuperPersons(List<SuperPerson> superPersons) {
+        this.superPersons = superPersons;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + this.orgId;
-        hash = 71 * hash + Objects.hashCode(this.name);
-        hash = 71 * hash + Objects.hashCode(this.description);
-        hash = 71 * hash + Objects.hashCode(this.contactInfo);
+        int hash = 5;
+        hash = 31 * hash + this.orgId;
+        hash = 31 * hash + Objects.hashCode(this.name);
+        hash = 31 * hash + Objects.hashCode(this.description);
+        hash = 31 * hash + Objects.hashCode(this.contactInfo);
+        hash = 31 * hash + Objects.hashCode(this.superPersons);
         return hash;
     }
 
@@ -89,8 +96,12 @@ public class Organization {
         if (!Objects.equals(this.contactInfo, other.contactInfo)) {
             return false;
         }
+        if (!Objects.equals(this.superPersons, other.superPersons)) {
+            return false;
+        }
         return true;
     }
+
 
 
     

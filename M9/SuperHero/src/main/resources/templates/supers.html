@@ -70,7 +70,7 @@
                             <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p>
                         </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-                <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
+                <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
