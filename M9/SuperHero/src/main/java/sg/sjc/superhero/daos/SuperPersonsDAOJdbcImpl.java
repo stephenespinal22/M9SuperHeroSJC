@@ -26,6 +26,8 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
     private final String getAllSuperPersonsByOrganizationId = "Select sp.superId, `name`, `description`, isVillain FROM SuperPersons as sp JOIN SuperPersonOrganization as spo ON sp.superId = spo.superId Where spo.orgId = ?";
 
     private final String getSuperPersonsBySightingId = "Select sp.superId, `name`, `description`, isVillain FROM SuperPersons as sp JOIN SuperPersonSighting as sps ON sp.superId = sps.superId Where sps.sightingId = ?";
+            
+    private final String getAllSuperPersonsByPowerId = "Select sp.superId, `name`, `description`, isVillain FROM SuperPersons as sp JOIN SuperPersonPower as spp ON sp.superId = spp.superId Where spp.powId = ?";
 
     private final String addHeroVillain = "Insert Into SuperPersons(`name`, `description`, isVillain) values (?,?,?)";
     private final String updateHeroVillain = "Update SuperPersons Set `name` = ?, `description` = ?, isVillain = ? Where superId = ?";
@@ -74,6 +76,11 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
     @Override
     public List<SuperPerson> getSuperPersonsBySightingId(int sightingId) {
         return this.jdbc.query(getSuperPersonsBySightingId, new SuperPersonsJDBCMapper(), sightingId);
+    }
+
+    @Override
+    public List<SuperPerson> getAllSuperPersonsByPowerId(int spwId) {
+        return this.jdbc.query(getAllSuperPersonsByPowerId, new SuperPersonsJDBCMapper(), spwId);
     }
 
     public static final class SuperPersonsJDBCMapper implements RowMapper<SuperPerson> {

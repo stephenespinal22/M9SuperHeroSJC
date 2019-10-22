@@ -5,6 +5,10 @@
  */
 package sg.sjc.superhero.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +20,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
 import sg.sjc.superhero.dtos.SuperPowers;
@@ -30,12 +38,14 @@ import sg.sjc.superhero.services.SuperPowersService;
 @Controller
 public class SuperPersonsController {
 
+    private static String UPLOADED_FOLDER = "src/main/resources/static/images/";
+
     @Autowired
     SuperPersonsService service;
 
     @Autowired
     OrganizationService orgService;
-    
+
     @Autowired
     SuperPowersService spService;
 
@@ -45,9 +55,16 @@ public class SuperPersonsController {
         List<Organization> organizations = orgService.readAllOrganizations();
         List<SuperPowers> powers = spService.readAllSuperPowers();
 
+        Boolean displayUpload = false;
+
+        String file = "images/background.jpg";
+
         model.addAttribute("SuperPersons", superPersons);
         model.addAttribute("Powers", powers);
         model.addAttribute("Organizations", organizations);
+
+        model.addAttribute("displayUpload", displayUpload);
+        model.addAttribute("img", file);
 
         return "supers";
     }
@@ -59,7 +76,7 @@ public class SuperPersonsController {
         String[] orgIds = request.getParameterValues("organizations");
         List<SuperPowers> powers = new ArrayList<>();
         List<Organization> organizations = new ArrayList<>();
-        
+
         if (powIds != null) {
             for (String powId : powIds) {
                 powers.add(spService.readSuperPowersById(Integer.parseInt(powId)));
@@ -79,7 +96,7 @@ public class SuperPersonsController {
         superPerson.setOrganizations(organizations);
 
         service.addSuperPerson(superPerson);
-        
+
         if (powIds != null) {
 
             for (String powId : powIds) {
@@ -103,19 +120,19 @@ public class SuperPersonsController {
         String[] powIds = request.getParameterValues("powers");
         List<SuperPowers> powers = new ArrayList<>();
         List<Organization> organizations = new ArrayList<>();
-        
-        if (powIds != null){
-        for (String powId : powIds) {
+
+        if (powIds != null) {
+            for (String powId : powIds) {
                 powers.add(spService.readSuperPowersById(Integer.parseInt(powId)));
             }
         }
-        
-        if(orgIds != null){
-        for (String orgId : orgIds) {
-            organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
+
+        if (orgIds != null) {
+            for (String orgId : orgIds) {
+                organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
             }
         }
-        
+
         SuperPerson editSuper = new SuperPerson();
         editSuper.setSuperId(Integer.parseInt(request.getParameter("superId")));
         editSuper.setName(request.getParameter("name"));
@@ -123,17 +140,17 @@ public class SuperPersonsController {
         editSuper.setIsVillain(Boolean.parseBoolean(request.getParameter("isVillain")));
         editSuper.setOrganizations(organizations);
         editSuper.setPowers(powers);
-        
+
         service.deleteSuper(editSuper.getSuperId());
         service.deleteMember(editSuper.getSuperId());
         service.updateSuperPerson(editSuper);
-        
-        if(powIds != null){
-        for (String powId : powIds) {
-            service.createSuperPower(editSuper.getSuperId(), Integer.parseInt(powId));
+
+        if (powIds != null) {
+            for (String powId : powIds) {
+                service.createSuperPower(editSuper.getSuperId(), Integer.parseInt(powId));
             }
-        } 
-           
+        }
+
         if (orgIds != null) {
 
             for (String orgId : orgIds) {
@@ -156,4 +173,30 @@ public class SuperPersonsController {
         return "redirect:/supers";
     }
 
+    @PostMapping("upload") // //new annotation since 4.3
+    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:supers";
+        }
+
+        try {
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/supers";
+    }
+    
 }
