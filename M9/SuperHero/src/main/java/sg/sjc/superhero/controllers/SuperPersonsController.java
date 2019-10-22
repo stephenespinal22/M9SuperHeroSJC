@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
+import sg.sjc.superhero.dtos.SuperPowers;
 import sg.sjc.superhero.services.OrganizationService;
 import sg.sjc.superhero.services.SuperPersonsService;
+import sg.sjc.superhero.services.SuperPowersService;
 
 /**
  *
@@ -33,13 +35,18 @@ public class SuperPersonsController {
 
     @Autowired
     OrganizationService orgService;
+    
+    @Autowired
+    SuperPowersService spService;
 
     @GetMapping("supers")
-    public String displayHeroesVillains(Integer id, Model model) {
+    public String displayHeroesVillains(Model model) {
         List<SuperPerson> superPersons = service.getAllSuperPersons();
         List<Organization> organizations = orgService.readAllOrganizations();
+        List<SuperPowers> powers = spService.readAllSuperPowers();
 
         model.addAttribute("SuperPersons", superPersons);
+        model.addAttribute("Powers", powers);
         model.addAttribute("Organizations", organizations);
 
         return "supers";
@@ -48,8 +55,16 @@ public class SuperPersonsController {
     @PostMapping("addHeroVillain")
     public String addHeroVillain(HttpServletRequest request, @Valid SuperPerson superPerson, BindingResult result) {
 
+        String[] powIds = request.getParameterValues("powers");
         String[] orgIds = request.getParameterValues("organizations");
+        List<SuperPowers> powers = new ArrayList<>();
         List<Organization> organizations = new ArrayList<>();
+        
+        if (powIds != null) {
+            for (String powId : powIds) {
+                powers.add(spService.readSuperPowersById(Integer.parseInt(powId)));
+            }
+        }
 
         if (orgIds != null) {
             for (String orgId : orgIds) {
@@ -60,9 +75,17 @@ public class SuperPersonsController {
         superPerson.setName(request.getParameter("name"));
         superPerson.setDescription(request.getParameter("description"));
         superPerson.setIsVillain(Boolean.parseBoolean(request.getParameter("isVillain")));
+        superPerson.setPowers(powers);
         superPerson.setOrganizations(organizations);
 
         service.addSuperPerson(superPerson);
+        
+        if (powIds != null) {
+
+            for (String powId : powIds) {
+                service.createSuperPower(superPerson.getSuperId(), Integer.parseInt(powId));
+            }
+        }
 
         if (orgIds != null) {
 
@@ -77,30 +100,47 @@ public class SuperPersonsController {
     public String editHeroVillain(HttpServletRequest request) {
 
         String[] orgIds = request.getParameterValues("organizations");
+        String[] powIds = request.getParameterValues("powers");
+        List<SuperPowers> powers = new ArrayList<>();
         List<Organization> organizations = new ArrayList<>();
-
-        if (orgIds != null) {
-
-            for (String orgId : orgIds) {
-                organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
+        
+        if (powIds != null){
+        for (String powId : powIds) {
+                powers.add(spService.readSuperPowersById(Integer.parseInt(powId)));
             }
         }
+        
+        if(orgIds != null){
+        for (String orgId : orgIds) {
+            organizations.add(orgService.readOrganizationById(Integer.parseInt(orgId)));
+            }
+        }
+        
         SuperPerson editSuper = new SuperPerson();
         editSuper.setSuperId(Integer.parseInt(request.getParameter("superId")));
         editSuper.setName(request.getParameter("name"));
         editSuper.setDescription(request.getParameter("description"));
         editSuper.setIsVillain(Boolean.parseBoolean(request.getParameter("isVillain")));
         editSuper.setOrganizations(organizations);
-
+        editSuper.setPowers(powers);
+        
+        service.deleteSuper(editSuper.getSuperId());
         service.deleteMember(editSuper.getSuperId());
         service.updateSuperPerson(editSuper);
-
+        
+        if(powIds != null){
+        for (String powId : powIds) {
+            service.createSuperPower(editSuper.getSuperId(), Integer.parseInt(powId));
+            }
+        } 
+           
         if (orgIds != null) {
 
             for (String orgId : orgIds) {
                 service.createNewMember(editSuper.getSuperId(), Integer.parseInt(orgId));
             }
         }
+
         return "redirect:/supers";
     }
 
@@ -108,6 +148,7 @@ public class SuperPersonsController {
     public String deleteHeroVillain(HttpServletRequest request) {
         System.out.println(request.getParameter("id"));
         int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteSuper(id);
         service.deleteSuperPersonRelationshipSighting(id);
         service.deleteMember(id);
         service.deleteSuperPersonById(id);

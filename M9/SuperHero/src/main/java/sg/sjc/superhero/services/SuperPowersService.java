@@ -23,5 +23,7 @@ public interface SuperPowersService {
     void updateSuperPowers(SuperPowers superPowers);
 
     void deleteSuperPowers(int id);
+    
+    void deletePowerById(int id);
 
 }

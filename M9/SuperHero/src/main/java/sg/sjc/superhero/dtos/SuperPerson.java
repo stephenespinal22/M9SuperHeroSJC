@@ -24,8 +24,8 @@ public class SuperPerson {
     
     @NotEmpty(message = "Please enter a description.")
     private String description;
-    private String powers;
     
+    private List<SuperPowers> powers;
     private List<Organization> organizations;
     
     private List<Sighting> sightings;
@@ -62,11 +62,11 @@ public class SuperPerson {
         this.description = description;
     }
 
-    public String getPowers() {
+    public List<SuperPowers> getPowers() {
         return powers;
     }
 
-    public void setPowers(String powers) {
+    public void setPowers(List<SuperPowers> powers) {
         this.powers = powers;
     }
 
@@ -134,5 +134,4 @@ public class SuperPerson {
         }
         return true;
     }
-
 }

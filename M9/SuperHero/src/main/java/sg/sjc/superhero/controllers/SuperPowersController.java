@@ -58,6 +58,7 @@ public class SuperPowersController {
     @GetMapping("deleteSuperPowers")
     public String deleteSuperPowers(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
+        service.deletePowerById(id);
         service.deleteSuperPowers(id);
 
         return "redirect:/powers";

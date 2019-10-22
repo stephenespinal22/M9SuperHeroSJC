@@ -12,12 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.sjc.superhero.daos.OrganizationDao;
 import sg.sjc.superhero.daos.SPOrgDAO;
+import sg.sjc.superhero.daos.SpPowersDAO;
 import sg.sjc.superhero.daos.SightingDao;
 import sg.sjc.superhero.daos.SightingsSuperPersonsBridgeDao;
 import sg.sjc.superhero.daos.SuperPersonsDAO;
+import sg.sjc.superhero.daos.SuperPowersDao;
 import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.Sighting;
 import sg.sjc.superhero.dtos.SuperPerson;
+import sg.sjc.superhero.dtos.SuperPowers;
 
 @Service
 public class SuperPersonsServiceImpl implements SuperPersonsService {
@@ -27,6 +30,8 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     private final OrganizationDao orgDAO;
     private SightingsSuperPersonsBridgeDao sightingSuperDao;
     private SightingDao sightingDao;
+    private final SuperPowersDao spDAO;
+    private final SpPowersDAO sppDAO;
 
     @Autowired
     public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO, SightingsSuperPersonsBridgeDao sightingSuperDao,
@@ -36,6 +41,8 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
         this.orgDAO = orgDAO;
         this.sightingSuperDao = sightingSuperDao;
         this.sightingDao = sightingDao;
+        this.spDAO = spDAO;
+        this.sppDAO = sppDAO;
     }
 
     @Override
@@ -47,11 +54,15 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     public List<SuperPerson> getAllSuperPersons() {
 
         List<SuperPerson> superPersonsList = spsDAO.getAllSuperPersons();
-
+        
+        List<SuperPowers> superPowersList = new ArrayList<SuperPowers>();
+        
         List<Organization> orgList = new ArrayList<Organization>();
 
         for (SuperPerson superPerson : superPersonsList) {
             orgList = orgDAO.getOrganizationsBySuperPersonId(superPerson.getSuperId());
+            superPowersList = spDAO.getAllPowersBySuperId(superPerson.getSuperId());
+            superPerson.setPowers(superPowersList);
             superPerson.setOrganizations(orgList);
         }
         
@@ -97,6 +108,16 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     @Transactional
     public void deleteSuperPersonRelationshipSighting(int superId) {
         sightingSuperDao.deleteSuperPersonById(superId);
+    }
+
+    @Override
+    public void createSuperPower(int superId, int powId) {
+       sppDAO.Create(superId, powId);
+    }
+
+    @Override
+    public void deleteSuper(int superId) {
+        sppDAO.deleteSuperPersonById(superId);
     }
 
 }

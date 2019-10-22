@@ -8,6 +8,7 @@ package sg.sjc.superhero.services;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sg.sjc.superhero.daos.SpPowersDAO;
 import sg.sjc.superhero.dtos.SuperPowers;
 import sg.sjc.superhero.daos.SuperPowersDao;
 
@@ -22,10 +23,12 @@ import sg.sjc.superhero.daos.SuperPowersDao;
 public class SuperPowersServiceImpl implements SuperPowersService {
 
     SuperPowersDao superPowersDao;
+    SpPowersDAO sppDAO;
 
     @Autowired
-    public SuperPowersServiceImpl(SuperPowersDao superPowersDao) {
+    public SuperPowersServiceImpl(SuperPowersDao superPowersDao, SpPowersDAO sppDAO) {
         this.superPowersDao = superPowersDao;
+        this.sppDAO = sppDAO;
     }
     
     @Override
@@ -51,6 +54,11 @@ public class SuperPowersServiceImpl implements SuperPowersService {
     @Override
     public void deleteSuperPowers(int id) {
         superPowersDao.deleteSuperPowers(id);
+    }
+
+    @Override
+    public void deletePowerById(int id) {
+        sppDAO.deletePowerById(id);
     }
 
 }

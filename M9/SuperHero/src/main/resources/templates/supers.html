@@ -51,8 +51,8 @@
                         <th>Name</th>
                         <th>Description</th>
                         <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i>Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i>Villain</th>
+                        <th>Powers</th>
                         <th>Organization</th>
-                        <!--<th>Powers</th>-->
                         <th>Sightings</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -65,6 +65,10 @@
                         <td>
                             <span th:if="${superPerson.isVillain}"><i class="fas fa-skull-crossbones fa-2x" aria-hidden="true"></i></span>
                             <span th:unless="${superPerson.isVillain}"><i class="fas fa-mask fa-2x" aria-hidden="true"></i></span>
+                        </td>
+                        <td> 
+                            <p th:if="${#lists.isEmpty(superPerson.powers)}">No Powers</p>
+                            <p th:each="powerDisplay : ${superPerson.powers}" th:text="${powerDisplay.name}" </p>
                         </td>
                         <td> 
                             <p th:if="${#lists.isEmpty(superPerson.organizations)}">Free Agent</p>
@@ -104,6 +108,11 @@
                                                 Villain
                                             </label>
                                         </div>
+                                        <br>
+                                        <label>Powers</label>
+                                        <select name='powers'class="form-control" multiple>
+                                            <option th:each="power : ${Powers}" th:value="${power.spwId}" th:text="${power.name}" th:selected="${superPerson.superId} == ${power.spwId}"></option>
+                                        </select>
                                         <br>
                                         <label>Organizations (To Edit: Please Re-Select Organizations)</label>
                                         <select name='organizations'class="form-control" multiple>
@@ -165,6 +174,10 @@
                             Villain
                         </label>
                     </div>
+                    <label>Powers</label>
+                    <select name='powers'class="form-control" multiple>
+                        <option th:each="power : ${Powers}" th:value="${power.spwId}" th:text="${power.name}"> </option>
+                    </select>
                     <br>
                     <label>Organizations</label>
                     <select name='organizations'class="form-control" multiple>

@@ -13,7 +13,7 @@ import sg.sjc.superhero.dtos.SuperPowers;
  * @author jhoan
  */
 public interface SuperPowersDao {
-        SuperPowers createSuperPowers(SuperPowers superPowers);
+    SuperPowers createSuperPowers(SuperPowers superPowers);
 
     List<SuperPowers> readAllSuperPowers();
 
@@ -22,6 +22,8 @@ public interface SuperPowersDao {
     void updateSuperPowers(SuperPowers superPowers);
 
     void deleteSuperPowers(int id);
+    
+    List<SuperPowers> getAllPowersBySuperId(int id);
 
     
 }

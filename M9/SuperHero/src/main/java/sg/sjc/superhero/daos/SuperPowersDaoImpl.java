@@ -26,6 +26,7 @@ public class SuperPowersDaoImpl implements SuperPowersDao {
     private final String insertSuperPowers = "INSERT INTO Powers (powerName) VALUES (?)"; //create
     private final String selectAllSuperPowers = "SELECT powId, powerName FROM Powers"; //read all
     private final String selectSuperPowersById = selectAllSuperPowers + " WHERE powId = ?"; //readbyId
+    private final String getAllPowersBySuperId = "Select pow.powId, powerName FROM Powers as pow JOIN SuperPersonPower as spp ON pow.powId = spp.powId Where spp.superId = ?";
     private final String updateSuperPowers = "UPDATE Powers SET powerName = ? WHERE powId = ?"; //update
     private final String deleteSuperPowersById = "DELETE FROM Powers WHERE powId = ?"; //delete
 
@@ -58,6 +59,11 @@ public class SuperPowersDaoImpl implements SuperPowersDao {
     @Override
     public void deleteSuperPowers(int id) {
         jdbcTemplate.update(deleteSuperPowersById,id);
+    }
+
+    @Override
+    public List<SuperPowers> getAllPowersBySuperId(int id) {
+        return jdbcTemplate.query(getAllPowersBySuperId, new SuperPowersJDBCMapper(), id);
     }
 
 

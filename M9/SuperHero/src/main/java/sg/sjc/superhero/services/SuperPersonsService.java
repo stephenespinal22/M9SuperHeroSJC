@@ -20,8 +20,7 @@ public interface SuperPersonsService {
     void deleteMember(int superId);
     void updateSuperPerson(SuperPerson superPerson);
     void deleteSuperPersonById(int id);
-    
-    
-    
+    void createSuperPower(int superId, int powId);
+    void deleteSuper(int superId);    
     void deleteSuperPersonRelationshipSighting(int superId);
 }
