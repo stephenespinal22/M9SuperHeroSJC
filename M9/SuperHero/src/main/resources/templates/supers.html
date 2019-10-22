@@ -93,9 +93,9 @@
                                     <form action="editHeroVillain" method="POST">
                                         <input type="hidden" name="superId" th:value="${superPerson.superId}">
                                         <label>Name</label>
-                                        <input type="text" name="name" required="" th:value="${superPerson.name}" class="form-control input-md">
+                                        <input type="text" name="name" required="" th:value="${superPerson.name}" class="form-control input-md" maxlength="50">
                                         <label>Description</label>
-                                        <textarea class="form-control" name= "description" th:text="${superPerson.description}" rows="2" required></textarea>
+                                        <textarea class="form-control" name= "description" th:text="${superPerson.description}" rows="2" required="" maxlength="255"></textarea>
                                         <label>Hero or Villain?</label>
                                         <div class="radio">
                                             <label for="isVillain-0">
@@ -153,15 +153,15 @@
                 </tbody>
             </table>
         </div>
-        <div id="addPerson" class="col-lg-6">
+        <div id="addPerson" class="col-lg-4">
             <div class="verticalLineBreak"></div>
             <h2>Add Hero/Villain</h2>
             <fieldset>
                 <form action="addHeroVillain" method="POST">
                     <label>Name</label>
-                    <input type="text" name="name" placeholder= "Enter Person's Name" required="" class="form-control input-md">
+                    <input type="text" name="name" placeholder= "Enter Person's Name" required="" maxlength="50" class="form-control input-md">
                     <label>Description</label>
-                    <textarea class="form-control" name= "description" rows="2" required></textarea>
+                    <textarea class="form-control" name= "description" rows="2" required="" maxlength="255"></textarea>
                     <label>Hero or Villain?</label>
                     <div class="radio">
                         <label for="isVillain-0">
@@ -190,6 +190,9 @@
         </div>
     </div>
 </div>
+        <footer id="footer">
+            <hr/>
+        </footer>
 <!-- link cdn to bootstrap, jquery, popper -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -200,5 +203,6 @@ crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 crossorigin="anonymous"></script>
+
 </body>
 </html>

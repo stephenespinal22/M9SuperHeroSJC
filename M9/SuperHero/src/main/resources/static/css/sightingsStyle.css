@@ -62,3 +62,12 @@ td{
     font-size: 30px;
     color: #cc3300;
 }
+
+.container-fluid {
+    margin-bottom: 100px;
+}
+
+.footer {
+  position: fixed;
+  margin-bottom: 50px; 
+}

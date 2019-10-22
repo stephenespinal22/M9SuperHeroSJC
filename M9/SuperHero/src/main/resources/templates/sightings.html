@@ -93,7 +93,7 @@
                                             <form action="editSighting" method="POST">
                                                 <input type="hidden" name="sightingId" th:value="${sighting.sightingId}">
                                                 <label>Description</label>
-                                                <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}"></textarea>
+                                                <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}" maxlength="255"></textarea>
                                                 <label>Location</label>
                                                 <select name="location" class="form-control">
                                                     <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}" th:selected="${sighting.location.locationId} == ${location.locationId}"> </option>
@@ -143,7 +143,7 @@
                     <fieldset>
                         <form action="addNewSighting" method="POST">
                             <label>Description</label>
-                            <textarea class="form-control" name= "description" rows="2" required></textarea>
+                            <textarea class="form-control" name= "description" rows="2" required="" maxlength="255"></textarea>
                             <label>Location</label>
                             <p>(If you need to add a new location that isn't shown, click <a th:href="@{locations}">here</a>)</p>
                             <select name="location" class="form-control" required>
@@ -242,4 +242,8 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        <footer>
+            <hr/>
+        </footer>
+    </body>
 </html>

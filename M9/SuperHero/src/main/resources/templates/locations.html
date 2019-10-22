@@ -91,9 +91,9 @@
                                                 <label>Longitude</label>
                                                 <input type="number" step=".000001" name="longitude" required="" class="form-control input-md" th:value="${location.longitude}">
                                                 <label>Name</label>
-                                                <input type="text" name="name" required="" class="form-control input-md" th:value="${location.name}">
+                                                <input type="text" name="name" required="" maxlength="50" class="form-control input-md" th:value="${location.name}">
                                                 <label>Description</label>
-                                                <input type="text" name="description" required="" class="form-control input-md" th:value="${location.description}">
+                                                <input type="text" name="description" required="" maxlength="255" class="form-control input-md" th:value="${location.description}">
                                                 <div class="modal-footer">
                                                     <input type="submit" value="Edit Location" class="btn btn-success pull-right">
                                                 </div>
@@ -144,9 +144,9 @@
                             <label>Longitude</label>
                             <input id="geoLongitude" type="number" step=".000001" name="longitude" placeholder= "Enter Longitude" required="" class="form-control input-md">
                             <label>Name</label>
-                            <input type="text" name="name" placeholder= "Enter Location Name" required="" class="form-control input-md">
+                            <input type="text" name="name" placeholder= "Enter Location Name" required="" maxlength="50" class="form-control input-md">
                             <label>Description</label>
-                            <input type="text" name="description" placeholder= "Enter Location Description" required="" class="form-control input-md">
+                            <input type="text" name="description" placeholder= "Enter Location Description" required="" maxlength="255" class="form-control input-md">
                             <input type="submit" value="Add Location" class="btn btn-primary pull-right">
                         </form>
                     </fieldset>
@@ -254,6 +254,8 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        <footer>
+            <hr/>
+        </footer>
     </body>
-
 </html>

@@ -6,6 +6,8 @@
 package sg.sjc.superhero.dtos;
 
 import java.util.Objects;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,7 +16,13 @@ import java.util.Objects;
 public class Location {
 
     private int locationId;
+    
+    @NotEmpty(message = "Please enter a name.")
+    @Size(max = 50, message = "Name must be less than 50 characters.")
     private String name;
+    
+    @NotEmpty(message = "Please enter a description.")
+    @Size(max = 255, message = "Description must be less than 255 characters.")
     private String description;
     private String address;
     private double longitude;

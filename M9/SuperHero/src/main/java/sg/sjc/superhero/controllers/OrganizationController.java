@@ -6,15 +6,21 @@
 package sg.sjc.superhero.controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
 import sg.sjc.superhero.services.OrganizationService;
@@ -30,6 +36,8 @@ public class OrganizationController {
     private OrganizationService orgService;
 
     private SuperPersonsService superPersonService;
+    
+    Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Autowired
     public OrganizationController(OrganizationService orgService, SuperPersonsService superPersonService) {
@@ -41,16 +49,24 @@ public class OrganizationController {
     public String loadPage(Model model) {
         List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
         List<Organization> organizationList = orgService.readAllOrganizations();
+        Set<ConstraintViolation<Organization>> violations = new HashSet<>();
 
         model.addAttribute("organizationList", organizationList);
         model.addAttribute("superPersonList", superPersonList);
+        model.addAttribute("errors", violations);
 
         return "organizations";
     }
 
     @PostMapping("addNewOrganization")
-    public String addOrganization(HttpServletRequest request) {
+    public String addOrganization(HttpServletRequest request, @Valid Organization org) {
+        
+        Set<ConstraintViolation<Organization>> violations = new HashSet<>();
+        violations = validate.validate(org);
+        
+        
         String[] superPersonIds = request.getParameterValues("members");
+        
 
         List<SuperPerson> superPersons = new ArrayList<SuperPerson>();
 
@@ -91,7 +107,9 @@ public class OrganizationController {
 
     @PostMapping("editOrganization")
     @Transactional
-    public String editOrganization(HttpServletRequest request) {
+    public String editOrganization(HttpServletRequest request, @Valid Organization organizationToEdit, BindingResult result) {
+        
+
         String[] superPersonIds = request.getParameterValues("members");
 
         List<SuperPerson> superPersons = new ArrayList<SuperPerson>();
@@ -102,7 +120,6 @@ public class OrganizationController {
             }
         }
 
-        Organization organizationToEdit = new Organization();
 
         organizationToEdit.setOrgId(Integer.parseInt(request.getParameter("orgId")));
         organizationToEdit.setName(request.getParameter("name"));

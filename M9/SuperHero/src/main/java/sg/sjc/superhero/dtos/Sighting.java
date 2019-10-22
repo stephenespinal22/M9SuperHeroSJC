@@ -8,6 +8,8 @@ package sg.sjc.superhero.dtos;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -16,6 +18,9 @@ import java.util.Objects;
 public class Sighting {
     
     private int sightingId;
+    
+    @NotEmpty(message = "Please enter a description.")
+    @Size(max = 255, message = "Description must be less than 255 characters.")
     private String description;
     private Location location;
     private String sightingDate;

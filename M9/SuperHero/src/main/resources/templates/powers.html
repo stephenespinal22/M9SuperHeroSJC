@@ -72,8 +72,7 @@
                                             <form action="editSuperPower" method="POST">
                                                 <input type="hidden" name="powId" th:value="${superPower.spwId}">
                                                 <label>Name</label>
-                                                <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" class="form-control input-md" th:value="${superPower.name}">
-
+                                                <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" maxlength="50" class="form-control input-md" th:value="${superPower.name}"/>
                                                 <input type="submit" value="Edit Super Power" class="btn btn-success pull-right">
                                             </form>
                                         </fieldset>
@@ -105,14 +104,13 @@
                     </table>
                 </div>
                 ​
-                <div class="col-lg-4">
-                    ​
+                <div class="col-lg-4">                    ​
                     <div class="verticalLineBreak"></div>
                     <h2><i class="fas fa-fist-raised"></i>Add Super Powers</h2>
                     <fieldset>
                         <form action="addNewSuperPower" method="POST">
                             <label>Super Power Name</label>
-                            <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" class="form-control input-md">
+                            <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" maxlength="50" class="form-control input-md">
                             <hr/>
                             <input type="submit" value="Submit!" class="btn btn-primary pull-right">
                         </form>
@@ -130,7 +128,10 @@
         crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" 
         integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        
+        <footer>
+            <hr/>
+        </footer>
 
-    </body>
-    ​
+    </body>    ​
 </html>

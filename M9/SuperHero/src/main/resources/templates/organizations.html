@@ -76,11 +76,11 @@
                                             <form action="editOrganization" method="POST">
                                                 <input type="hidden" name="orgId" th:value="${organization.orgId}">
                                                 <label>Name</label>
-                                                <input type="text" name="name" placeholder= "Enter Organization Name" required="" class="form-control input-md" th:value="${organization.name}">
+                                                <input type="text" name="name" placeholder= "Enter Organization Name" required="" maxlength="50" class="form-control input-md" th:value="${organization.name}">
                                                 <label>Description</label>
-                                                <textarea class="form-control" name= "description" rows="2" required th:text="${organization.description}"></textarea>
+                                                <textarea class="form-control" name= "description" rows="2" required="" maxlength="255" th:text="${organization.description}"></textarea>
                                                 <label>Contact Info</label>
-                                                <textarea class="form-control" name= "contactInfo" rows="2" required th:text="${organization.contactInfo}"></textarea>
+                                                <textarea class="form-control" name= "contactInfo" rows="2" required="" maxlength="150" th:text="${organization.contactInfo}"></textarea>
                                                 <label>Members (To Edit: Please Re-Select Members)</label>
                                                 <select name='members'class="form-control" multiple>
                                                     <!--th:selected="${superPerson.organizations[iter.index].orgId} == ${organization.orgId}"-->
@@ -126,11 +126,11 @@
                     <fieldset>
                         <form action="addNewOrganization" method="POST">
                             <label>Name</label>
-                            <input type="text" name="name" placeholder= "Enter Organization Name" required="" class="form-control input-md">
+                            <input type="text" name="name" placeholder= "Enter Organization Name" required="" maxlength="50" class="form-control input-md">
                             <label>Description</label>
-                            <textarea class="form-control" name= "description" rows="2" required></textarea>
+                            <textarea class="form-control" name= "description" rows="2" required="" maxlength="255"></textarea>
                             <label>Contact Info</label>
-                            <textarea class="form-control" name= "contactInfo" rows="2" required></textarea>
+                            <textarea class="form-control" name= "contactInfo" rows="2" required="" maxlength="150"></textarea>
                             <label>Members</label>
                             <select name='members'class="form-control" multiple>
                                 <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
@@ -151,7 +151,11 @@
         crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" 
         integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        
+        <footer id="footer">
+            <hr/>
+        </footer>
 
     </body>
-    ​
+
 </html>

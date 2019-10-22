@@ -63,3 +63,12 @@ td{
 .col-lg-4{
     height: auto;
 }
+
+.footer {
+  position: fixed;
+  margin-bottom: 50px; 
+}
+
+.container-fluid {
+    margin-bottom: 100px;
+}
