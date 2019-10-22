@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.sjc.superhero.daos.OrganizationDao;
 import sg.sjc.superhero.daos.SPOrgDAO;
+import sg.sjc.superhero.daos.SpPowersDAO;
 import sg.sjc.superhero.daos.SuperPersonsDAO;
+import sg.sjc.superhero.daos.SuperPowersDao;
 import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
+import sg.sjc.superhero.dtos.SuperPowers;
 
 @Service
 public class SuperPersonsServiceImpl implements SuperPersonsService {
@@ -22,12 +25,16 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     private final SuperPersonsDAO spsDAO;
     private final SPOrgDAO spoDAO;
     private final OrganizationDao orgDAO;
+    private final SuperPowersDao spDAO;
+    private final SpPowersDAO sppDAO;
 
     @Autowired
-    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO) {
+    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO, SuperPowersDao spDAO, SpPowersDAO sppDAO) {
         this.spsDAO = spsDAO;
         this.spoDAO = spoDAO;
         this.orgDAO = orgDAO;
+        this.spDAO = spDAO;
+        this.sppDAO = sppDAO;
     }
 
     @Override
@@ -40,10 +47,14 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
 
         List<SuperPerson> superPersonsList = spsDAO.getAllSuperPersons();
         
+        List<SuperPowers> superPowersList = new ArrayList<SuperPowers>();
+        
         List<Organization> orgList = new ArrayList<Organization>();
 
         for (SuperPerson superPerson : superPersonsList) {
             orgList = orgDAO.getOrganizationsBySuperPersonId(superPerson.getSuperId());
+            superPowersList = spDAO.getAllPowersBySuperId(superPerson.getSuperId());
+            superPerson.setPowers(superPowersList);
             superPerson.setOrganizations(orgList);
         }
 
@@ -76,6 +87,16 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     @Override
     public void deleteMember(int superId) {
         spoDAO.deleteSuperPersonById(superId);
+    }
+
+    @Override
+    public void createSuperPower(int superId, int powId) {
+       sppDAO.Create(superId, powId);
+    }
+
+    @Override
+    public void deleteSuper(int superId) {
+        sppDAO.deleteSuperPersonById(superId);
     }
 
 }

@@ -25,8 +25,8 @@ public class SuperPerson {
     
     @NotEmpty(message = "Please enter a description.")
     private String description;
-    private String powers;
     
+    private List<SuperPowers> powers;
     private List<Organization> organizations;
 
     public int getSuperId() {
@@ -61,11 +61,11 @@ public class SuperPerson {
         this.description = description;
     }
 
-    public String getPowers() {
+    public List<SuperPowers> getPowers() {
         return powers;
     }
 
-    public void setPowers(String powers) {
+    public void setPowers(List<SuperPowers> powers) {
         this.powers = powers;
     }
 
@@ -79,13 +79,13 @@ public class SuperPerson {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.superId;
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + (this.isVillain ? 1 : 0);
-        hash = 79 * hash + Objects.hashCode(this.description);
-        hash = 79 * hash + Objects.hashCode(this.powers);
-        hash = 79 * hash + Objects.hashCode(this.organizations);
+        int hash = 3;
+        hash = 61 * hash + this.superId;
+        hash = 61 * hash + Objects.hashCode(this.name);
+        hash = 61 * hash + (this.isVillain ? 1 : 0);
+        hash = 61 * hash + Objects.hashCode(this.description);
+        hash = 61 * hash + Objects.hashCode(this.powers);
+        hash = 61 * hash + Objects.hashCode(this.organizations);
         return hash;
     }
 
@@ -121,6 +121,10 @@ public class SuperPerson {
         }
         return true;
     }
+
+   
+    
+    
 
    
     
