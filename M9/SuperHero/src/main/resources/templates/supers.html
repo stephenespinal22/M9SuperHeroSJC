@@ -13,7 +13,7 @@
     <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#">SuperHeroTracker</a>
+                <a class="navbar-brand" th:href="@{home}">SuperHeroTracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -44,15 +44,17 @@
 </header>   
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
+            <div id="clickToScroll">Click <a  href="#addPerson">here</a> to scroll down to add</div>
             <table class="table table-bordered table-striped" >
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
-                        <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i>Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i>Villain</th>
+                        <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i> Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i> Villain</th>
                         <th>Powers</th>
                         <th>Organization</th>
+                        <th>Sightings</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -73,8 +75,12 @@
                             <p th:if="${#lists.isEmpty(superPerson.organizations)}">Free Agent</p>
                             <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p>
                         </td>
+                        <td> 
+                            <p th:if="${#lists.isEmpty(superPerson.sightings)}">No Sightings</p>
+                            <p th:each="sightingsDisplay : ${superPerson.sightings}" th:text="${sightingsDisplay.location.address} +' on '+ ${sightingsDisplay.sightingDate} " </p>
+                        </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-                <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}" >
+                <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -93,13 +99,13 @@
                                         <label>Hero or Villain?</label>
                                         <div class="radio">
                                             <label for="isVillain-0">
-                                                <input type="radio" name="isVillain" id="isVillain-0" th:value="${superPerson.isVillain}" th:checked="${!superPerson.isVillain}">
+                                                <input type="radio" name="isVillain" id="isVillain-0" th:value="false" th:checked="${!superPerson.isVillain}">
                                                 Hero
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label for="isVillain-1">
-                                                <input type="radio" name="isVillain" id="isVillain-1" th:value="${superPerson.isVillain}" th:checked="${superPerson.isVillain}">
+                                                <input type="radio" name="isVillain" id="isVillain-1" th:value="true" th:checked="${superPerson.isVillain}">
                                                 Villain
                                             </label>
                                         </div>
@@ -109,9 +115,10 @@
                                             <option th:each="power : ${Powers}" th:value="${power.spwId}" th:text="${power.name}" th:selected="${superPerson.superId} == ${power.spwId}"></option>
                                         </select>
                                         <br>
-                                        <label>Organizations</label>
+                                        <label>Organizations (To Edit: Please Re-Select Organizations)</label>
                                         <select name='organizations'class="form-control" multiple>
-                                            <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}" th:selected="${superPerson.superId} == ${organization.orgId}"> </option>
+                                            <!--                                            th:selected="${superPerson.organizations[iter.index].orgId} == ${organization.orgId}"-->
+                                            <option th:each="organization : ${Organizations}" th:value="${organization.orgId}" th:text="${organization.name}" > </option>
                                         </select>
                                         <div class="modal-footer">
                                             <input type="submit" value="Edit Person" class="btn btn-success pull-right">
@@ -146,7 +153,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-4">
+        <div id="addPerson" class="col-lg-6">
             <div class="verticalLineBreak"></div>
             <h2>Add Hero/Villain</h2>
             <fieldset>

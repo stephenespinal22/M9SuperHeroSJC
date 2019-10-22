@@ -25,4 +25,7 @@ public interface OrganizationService {
     void deleteOrganization(int id);
     
     void deleteOrgById(int orgId);
+    
+    void createNewMember(int superId, int orgId);
+
 }
