@@ -46,6 +46,7 @@
                         <thead>
                             <tr>
                                 <th>Power Name</th>
+                                <th>Super Heros With This Power</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -53,6 +54,10 @@
                         <tbody>
                             <tr th:each="superPower : ${superPowersList}">
                                 <td> <span th:text="${superPower.name}" </span> </td>
+                                <td> 
+<!--                                    <p th:if="${#lists.isEmpty(superPerson.name)}">No Supers With This Power</p>
+                                    <p th:each="superPerson : ${superPerson.name}" th:text="${superPerson.name}" </p>-->
+                                </td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPower.spwId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPower.spwId}" >
                             <div class="modal-dialog">
@@ -68,7 +73,7 @@
                                                 <input type="hidden" name="powId" th:value="${superPower.spwId}">
                                                 <label>Name</label>
                                                 <input type="text" name="powerName" placeholder= "Enter Super Power Name" required="" class="form-control input-md" th:value="${superPower.name}">
-                                               
+
                                                 <input type="submit" value="Edit Super Power" class="btn btn-success pull-right">
                                             </form>
                                         </fieldset>
