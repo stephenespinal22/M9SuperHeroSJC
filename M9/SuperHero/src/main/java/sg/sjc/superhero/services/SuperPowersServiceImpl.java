@@ -5,12 +5,15 @@
  */
 package sg.sjc.superhero.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sg.sjc.superhero.daos.SpPowersDAO;
+import sg.sjc.superhero.daos.SuperPersonsDAO;
 import sg.sjc.superhero.dtos.SuperPowers;
 import sg.sjc.superhero.daos.SuperPowersDao;
+import sg.sjc.superhero.dtos.SuperPerson;
 
 /**
  *
@@ -21,11 +24,13 @@ public class SuperPowersServiceImpl implements SuperPowersService {
 
     SuperPowersDao superPowersDao;
     SpPowersDAO sppDAO;
+    SuperPersonsDAO superPersonDao;
 
     @Autowired
-    public SuperPowersServiceImpl(SuperPowersDao superPowersDao, SpPowersDAO sppDAO) {
+    public SuperPowersServiceImpl(SuperPowersDao superPowersDao, SpPowersDAO sppDAO,SuperPersonsDAO superPersonDao) {
         this.superPowersDao = superPowersDao;
         this.sppDAO = sppDAO;
+        this.superPersonDao = superPersonDao;
     }
 
     @Override
@@ -38,7 +43,12 @@ public class SuperPowersServiceImpl implements SuperPowersService {
 
         List<SuperPowers> superPowersList = superPowersDao.readAllSuperPowers();
         
-        
+        List<SuperPerson> superList = new ArrayList<SuperPerson>();
+
+        for (SuperPowers superPower : superPowersList) {
+            superList = superPersonDao.getAllSuperPersonsByPowerId(superPower.getSpwId());
+            superPower.setSuperPersons(superList);
+        }
 
         return superPowersList;
     }
