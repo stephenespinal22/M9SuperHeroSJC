@@ -75,8 +75,9 @@
                         <td th:attr="class='description'+${iter.index},data-description=''+${sighting.description}"> <span th:text="${sighting.description}" </span> </td>
                         <td th:attr="class='address'+${iter.index},data-address=''+${sighting.location.address}"> <span th:text="${sighting.location.address}" </span> </td>
                         <td th:attr="class='date'+${iter.index},data-date=''+${sighting.sightingDate}"> <span th:text="${sighting.sightingDate}" </span> </td>
-                        <td th:attr="class='superPersons'+${iter.index},data-superPersons=''+${sighting.superPersons}"> 
-                            <p th:each="superPersonDisplay : ${sighting.superPersons}" th:text="${superPersonDisplay.name}" </p> 
+                        <td th:attr="class='superPersons'+${iter.index}"> 
+                            <p th:if="${#lists.isEmpty(sighting.superPersons)}">No Supers</p>
+                            <p th:each="superPersonDisplay : ${sighting.superPersons}" th:text="${superPersonDisplay.name}"</p> 
                         </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${sighting.sightingId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${sighting.sightingId}" >
@@ -209,19 +210,23 @@
                 map.openPopup(popup);
             });
 
-            for (i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 lat = parseFloat($(".latitude" + i).data('latitude'));
                 long = parseFloat($(".longitude" + i).data('longitude'));
                 description = $(".description" + i).data('description');
                 address = $(".address" + i).data('address');
                 date = $(".date" + i).data('date');
-                superPersons = $(".superPersons" + i).data('superPersons')
+
+                superPersons = $(".superPersons" + i).text();
+
+                console.log(superPersons);
 
                 var marker = marker = L.marker([lat, long]);
                 marker.desc = "Description: " + description
                         + "<br>Address: " + address
-                        + "<br>SightingDate: " + date;
+                        + "<br>SightingDate: " + date
+                        + "<br>Super Persons: " + superPersons;
                 //marker.bindPopup(address).openPopup();
                 map.addLayer(marker); //must add layer to map with marker
                 oms.addMarker(marker);  // <-- here

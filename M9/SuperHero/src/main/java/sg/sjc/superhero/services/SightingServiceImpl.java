@@ -79,7 +79,7 @@ public class SightingServiceImpl implements SightingService {
 
     @Override
     @Transactional
-    public void deleteSightingBridge(int sightingId) {
+    public void deleteSightingFromRelationship(int sightingId) {
         sightingSuperDao.deleteSightingById(sightingId);
     }
 

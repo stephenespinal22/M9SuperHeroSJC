@@ -53,6 +53,7 @@
                         <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i>Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i>Villain</th>
                         <th>Organization</th>
                         <!--<th>Powers</th>-->
+                        <th>Sightings</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -68,6 +69,10 @@
                         <td> 
                             <p th:if="${#lists.isEmpty(superPerson.organizations)}">Free Agent</p>
                             <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p>
+                        </td>
+                        <td> 
+                            <p th:if="${#lists.isEmpty(superPerson.sightings)}">No Sightings</p>
+                            <p th:each="sightingsDisplay : ${superPerson.sightings}" th:text="${sightingsDisplay.location.address}" </p>
                         </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                 <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}">

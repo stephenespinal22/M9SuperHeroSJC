@@ -26,5 +26,5 @@ public interface SightingService {
 
     void createNewRelationShip(int sightingId, int superId);
 
-    void deleteSightingBridge(int sightingId);
+    void deleteSightingFromRelationship(int sightingId);
 }

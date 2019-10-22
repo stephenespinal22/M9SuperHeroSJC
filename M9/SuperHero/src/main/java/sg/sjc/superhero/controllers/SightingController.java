@@ -92,7 +92,7 @@ public class SightingController {
     public String deleteSighting(HttpServletRequest request
     ) {
         int id = Integer.parseInt(request.getParameter("id"));
-        sightingService.deleteSightingBridge(id);
+        sightingService.deleteSightingFromRelationship(id);
         sightingService.deleteSighting(id);
 
         return "redirect:/sightings";
@@ -118,7 +118,7 @@ public class SightingController {
         sightingToEdit.setSightingDate(request.getParameter("dateTime"));
         sightingToEdit.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
-        sightingService.deleteSightingBridge(sightingToEdit.getSightingId());
+        sightingService.deleteSightingFromRelationship(sightingToEdit.getSightingId());
         sightingService.updateSighting(sightingToEdit);
 
         if (superPersonsIds != null) {
