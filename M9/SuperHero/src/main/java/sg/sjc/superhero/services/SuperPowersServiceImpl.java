@@ -16,9 +16,6 @@ import sg.sjc.superhero.daos.SuperPowersDao;
  *
  * @author jhoan
  */
-
-
-
 @Service
 public class SuperPowersServiceImpl implements SuperPowersService {
 
@@ -30,7 +27,7 @@ public class SuperPowersServiceImpl implements SuperPowersService {
         this.superPowersDao = superPowersDao;
         this.sppDAO = sppDAO;
     }
-    
+
     @Override
     public SuperPowers createSuperPowers(SuperPowers superPowers) {
         return superPowersDao.createSuperPowers(superPowers);
@@ -38,7 +35,12 @@ public class SuperPowersServiceImpl implements SuperPowersService {
 
     @Override
     public List<SuperPowers> readAllSuperPowers() {
-        return superPowersDao.readAllSuperPowers();
+
+        List<SuperPowers> superPowersList = superPowersDao.readAllSuperPowers();
+        
+        
+
+        return superPowersList;
     }
 
     @Override

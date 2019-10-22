@@ -88,14 +88,14 @@ public class SuperPerson {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + this.superId;
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + (this.isVillain ? 1 : 0);
-        hash = 79 * hash + Objects.hashCode(this.description);
-        hash = 79 * hash + Objects.hashCode(this.powers);
-        hash = 79 * hash + Objects.hashCode(this.organizations);
-        hash = 79 * hash + Objects.hashCode(this.sightings);
+        int hash = 7;
+        hash = 59 * hash + this.superId;
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + (this.isVillain ? 1 : 0);
+        hash = 59 * hash + Objects.hashCode(this.description);
+        hash = 59 * hash + Objects.hashCode(this.powers);
+        hash = 59 * hash + Objects.hashCode(this.organizations);
+        hash = 59 * hash + Objects.hashCode(this.sightings);
         return hash;
     }
 
@@ -134,4 +134,6 @@ public class SuperPerson {
         }
         return true;
     }
+
+
 }
