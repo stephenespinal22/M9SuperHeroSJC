@@ -26,4 +26,6 @@ public interface SuperPersonsDAO {
 
     void deleteSuperPersonById(int id);
 
+    public List<SuperPerson> getSuperPersonsBySightingId(int sightingId);
+
 }

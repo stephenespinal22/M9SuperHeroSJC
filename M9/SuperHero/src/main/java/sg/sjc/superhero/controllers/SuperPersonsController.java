@@ -108,6 +108,7 @@ public class SuperPersonsController {
     public String deleteHeroVillain(HttpServletRequest request) {
         System.out.println(request.getParameter("id"));
         int id = Integer.parseInt(request.getParameter("id"));
+        service.deleteSuperPersonRelationshipSighting(id);
         service.deleteMember(id);
         service.deleteSuperPersonById(id);
 

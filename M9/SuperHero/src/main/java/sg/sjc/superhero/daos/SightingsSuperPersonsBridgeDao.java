@@ -11,7 +11,6 @@ package sg.sjc.superhero.daos;
  */
 public interface SightingsSuperPersonsBridgeDao {
     void createRelationShip(int sightingId, int superId);
-    void deleteRelationShip(int sightingId, int superId);
     void deleteSightingById(int sightingId);
     void deleteSuperPersonById(int superId);
 }

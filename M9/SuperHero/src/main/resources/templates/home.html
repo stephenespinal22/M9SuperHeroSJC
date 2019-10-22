@@ -4,23 +4,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Sightings</title>
+        <title>Super Sightings</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/77b2fa8649.js" crossorigin="anonymous"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
         <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
         <!-- Load Leaflet from CDN -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
               integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
               crossorigin=""/>
-        <link rel="stylesheet" href="css/sightingsStyle.css">
+        <link rel="stylesheet" href="css/homeStyle.css">
     </head>
     <body>
         <header>
@@ -49,12 +45,17 @@
                     </ul>
                 </div>
             </nav>
-            <h1 id="header" class="jumbotron">Sightings</h1>
+            <h1 id="header" class="jumbotron">Super Hero/Villain Tracker</h1>
+            <div id="welcomeMessage">
+                <h4>Welcome to the Super Hero/Villain Tracker!</h4>
+                <h4>Here are the 10 Most Recent Sightings</h4>
+            </div>
+
         </header>
         <div class="container-fluid">
             <div class="row">
                 <div id="mapidSightings"></div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <table class="table table-bordered table-striped" >
                         <thead>
                             <tr>
@@ -62,12 +63,10 @@
                                 <th>Location Address</th>
                                 <th>Sighting Date</th>
                                 <th>Super Persons</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="sighting,iter : ${sightingList}">
+                            <tr th:each="sighting,iter : ${sightingList}" th:unless="${iter.index > 9}">
                                 <!--longitude and latitude for markers-->
                         <span type="hidden" th:attr="class='latitude'+${iter.index},data-latitude=''+${sighting.location.latitude}"></span>
                         <span type="hidden" th:attr="class='longitude'+${iter.index},data-longitude=''+${sighting.location.longitude}"></span>
@@ -79,87 +78,8 @@
                             <p th:if="${#lists.isEmpty(sighting.superPersons)}">No Supers</p>
                             <p th:each="superPersonDisplay : ${sighting.superPersons}" th:text="${superPersonDisplay.name}"</p> 
                         </td>
-                        <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${sighting.sightingId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-                        <div class="modal modal-edit fade" th:id="modal-edit+${sighting.sightingId}" >
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5>Edit Location</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <fieldset>
-                                            <form action="editSighting" method="POST">
-                                                <input type="hidden" name="sightingId" th:value="${sighting.sightingId}">
-                                                <label>Description</label>
-                                                <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}"></textarea>
-                                                <label>Location</label>
-                                                <select name="location" class="form-control">
-                                                    <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}" th:selected="${sighting.location.locationId} == ${location.locationId}"> </option>
-                                                </select>
-                                                <label>Sighting Date</label>
-                                                <div class='input-group date editDateTime'>
-                                                    <input type='text' class="form-control" name="dateTime" required th:value="${sighting.sightingDate}"/>
-                                                </div>
-                                                <label>Super Persons (To Edit: Please Re-Select Super Persons)</label>
-                                                <select name='superPersons'class="form-control" multiple>
-                                                    <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
-                                                </select>
-                                                <br>
-                                                <input type="submit" value="Edit Sighting" class="btn btn-success pull-right">
-                                            </form>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${sighting.sightingId}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
-                        <div class="modal modal-warning fade" th:id="modal-warning+${sighting.sightingId}" >
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header alert alert-danger">
-                                        <h5>Delete Sighting</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h2>Are you sure want to delete this sighting?</h2>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                                        <a th:href="@{/deleteSighting(id=${sighting.sightingId})}" ><button class="btn btn-danger">Delete</button></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="col-lg-4">
-                    <div class="verticalLineBreak"></div>
-                    <h2>Add Sighting</h2>
-                    <fieldset>
-                        <form action="addNewSighting" method="POST">
-                            <label>Description</label>
-                            <textarea class="form-control" name= "description" rows="2" required></textarea>
-                            <label>Location</label>
-                            <p>(If you need to add a new location that isn't shown, click <a th:href="@{locations}">here</a>)</p>
-                            <select name="location" class="form-control" required>
-                                <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
-                            </select>
-                            <label>Super Persons</label>
-                            <select name='superPersons'class="form-control" multiple>
-                                <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
-                            </select>
-                            <label>Sighting Date</label>
-                            <div class='input-group date' id="datetimepicker">
-                                <input type='text' class="form-control" name="dateTime" required/>
-                            </div>
-                            <input type="submit" value="Add Sighting" class="btn btn-primary pull-right">
-                        </form>
-                    </fieldset>
                 </div>
             </div>
         </div>
@@ -210,7 +130,7 @@
                 map.openPopup(popup);
             });
 
-            for (var i = 0; i < 20; i++)
+            for (var i = 0; i < 10; i++)
             {
                 lat = parseFloat($(".latitude" + i).data('latitude'));
                 long = parseFloat($(".longitude" + i).data('longitude'));
