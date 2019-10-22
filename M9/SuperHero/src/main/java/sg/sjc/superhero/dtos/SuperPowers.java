@@ -4,18 +4,20 @@
  * and open the template in the editor.
  */
 package sg.sjc.superhero.dtos;
-import java.util.Objects;
 
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author jhoan
  */
 public class SuperPowers {
-    
-       private int spwId;
+
+    private int spwId;
     private String name;
     
+    private List<SuperPerson> superPersons;
 
     public int getSpwId() {
         return spwId;
@@ -33,11 +35,20 @@ public class SuperPowers {
         this.name = name;
     }
 
+    public List<SuperPerson> getSuperPersons() {
+        return superPersons;
+    }
+
+    public void setSuperPersons(List<SuperPerson> superPersons) {
+        this.superPersons = superPersons;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 43 * hash + this.spwId;
-        hash = 43 * hash + Objects.hashCode(this.name);
+        int hash = 7;
+        hash = 53 * hash + this.spwId;
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.superPersons);
         return hash;
     }
 
@@ -59,15 +70,14 @@ public class SuperPowers {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
+        if (!Objects.equals(this.superPersons, other.superPersons)) {
+            return false;
+        }
         return true;
     }
 
 
-   
-
-  
 
 
- 
-    
+
 }

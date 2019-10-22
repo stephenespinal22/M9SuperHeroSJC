@@ -55,8 +55,8 @@
                             <tr th:each="superPower : ${superPowersList}">
                                 <td> <span th:text="${superPower.name}" </span> </td>
                                 <td> 
-<!--                                    <p th:if="${#lists.isEmpty(superPerson.name)}">No Supers With This Power</p>
-                                    <p th:each="superPerson : ${superPerson.name}" th:text="${superPerson.name}" </p>-->
+                                    <p th:if="${#lists.isEmpty(superPower.superPersons)}">No Supers With This Power</p>
+                                    <p th:each="superPerson : ${superPower.superPersons}" th:text="${superPerson.name}" </p>
                                 </td>
                                 <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPower.spwId}" ><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                         <div class="modal modal-edit fade" th:id="modal-edit+${superPower.spwId}" >
