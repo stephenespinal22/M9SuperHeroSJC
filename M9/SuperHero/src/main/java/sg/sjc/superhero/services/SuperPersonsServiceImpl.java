@@ -25,17 +25,17 @@ import sg.sjc.superhero.dtos.SuperPowers;
 @Service
 public class SuperPersonsServiceImpl implements SuperPersonsService {
 
-    private final SuperPersonsDAO spsDAO;
-    private final SPOrgDAO spoDAO;
-    private final OrganizationDao orgDAO;
+    private SuperPersonsDAO spsDAO;
+    private SPOrgDAO spoDAO;
+    private OrganizationDao orgDAO;
     private SightingsSuperPersonsBridgeDao sightingSuperDao;
     private SightingDao sightingDao;
-    private final SuperPowersDao spDAO;
-    private final SpPowersDAO sppDAO;
+    private SuperPowersDao spDAO;
+    private SpPowersDAO sppDAO;
 
     @Autowired
     public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO, SightingsSuperPersonsBridgeDao sightingSuperDao,
-    SightingDao sightingDao) {
+    SightingDao sightingDao,SpPowersDAO sppDAO,SuperPowersDao spDAO) {
         this.spsDAO = spsDAO;
         this.spoDAO = spoDAO;
         this.orgDAO = orgDAO;
