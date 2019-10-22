@@ -21,5 +21,6 @@ public interface SuperPersonsService {
     void updateSuperPerson(SuperPerson superPerson);
     void deleteSuperPersonById(int id);
     void createSuperPower(int superId, int powId);
-    void deleteSuper(int superId);
+    void deleteSuper(int superId);    
+    void deleteSuperPersonRelationshipSighting(int superId);
 }

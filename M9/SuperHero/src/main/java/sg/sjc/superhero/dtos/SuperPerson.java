@@ -16,7 +16,6 @@ import org.springframework.data.annotation.Id;
  */
 public class SuperPerson {
     
-    @Id
     private int superId;
     
     @NotEmpty(message = "Please enter a name.")
@@ -28,6 +27,8 @@ public class SuperPerson {
     
     private List<SuperPowers> powers;
     private List<Organization> organizations;
+    
+    private List<Sighting> sightings;
 
     public int getSuperId() {
         return superId;
@@ -77,15 +78,24 @@ public class SuperPerson {
         this.organizations = organizations;
     }
 
+    public List<Sighting> getSightings() {
+        return sightings;
+    }
+
+    public void setSightings(List<Sighting> sightings) {
+        this.sightings = sightings;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 61 * hash + this.superId;
-        hash = 61 * hash + Objects.hashCode(this.name);
-        hash = 61 * hash + (this.isVillain ? 1 : 0);
-        hash = 61 * hash + Objects.hashCode(this.description);
-        hash = 61 * hash + Objects.hashCode(this.powers);
-        hash = 61 * hash + Objects.hashCode(this.organizations);
+        hash = 79 * hash + this.superId;
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + (this.isVillain ? 1 : 0);
+        hash = 79 * hash + Objects.hashCode(this.description);
+        hash = 79 * hash + Objects.hashCode(this.powers);
+        hash = 79 * hash + Objects.hashCode(this.organizations);
+        hash = 79 * hash + Objects.hashCode(this.sightings);
         return hash;
     }
 
@@ -119,20 +129,9 @@ public class SuperPerson {
         if (!Objects.equals(this.organizations, other.organizations)) {
             return false;
         }
+        if (!Objects.equals(this.sightings, other.sightings)) {
+            return false;
+        }
         return true;
     }
-
-   
-    
-    
-
-   
-    
-    
-
-    
-    
-    
-    
-    
 }

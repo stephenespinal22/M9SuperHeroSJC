@@ -13,9 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import sg.sjc.superhero.daos.OrganizationDao;
 import sg.sjc.superhero.daos.SPOrgDAO;
 import sg.sjc.superhero.daos.SpPowersDAO;
+import sg.sjc.superhero.daos.SightingDao;
+import sg.sjc.superhero.daos.SightingsSuperPersonsBridgeDao;
 import sg.sjc.superhero.daos.SuperPersonsDAO;
 import sg.sjc.superhero.daos.SuperPowersDao;
 import sg.sjc.superhero.dtos.Organization;
+import sg.sjc.superhero.dtos.Sighting;
 import sg.sjc.superhero.dtos.SuperPerson;
 import sg.sjc.superhero.dtos.SuperPowers;
 
@@ -25,14 +28,19 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     private final SuperPersonsDAO spsDAO;
     private final SPOrgDAO spoDAO;
     private final OrganizationDao orgDAO;
+    private SightingsSuperPersonsBridgeDao sightingSuperDao;
+    private SightingDao sightingDao;
     private final SuperPowersDao spDAO;
     private final SpPowersDAO sppDAO;
 
     @Autowired
-    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO, SuperPowersDao spDAO, SpPowersDAO sppDAO) {
+    public SuperPersonsServiceImpl(SuperPersonsDAO spsDAO, SPOrgDAO spoDAO, OrganizationDao orgDAO, SightingsSuperPersonsBridgeDao sightingSuperDao,
+    SightingDao sightingDao) {
         this.spsDAO = spsDAO;
         this.spoDAO = spoDAO;
         this.orgDAO = orgDAO;
+        this.sightingSuperDao = sightingSuperDao;
+        this.sightingDao = sightingDao;
         this.spDAO = spDAO;
         this.sppDAO = sppDAO;
     }
@@ -56,6 +64,13 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
             superPowersList = spDAO.getAllPowersBySuperId(superPerson.getSuperId());
             superPerson.setPowers(superPowersList);
             superPerson.setOrganizations(orgList);
+        }
+        
+        List<Sighting> sightingList = new ArrayList<Sighting>();
+
+        for (SuperPerson superPerson : superPersonsList) {
+            sightingList = sightingDao.getSightingsBySuperPersonId(superPerson.getSuperId());
+            superPerson.setSightings(sightingList);
         }
 
         return superPersonsList;
@@ -87,6 +102,12 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
     @Override
     public void deleteMember(int superId) {
         spoDAO.deleteSuperPersonById(superId);
+    }
+    
+    @Override
+    @Transactional
+    public void deleteSuperPersonRelationshipSighting(int superId) {
+        sightingSuperDao.deleteSuperPersonById(superId);
     }
 
     @Override

@@ -21,13 +21,16 @@ public class SightingDaoImpl implements SightingDao {
 
     private final String insertSighting = "INSERT INTO Sightings (`description`, locationId, sightingDate) VALUES (?,?,?)"; //create
     private final String selectAllSightings = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude,"
-            + " sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
+            + " Sightings.sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
             + "ON loc.locationId = Sightings.locationId "; //read all
     private final String selectAllSightingsOrdered = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude,"
             + " sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
             + "ON loc.locationId = Sightings.locationId ORDER BY STR_TO_DATE(sightingDate, '%m/%d/%Y %h:%i %p') DESC"; //read all
     private final String selectSightingsById = selectAllSightings + " WHERE sightingId = ?"; //readbyId
     private final String selectSightingsByLocationId = " WHERE locationId = ?";
+
+    private final String getSightingsBySuperPersonId = selectAllSightings + " JOIN SuperPersonSighting as sps ON Sightings.sightingId = sps.sightingId Where sps.superId = ?";
+
     private final String updateSighting = "UPDATE Sightings SET `description` = ?, locationId = ?, sightingDate = ? WHERE sightingId = ?"; //update
     private final String deleteSightingById = "DELETE FROM Sightings WHERE sightingId = ?"; //delete
 
@@ -66,6 +69,11 @@ public class SightingDaoImpl implements SightingDao {
     @Override
     public List<Sighting> readSightingsByLocationId(int locationId) {
         return jdbcTemplate.query(selectSightingsByLocationId, new SightingJDBCMapper(), locationId);
+    }
+
+    @Override
+    public List<Sighting> getSightingsBySuperPersonId(int superId) {
+        return jdbcTemplate.query(getSightingsBySuperPersonId, new SightingJDBCMapper(),superId);
     }
 
     private class SightingJDBCMapper implements org.springframework.jdbc.core.RowMapper<Sighting> {

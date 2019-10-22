@@ -45,7 +45,7 @@ public class SightingController {
         List<Sighting> sightingList = sightingService.readAllSightings();
         List<Location> locationList = locationService.readAllLocations();
         List<SuperPerson> superPersonList = superPersonService.getAllSuperPersons();
-        
+
         model.addAttribute("sightingList", sightingList);
         model.addAttribute("locationList", locationList);
         model.addAttribute("superPersonList", superPersonList);
@@ -56,39 +56,61 @@ public class SightingController {
     @PostMapping("addNewSighting")
     @Transactional
     public String addSighting(HttpServletRequest request) {
-        
+
         String[] superPersonsIds = request.getParameterValues("superPersons");
 
         List<SuperPerson> superPersonsInSightingList = new ArrayList<SuperPerson>();
 
-        for (String superPersonId : superPersonsIds) {
-            superPersonsInSightingList.add(superPersonService.getSuperPersonById(Integer.parseInt(superPersonId)));
+        if (superPersonsIds != null) {
+
+            for (String superPersonId : superPersonsIds) {
+                superPersonsInSightingList.add(superPersonService.getSuperPersonById(Integer.parseInt(superPersonId)));
+            }
         }
-        
+
         Sighting newSighting = new Sighting();
 
         newSighting.setDescription(request.getParameter("description"));
         newSighting.setSightingDate(request.getParameter("dateTime"));
         newSighting.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
         newSighting.setSuperPersons(superPersonsInSightingList);
-        
+
         sightingService.createSighting(newSighting);
+
+        if (superPersonsIds != null) {
+            for (String superId : superPersonsIds) {
+                sightingService.createNewRelationShip(newSighting.getSightingId(), Integer.parseInt(superId));
+            }
+        }
 
         //tell spring to redirect user to mapping locations
         return "redirect:/sightings";
     }
 
     @GetMapping("deleteSighting")
-    public String deleteSighting(HttpServletRequest request) {
+    @Transactional
+    public String deleteSighting(HttpServletRequest request
+    ) {
         int id = Integer.parseInt(request.getParameter("id"));
+        sightingService.deleteSightingFromRelationship(id);
         sightingService.deleteSighting(id);
 
         return "redirect:/sightings";
     }
 
     @PostMapping("editSighting")
-    public String editSighting(HttpServletRequest request) {
+    public String editSighting(HttpServletRequest request
+    ) {
+        String[] superPersonsIds = request.getParameterValues("superPersons");
 
+        List<SuperPerson> superPersonsInSightingList = new ArrayList<SuperPerson>();
+
+        if (superPersonsIds != null) {
+
+            for (String superPersonId : superPersonsIds) {
+                superPersonsInSightingList.add(superPersonService.getSuperPersonById(Integer.parseInt(superPersonId)));
+            }
+        }
         Sighting sightingToEdit = new Sighting();
 
         sightingToEdit.setSightingId(Integer.parseInt(request.getParameter("sightingId")));
@@ -96,7 +118,14 @@ public class SightingController {
         sightingToEdit.setSightingDate(request.getParameter("dateTime"));
         sightingToEdit.setLocation(locationService.readLocationById(Integer.parseInt(request.getParameter("location"))));
 
+        sightingService.deleteSightingFromRelationship(sightingToEdit.getSightingId());
         sightingService.updateSighting(sightingToEdit);
+
+        if (superPersonsIds != null) {
+            for (String superId : superPersonsIds) {
+                sightingService.createNewRelationShip(sightingToEdit.getSightingId(), Integer.parseInt(superId));
+            }
+        }
 
         return "redirect:/sightings";
     }

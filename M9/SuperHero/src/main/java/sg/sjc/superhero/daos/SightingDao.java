@@ -27,4 +27,6 @@ public interface SightingDao {
 
     void deleteSighting(int id);
 
+    public List<Sighting> getSightingsBySuperPersonId(int superId);
+
 }

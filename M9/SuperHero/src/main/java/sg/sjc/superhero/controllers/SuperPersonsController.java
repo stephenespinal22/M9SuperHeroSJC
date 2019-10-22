@@ -133,13 +133,14 @@ public class SuperPersonsController {
             service.createSuperPower(editSuper.getSuperId(), Integer.parseInt(powId));
             }
         } 
-            
-        if(orgIds != null){
-        for (String orgId : orgIds) {
-            service.createNewMember(editSuper.getSuperId(), Integer.parseInt(orgId));
-           }
+           
+        if (orgIds != null) {
+
+            for (String orgId : orgIds) {
+                service.createNewMember(editSuper.getSuperId(), Integer.parseInt(orgId));
+            }
         }
-        
+
         return "redirect:/supers";
     }
 
@@ -148,6 +149,7 @@ public class SuperPersonsController {
         System.out.println(request.getParameter("id"));
         int id = Integer.parseInt(request.getParameter("id"));
         service.deleteSuper(id);
+        service.deleteSuperPersonRelationshipSighting(id);
         service.deleteMember(id);
         service.deleteSuperPersonById(id);
 
