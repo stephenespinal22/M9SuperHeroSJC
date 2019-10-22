@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,7 +38,7 @@ import sg.sjc.superhero.services.SuperPowersService;
 @Controller
 public class SuperPersonsController {
 
-    private static String UPLOADED_FOLDER = "images/";
+    private static String UPLOADED_FOLDER = "src/main/resources/static/images/";
 
     @Autowired
     SuperPersonsService service;
@@ -54,9 +55,16 @@ public class SuperPersonsController {
         List<Organization> organizations = orgService.readAllOrganizations();
         List<SuperPowers> powers = spService.readAllSuperPowers();
 
+        Boolean displayUpload = false;
+
+        String file = "images/background.jpg";
+
         model.addAttribute("SuperPersons", superPersons);
         model.addAttribute("Powers", powers);
         model.addAttribute("Organizations", organizations);
+
+        model.addAttribute("displayUpload", displayUpload);
+        model.addAttribute("img", file);
 
         return "supers";
     }
@@ -190,5 +198,5 @@ public class SuperPersonsController {
 
         return "redirect:/supers";
     }
-
+    
 }

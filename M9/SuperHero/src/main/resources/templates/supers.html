@@ -62,13 +62,19 @@
                 </thead>
                 <tbody>
                     <tr th:each="superPerson : ${SuperPersons}">
-                        <td><form method="POST" action="upload" enctype="multipart/form-data">
-                                <label for="file-upload" class="custom-file-upload">
-                                    Upload Photo
-                                </label>
-                                <input id="file-upload" type="file" name="file"/>
-                                <input type="submit" value="Submit" />
-                            </form>
+                        <td>
+                            <span th:if="${displayUpload}" >
+                                <form method="POST" action="upload" enctype="multipart/form-data">
+                                    <label for="file-upload" class="custom-file-upload">
+                                        Upload Photo
+                                    </label>
+                                    <input id="file-upload" type="file" name="file"/>
+                                    <input type="submit" value="Submit" />
+                                </form>
+                            </span>
+                            <span th:unless="${displayUpload}">
+                                <img class="imgSize" th:src="@{${img}}"></img>
+                            </span>
                         </td>
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
