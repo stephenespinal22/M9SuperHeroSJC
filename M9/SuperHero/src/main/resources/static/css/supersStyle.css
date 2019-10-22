@@ -19,6 +19,10 @@ body {
     font-size: 350%;
     font-style: italic;
 }
+#clickToScroll
+{
+    text-align: right;
+}
 .verticalLineBreak {
     float: left;
     border-left: 1px solid black;
