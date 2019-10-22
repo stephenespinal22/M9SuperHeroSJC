@@ -7,8 +7,9 @@ package sg.sjc.superhero.daos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public class SightingsSuperPersonsBridgeDaoImpl implements SightingsSuperPersonsBridgeDao {
     
     private final JdbcTemplate jdbc;

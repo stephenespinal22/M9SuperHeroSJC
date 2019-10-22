@@ -95,12 +95,16 @@
                                                 <textarea class="form-control" name= "description" rows="2" required th:text="${sighting.description}"></textarea>
                                                 <label>Location</label>
                                                 <select name="location" class="form-control">
-                                                    <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
+                                                    <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}" th:selected="${sighting.location.locationId} == ${location.locationId}"> </option>
                                                 </select>
                                                 <label>Sighting Date</label>
                                                 <div class='input-group date editDateTime'>
                                                     <input type='text' class="form-control" name="dateTime" required th:value="${sighting.sightingDate}"/>
                                                 </div>
+                                                <label>Super Persons (To Edit: Please Re-Select Super Persons)</label>
+                                                <select name='superPersons'class="form-control" multiple>
+                                                    <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
+                                                </select>
                                                 <br>
                                                 <input type="submit" value="Edit Sighting" class="btn btn-success pull-right">
                                             </form>
@@ -119,7 +123,7 @@
                                             <span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h3>Are you sure want to delete this sighting?</h3>
+                                        <h2>Are you sure want to delete this sighting?</h2>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
@@ -145,7 +149,7 @@
                                 <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
                             <label>Super Persons</label>
-                            <select name='superPersons'class="form-control" required multiple>
+                            <select name='superPersons'class="form-control" multiple>
                                 <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
                             </select>
                             <label>Sighting Date</label>
@@ -212,6 +216,7 @@
                 description = $(".description" + i).data('description');
                 address = $(".address" + i).data('address');
                 date = $(".date" + i).data('date');
+                superPersons = $(".superPersons" + i).data('superPersons')
 
                 var marker = marker = L.marker([lat, long]);
                 marker.desc = "Description: " + description
