@@ -60,10 +60,25 @@ td{
     color: #cc3300;
 }
 .fa-eye{
-    font-size: 30px;
-    color: cornflowerblue;
+    font-size: 20px;
 }
-
+#eye{
+    font-size: 30px;
+}
 .col-lg-4{
     height: auto;
+}
+a:hover{
+  color: cornflowerblue !important; 
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }

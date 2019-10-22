@@ -49,6 +49,7 @@
             <table class="table table-bordered table-striped" >
                 <thead>
                     <tr>
+                        <th>Photo Upload</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i> Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i> Villain</th>
@@ -61,6 +62,10 @@
                 </thead>
                 <tbody>
                     <tr th:each="superPerson : ${SuperPersons}">
+                        <td><label for="file-upload" class="custom-file-upload">
+                                Upload Photo
+                            </label>
+                            <input id="file-upload" type="file"/></td>
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
                         <td>
@@ -75,7 +80,7 @@
                             <p th:if="${#lists.isEmpty(superPerson.organizations)}">Free Agent</p>
                             <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p>
                         </td>
-                        <td><a data-toggle="modal" data-target="#modal-sightings" th:attr="data-target='#modal-sightings'+${superPerson.superId}"><i class="fas fa-eye fa-2x" aria-hidden="true"></i></a></td> 
+                        <td><a data-toggle="modal" data-target="#modal-sightings" th:attr="data-target='#modal-sightings'+${superPerson.superId}"><i id="eye" class="fas fa-eye fa-2x" aria-hidden="true"></i></a></td> 
                 <div class="modal modal-sightings fade" th:id="modal-sightings+${superPerson.superId}">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -86,7 +91,7 @@
                             </div>
                             <div class="modal-body">
                                 <p th:if="${#lists.isEmpty(superPerson.sightings)}">No Sightings</p>
-                                <p th:each="sightingsDisplay,iterSighting : ${superPerson.sightings}" th:text="${iterSighting.index + 1} +': '+ ${sightingsDisplay.location.address} +' on '+ ${sightingsDisplay.sightingDate} " </p>
+                                <p th:each="sightingsDisplay,iterSighting : ${superPerson.sightings}" th:text="${iterSighting.index + 1} +': '+ ${sightingsDisplay.location.address} +' on '+ ${sightingsDisplay.sightingDate} " <i class="fas fa-eye fa-xs" aria-hidden="true"></i></p>
                             </div>
                         </div>
                     </div>
