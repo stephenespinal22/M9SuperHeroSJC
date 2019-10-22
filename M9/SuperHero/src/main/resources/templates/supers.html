@@ -72,7 +72,7 @@
                         </td>
                         <td> 
                             <p th:if="${#lists.isEmpty(superPerson.sightings)}">No Sightings</p>
-                            <p th:each="sightingsDisplay : ${superPerson.sightings}" th:text="${sightingsDisplay.location.address}" </p>
+                            <p th:each="sightingsDisplay : ${superPerson.sightings}" th:text="${sightingsDisplay.location.address} +' on '+ ${sightingsDisplay.sightingDate} " </p>
                         </td>
                         <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                 <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}">
