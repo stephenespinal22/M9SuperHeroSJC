@@ -13,9 +13,9 @@ public class SightingsSuperPersonsBridgeDaoImpl implements SightingsSuperPersons
     
     private final JdbcTemplate jdbc;
     
-    private final String insertSightingSuperPersonMerge = "Insert Into SuperPersonOrganization(superId, orgId) values (?,?);";
-    private final String deleteSighting = "Delete From SuperPersonOrganization where superId = ?;";
-    private final String deleteSuperPerson = "Delete From SuperPersonOrganization where orgId = ?;";
+    private final String insertSightingSuperPersonMerge = "Insert Into SuperPersonSighting(sightingId, superId) values (?,?);";
+    private final String deleteSighting = "Delete From SuperPersonSighting where sightingId = ?;";
+    private final String deleteSuperPerson = "Delete From SuperPersonSighting where superId = ?;";
     
      @Autowired
     public SightingsSuperPersonsBridgeDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -24,22 +24,17 @@ public class SightingsSuperPersonsBridgeDaoImpl implements SightingsSuperPersons
 
     @Override
     public void createRelationShip(int sightingId, int superId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteRelationShip(int sightingId, int superId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(insertSightingSuperPersonMerge, sightingId, superId);
     }
 
     @Override
     public void deleteSightingById(int sightingId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(deleteSighting, sightingId);
     }
 
     @Override
     public void deleteSuperPersonById(int superId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(deleteSuperPerson, superId);
     }
     
 }
