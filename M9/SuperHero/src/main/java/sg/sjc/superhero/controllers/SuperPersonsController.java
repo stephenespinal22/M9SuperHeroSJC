@@ -188,7 +188,6 @@ public class SuperPersonsController {
             e.printStackTrace();
         }
 
-        System.out.println("got here");
         return "redirect:/supers";
     }
 
