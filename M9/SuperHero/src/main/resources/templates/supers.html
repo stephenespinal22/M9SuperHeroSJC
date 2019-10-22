@@ -62,10 +62,14 @@
                 </thead>
                 <tbody>
                     <tr th:each="superPerson : ${SuperPersons}">
-                        <td><label for="file-upload" class="custom-file-upload">
-                                Upload Photo
-                            </label>
-                            <input id="file-upload" type="file"/></td>
+                        <td><form method="POST" action="upload" enctype="multipart/form-data">
+                                <label for="file-upload" class="custom-file-upload">
+                                    Upload Photo
+                                </label>
+                                <input id="file-upload" type="file" name="file"/>
+                                <input type="submit" value="Submit" />
+                            </form>
+                        </td>
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
                         <td>
