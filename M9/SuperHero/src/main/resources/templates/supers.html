@@ -89,13 +89,13 @@
                                         <label>Hero or Villain?</label>
                                         <div class="radio">
                                             <label for="isVillain-0">
-                                                <input type="radio" name="isVillain" id="isVillain-0" th:value="${superPerson.isVillain}" th:checked="${!superPerson.isVillain}">
+                                                <input type="radio" name="isVillain" id="isVillain-0" th:value="false" th:checked="${!superPerson.isVillain}">
                                                 Hero
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label for="isVillain-1">
-                                                <input type="radio" name="isVillain" id="isVillain-1" th:value="${superPerson.isVillain}" th:checked="${superPerson.isVillain}">
+                                                <input type="radio" name="isVillain" id="isVillain-1" th:value="true" th:checked="${superPerson.isVillain}">
                                                 Villain
                                             </label>
                                         </div>
