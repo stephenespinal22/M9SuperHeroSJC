@@ -3,12 +3,12 @@ Create database SuperHero;
 
 Use SuperHero;
 
-
 create table SuperPersons( 
 superId int primary key auto_increment,
 `name` varchar(50) not null, 
 `description` varchar(255) not null,
-isVillain boolean not null
+isVillain boolean not null,
+imagePath varchar(200)
 
 );
 
@@ -71,8 +71,11 @@ FOREIGN KEY fk_Sightings_sightingId(sightingId) REFERENCES Sightings(sightingId)
 CREATE TABLE SuperPersonOrganization(
 superId INT NOT NULL,
 orgId INT NOT NULL,
+
 spoId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+
 FOREIGN KEY fk_SuperPersons_superId(superId) REFERENCES SuperPersons(superId),
 FOREIGN KEY fk_Organizations_orgId(orgId) REFERENCES Organizations(orgId)
+
 );
 
