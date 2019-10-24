@@ -140,7 +140,7 @@
                                         <br>
                                         <label>Powers</label>
                                         <select name='powers'class="form-control" multiple>
-                                            <option th:each="power : ${Powers}" th:value="${power.spwId}" th:text="${power.name}" th:selected="${superPerson.superId} == ${power.spwId}"></option>
+                                            <option th:each="power : ${Powers}" th:value="${power.spwId}" th:text="${power.name}"></option>
                                         </select>
                                         <br>
                                         <label>Organizations (To Edit: Please Re-Select Organizations)</label>
