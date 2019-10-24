@@ -131,7 +131,6 @@ public class SuperPersonsController {
             }
         }
 
-        SuperPerson editSuper = new SuperPerson();
         editSuper.setSuperId(Integer.parseInt(request.getParameter("superId")));
         editSuper.setName(request.getParameter("name"));
         editSuper.setDescription(request.getParameter("description"));
