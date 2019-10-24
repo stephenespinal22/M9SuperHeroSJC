@@ -83,6 +83,13 @@
                 </div>
             </div>
         </div>
+        <footer>
+            <div id="jumbotronFooter" class="jumbotron footer">
+
+                <div class="footer-copyright text-center py-3"><img id="footerImg" src="footerImages/footer.png" width="1000"><br>2019 Stephen Corey Jhoan</div>
+            </div>
+
+        </footer>
         <!-- link cdn to bootstrap, jquery, popper -->
         <script type="text/javascript">
             $('.editDateTime').datetimepicker({
@@ -116,7 +123,7 @@
         crossorigin=""></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
         <script>
-            var map = L.map('mapidSightings', {scrollWheelZoom: false}).setView([39.978962, -98.798163], 5);
+            var map = L.map('mapidSightings', {scrollWheelZoom: false}).setView([39.978962, -98.798163], 4);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'

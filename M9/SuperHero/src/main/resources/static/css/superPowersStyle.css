@@ -9,9 +9,9 @@ and open the template in the editor.
 */
 
 body {
-  background-color: #fef9ff;
-  font-family: 'Roboto Condensed', sans-serif;
-  color: #0d1f2d;
+    background-color: #fef9ff;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #0d1f2d;
 }
 #header {
     padding-top: 100px;
@@ -56,11 +56,31 @@ td{
     color: #cc3300;
 }
 
-.container-fluid {
-    margin-bottom: 100px;
+#jumbotronFooter{
+    margin-top: 30px;
+    margin-bottom:  0px;
 }
 
 .footer {
-  position: fixed;
-  margin-bottom: 50px; 
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+@media only screen and (max-width: 1052px) {
+    #footerImg{
+        display: none;
+    }
+    footer{
+        padding: 0px;
+    }
+
+
+    #jumbotronFooter
+    {
+        margin-top: 30px;
+        margin-bottom: 0px;
+        padding: 30px;
+    }
 }

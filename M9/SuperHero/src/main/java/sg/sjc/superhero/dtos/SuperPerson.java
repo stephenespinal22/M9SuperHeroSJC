@@ -32,6 +32,8 @@ public class SuperPerson {
     private List<Organization> organizations;
     
     private List<Sighting> sightings;
+    
+    private String imagePath;
 
     public int getSuperId() {
         return superId;
@@ -89,16 +91,25 @@ public class SuperPerson {
         this.sightings = sightings;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + this.superId;
-        hash = 59 * hash + Objects.hashCode(this.name);
-        hash = 59 * hash + (this.isVillain ? 1 : 0);
-        hash = 59 * hash + Objects.hashCode(this.description);
-        hash = 59 * hash + Objects.hashCode(this.powers);
-        hash = 59 * hash + Objects.hashCode(this.organizations);
-        hash = 59 * hash + Objects.hashCode(this.sightings);
+        hash = 67 * hash + this.superId;
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + (this.isVillain ? 1 : 0);
+        hash = 67 * hash + Objects.hashCode(this.description);
+        hash = 67 * hash + Objects.hashCode(this.powers);
+        hash = 67 * hash + Objects.hashCode(this.organizations);
+        hash = 67 * hash + Objects.hashCode(this.sightings);
+        hash = 67 * hash + Objects.hashCode(this.imagePath);
         return hash;
     }
 
@@ -126,6 +137,9 @@ public class SuperPerson {
         if (!Objects.equals(this.description, other.description)) {
             return false;
         }
+        if (!Objects.equals(this.imagePath, other.imagePath)) {
+            return false;
+        }
         if (!Objects.equals(this.powers, other.powers)) {
             return false;
         }
@@ -138,5 +152,6 @@ public class SuperPerson {
         return true;
     }
 
+    
 
 }

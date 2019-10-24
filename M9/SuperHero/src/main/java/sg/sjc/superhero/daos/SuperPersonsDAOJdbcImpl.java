@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import sg.sjc.superhero.dtos.Organization;
 import sg.sjc.superhero.dtos.SuperPerson;
 
 @Repository
@@ -21,15 +20,20 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
 
     private final JdbcTemplate jdbc;
 
-    private final String getSuperPerson = "Select superId, `name`, `description`, isVillain From SuperPersons Where superId = ?";
-    private final String getAllSuperPersons = "Select superId, `name`, `description`, isVillain From SuperPersons";
-    private final String getAllSuperPersonsByOrganizationId = "Select sp.superId, `name`, `description`, isVillain FROM SuperPersons as sp JOIN SuperPersonOrganization as spo ON sp.superId = spo.superId Where spo.orgId = ?";
+    private final String getSuperPerson = "Select superId, `name`, `description`, isVillain, imagePath From SuperPersons Where superId = ?";
+    private final String getAllSuperPersons = "Select superId, `name`, `description`, isVillain, imagePath From SuperPersons";
+    private final String getAllSuperPersonsByOrganizationId = "Select sp.superId, `name`, `description`, isVillain, imagePath FROM SuperPersons as sp JOIN SuperPersonOrganization as spo ON sp.superId = spo.superId Where spo.orgId = ?";
 
-    private final String getSuperPersonsBySightingId = "Select sp.superId, `name`, `description`, isVillain FROM SuperPersons as sp JOIN SuperPersonSighting as sps ON sp.superId = sps.superId Where sps.sightingId = ?";
+    private final String getSuperPersonsBySightingId = "Select sp.superId, `name`, `description`, isVillain, imagePath FROM SuperPersons as sp JOIN SuperPersonSighting as sps ON sp.superId = sps.superId Where sps.sightingId = ?";
+
+    private final String getAllSuperPersonsByPowerId = "Select sp.superId, `name`, `description`, isVillain, imagePath FROM SuperPersons as sp JOIN SuperPersonPower as spp ON sp.superId = spp.superId Where spp.powId = ?";
 
     private final String addHeroVillain = "Insert Into SuperPersons(`name`, `description`, isVillain) values (?,?,?)";
     private final String updateHeroVillain = "Update SuperPersons Set `name` = ?, `description` = ?, isVillain = ? Where superId = ?";
     private final String deleteHeroVillain = "Delete From SuperPersons Where superId = ?;";
+
+    //insert Image Path
+    private final String addImagePath = "Update SuperPersons Set imagePath = ? Where superId = ?";
 
     @Autowired
     public SuperPersonsDAOJdbcImpl(JdbcTemplate jdbcTemplate) {
@@ -76,6 +80,16 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
         return this.jdbc.query(getSuperPersonsBySightingId, new SuperPersonsJDBCMapper(), sightingId);
     }
 
+    @Override
+    public List<SuperPerson> getAllSuperPersonsByPowerId(int spwId) {
+        return this.jdbc.query(getAllSuperPersonsByPowerId, new SuperPersonsJDBCMapper(), spwId);
+    }
+
+    @Override
+    public void addImage(String imagePath, int id) {
+        jdbc.update(addImagePath, imagePath,id);
+    }
+
     public static final class SuperPersonsJDBCMapper implements RowMapper<SuperPerson> {
 
         @Override
@@ -85,8 +99,9 @@ public class SuperPersonsDAOJdbcImpl implements SuperPersonsDAO {
             superPerson.setName(rs.getString("name"));
             superPerson.setDescription(rs.getString("description"));
             superPerson.setIsVillain(rs.getBoolean("isVillain"));
-//            superPerson.setOrganizations();
+            superPerson.setImagePath(rs.getString("imagePath"));
 
+//            superPerson.setOrganizations();
             return superPerson;
 
         }

@@ -63,11 +63,30 @@ td{
     color: #cc3300;
 }
 
-.container-fluid {
-    margin-bottom: 100px;
+#jumbotronFooter{
+    margin-top: 30px;
+    margin-bottom:  0px;
 }
 
 .footer {
-  position: fixed;
-  margin-bottom: 50px; 
+    position: static;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+@media only screen and (max-width: 1052px) {
+    #footerImg{
+        display: none;
+    }
+    footer{
+        padding: 0px;
+    }
+
+    #jumbotronFooter
+    {
+        margin-top: 30px;
+        margin-bottom: 0px;
+        padding: 30px;
+    }
 }

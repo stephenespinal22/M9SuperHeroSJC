@@ -49,18 +49,34 @@
             <table class="table table-bordered table-striped" >
                 <thead>
                     <tr>
+                        <th>Photo Upload</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th><i class="fas fa-mask fa-sm" aria-hidden="true"></i> Hero / <i class="fas fa-skull-crossbones fa-sm" aria-hidden="true"></i> Villain</th>
                         <th>Powers</th>
                         <th>Organization</th>
-                        <th>Sightings</th>
+                        <th>(Click eye to view)<br>Sightings</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="superPerson : ${SuperPersons}">
+                        <td>
+                            <span th:if="${superPerson.imagePath == null}" >
+                                <form method="POST" action="upload" enctype="multipart/form-data">
+                                    <input type="hidden" name="superId" th:value="${superPerson.superId}">
+                                    <label for="file-upload" class="custom-file-upload">
+                                        Upload Photo
+                                    </label>
+                                    <input id="file-upload" type="file" name="file"/>
+                                    <input type="submit" value="Submit" />
+                                </form>
+                            </span>
+                            <span th:unless="${superPerson.imagePath == null}">
+                                <img class="imgSize" th:src="@{${superPerson.imagePath}}"></img>
+                            </span>
+                        </td>
                         <td><span th:text="${superPerson.name}"></span></td>
                         <td><span th:text="${superPerson.description}"></span></td>
                         <td>
@@ -75,11 +91,23 @@
                             <p th:if="${#lists.isEmpty(superPerson.organizations)}">Free Agent</p>
                             <p th:each="organizationDisplay : ${superPerson.organizations}" th:text="${organizationDisplay.name}" </p>
                         </td>
-                        <td> 
-                            <p th:if="${#lists.isEmpty(superPerson.sightings)}">No Sightings</p>
-                            <p th:each="sightingsDisplay : ${superPerson.sightings}" th:text="${sightingsDisplay.location.address} +' on '+ ${sightingsDisplay.sightingDate} " </p>
-                        </td>
-                        <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+                        <td><a data-toggle="modal" data-target="#modal-sightings" th:attr="data-target='#modal-sightings'+${superPerson.superId}"><i id="eye" class="fas fa-eye fa-2x" aria-hidden="true"></i></a></td> 
+                <div class="modal modal-sightings fade" th:id="modal-sightings+${superPerson.superId}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 th:text="'Sightings for ' + ${superPerson.name}"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <p th:if="${#lists.isEmpty(superPerson.sightings)}">No Sightings</p>
+                                <p th:each="sightingsDisplay,iterSighting : ${superPerson.sightings}" th:text="${iterSighting.index + 1} +': '+ ${sightingsDisplay.location.address} +' on '+ ${sightingsDisplay.sightingDate} " <i class="fas fa-eye fa-xs" aria-hidden="true"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <td><a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${superPerson.superId}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
                 <div class="modal modal-edit fade" th:id="modal-edit+${superPerson.superId}">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -190,9 +218,14 @@
         </div>
     </div>
 </div>
-        <footer id="footer">
-            <hr/>
-        </footer>
+
+<footer>
+    <div id="jumbotronFooter" class="jumbotron footer">
+
+        <div class="footer-copyright text-center py-3"><img id="footerImg" src="footerImages/footer.png" width="1000"><br>2019 Stephen Corey Jhoan</div>
+    </div>
+
+</footer>
 <!-- link cdn to bootstrap, jquery, popper -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

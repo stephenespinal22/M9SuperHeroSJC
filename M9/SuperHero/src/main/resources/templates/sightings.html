@@ -103,7 +103,7 @@
                                                     <input type='text' class="form-control" name="dateTime" required th:value="${sighting.sightingDate}"/>
                                                 </div>
                                                 <label>Super Persons (To Edit: Please Re-Select Super Persons)</label>
-                                                <select name='superPersons'class="form-control" multiple>
+                                                <select name='superPersons'class="form-control" required multiple>
                                                     <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
                                                 </select>
                                                 <br>
@@ -150,7 +150,7 @@
                                 <option th:each="location : ${locationList}" th:value="${location.locationId}" th:text="${location.address}"> </option>
                             </select>
                             <label>Super Persons</label>
-                            <select name='superPersons'class="form-control" multiple>
+                            <select name='superPersons'class="form-control" required multiple>
                                 <option th:each="superPerson : ${superPersonList}" th:value="${superPerson.superId}" th:text="${superPerson.name}"> </option>
                             </select>
                             <label>Sighting Date</label>
@@ -163,6 +163,13 @@
                 </div>
             </div>
         </div>
+        <footer>
+            <div id="jumbotronFooter" class="jumbotron footer">
+
+                <div class="footer-copyright text-center py-3"><img id="footerImg" src="footerImages/footer.png" width="1000"><br>2019 Stephen Corey Jhoan</div>
+            </div>
+
+        </footer>
         <!-- link cdn to bootstrap, jquery, popper -->
         <script type="text/javascript">
             $('.editDateTime').datetimepicker({
