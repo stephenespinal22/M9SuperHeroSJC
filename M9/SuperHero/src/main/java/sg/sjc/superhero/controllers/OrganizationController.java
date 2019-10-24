@@ -48,7 +48,7 @@ public class OrganizationController {
         newOrganization.setDescription(request.getParameter("description"));
         newOrganization.setContactInfo(request.getParameter("contactInfo"));
 
-        service.createOrganization(newOrganization);
+        service.createOrganization(newOrganization); 
 
         //tell spring to redirect user to mapping locations
         return "redirect:/organizations";
