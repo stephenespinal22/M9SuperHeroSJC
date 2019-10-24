@@ -29,5 +29,7 @@ public interface SuperPersonsDAO {
     public List<SuperPerson> getSuperPersonsBySightingId(int sightingId);
 
     public List<SuperPerson> getAllSuperPersonsByPowerId(int spwId);
+    
+    public void addImage(String imagePath,int id);
 
 }

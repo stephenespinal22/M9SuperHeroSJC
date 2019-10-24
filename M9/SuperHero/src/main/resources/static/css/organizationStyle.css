@@ -55,3 +55,31 @@ td{
     font-size: 30px;
     color: #cc3300;
 }
+
+#jumbotronFooter{
+    margin-top: 30px;
+    margin-bottom:  0px;
+}
+
+.footer {
+    position: static;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+@media only screen and (max-width: 1052px) {
+    #footerImg{
+        display: none;
+    }
+    footer{
+        padding: 0px;
+    }
+
+    #jumbotronFooter
+    {
+        margin-top: 30px;
+        margin-bottom: 0px;
+        padding: 30px;
+    }
+}

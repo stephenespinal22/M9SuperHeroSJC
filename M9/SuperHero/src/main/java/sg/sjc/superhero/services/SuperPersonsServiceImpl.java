@@ -120,4 +120,9 @@ public class SuperPersonsServiceImpl implements SuperPersonsService {
         sppDAO.deleteSuperPersonById(superId);
     }
 
+    @Override
+    public void addImagePath(String path, int id) {
+        spsDAO.addImage(path,id);
+    }
+
 }
