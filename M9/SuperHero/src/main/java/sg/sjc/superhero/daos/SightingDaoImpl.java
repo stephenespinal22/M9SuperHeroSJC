@@ -27,7 +27,7 @@ public class SightingDaoImpl implements SightingDao {
             + " sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings "
             + "ON loc.locationId = Sightings.locationId ORDER BY STR_TO_DATE(sightingDate, '%m/%d/%Y %h:%i %p') DESC"; //read all
     private final String selectSightingsById = selectAllSightings + " WHERE sightingId = ?"; //readbyId
-    private final String selectSightingsByLocationId = " WHERE locationId = ?";
+    private final String selectSightingsByLocationId = "SELECT loc.locationId, `name`, loc.`description`, address, longitude, latitude, Sightings.sightingId, Sightings.`description`, sightingDate FROM Locations AS loc JOIN Sightings ON loc.locationId = Sightings.locationId WHERE loc.locationId = ?";
 
     private final String getSightingsBySuperPersonId = selectAllSightings + " JOIN SuperPersonSighting as sps ON Sightings.sightingId = sps.sightingId Where sps.superId = ?";
 

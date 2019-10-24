@@ -26,6 +26,7 @@ import sg.sjc.superhero.services.LocationService;
 public class LocationController {
 
     private LocationService service;
+    
 
     @Autowired
     public LocationController(LocationService service) {

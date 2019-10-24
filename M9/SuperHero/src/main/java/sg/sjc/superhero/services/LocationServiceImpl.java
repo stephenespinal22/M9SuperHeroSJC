@@ -8,19 +8,29 @@ package sg.sjc.superhero.services;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sg.sjc.superhero.daos.LocationDao;
+import sg.sjc.superhero.daos.SightingDao;
+import sg.sjc.superhero.daos.SightingsSuperPersonsBridgeDao;
+import sg.sjc.superhero.daos.SuperPersonsDAO;
 import sg.sjc.superhero.dtos.Location;
+import sg.sjc.superhero.dtos.Sighting;
+import sg.sjc.superhero.dtos.SuperPerson;
 
 @Service
 public class LocationServiceImpl implements LocationService {
 
-    LocationDao locationDao;
+    private LocationDao locationDao;
+    private SightingsSuperPersonsBridgeDao sightingSuperDao;
+    private SightingDao sightingDao;
 
     @Autowired
-    public LocationServiceImpl(LocationDao locationDao) {
+    public LocationServiceImpl(LocationDao locationDao, SightingsSuperPersonsBridgeDao sightingSuperDao, SightingDao sightingDao) {
         this.locationDao = locationDao;
+        this.sightingSuperDao = sightingSuperDao;
+        this.sightingDao = sightingDao;
     }
-    
+
     @Override
     public Location createLocation(Location location) {
         return locationDao.createLocation(location);
@@ -42,7 +52,19 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public void deleteLocation(int id) {
+        
+        List<Sighting> sightingList = sightingDao.readSightingsByLocationId(id);
+
+        for (Sighting sighting : sightingList) {
+            sightingSuperDao.deleteSightingById(sighting.getSightingId());
+//            if (sighting.getSuperPersons() != null) {
+//                for (SuperPerson supers : sighting.getSuperPersons()) {
+//                    sightingSuperDao.deleteSightingById(supers.getSuperId());
+//                }
+//            }
+        }
         locationDao.deleteLocation(id);
     }
 
