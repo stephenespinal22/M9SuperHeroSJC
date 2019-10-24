@@ -7,12 +7,13 @@ package sg.sjc.superhero.controllers;
 
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import sg.sjc.superhero.dtos.SuperPowers;
 import sg.sjc.superhero.services.SuperPowersService;
 
@@ -20,7 +21,7 @@ import sg.sjc.superhero.services.SuperPowersService;
  *
  * @author jhoan
  */
-    @Controller
+@Controller
 public class SuperPowersController {
 
     private SuperPowersService service;
@@ -42,9 +43,9 @@ public class SuperPowersController {
     }
 
     @PostMapping("addNewSuperPower")
-    public String addSuperPowers(HttpServletRequest request) {
+    public String addSuperPowers(HttpServletRequest request, @Valid SuperPowers newSuperPowers, BindingResult result) {
+        
 
-        SuperPowers newSuperPowers = new SuperPowers();
 
         newSuperPowers.setName(request.getParameter("powerName"));
 
@@ -66,10 +67,8 @@ public class SuperPowersController {
     }
 
     @PostMapping("editSuperPower")
-    public String editSuperPowers(HttpServletRequest request) {
-
-        SuperPowers superPowersToEdit = new SuperPowers();
-
+    public String editSuperPowers(HttpServletRequest request, @Valid SuperPowers superPowersToEdit, BindingResult result) {
+ 
         superPowersToEdit.setSpwId(Integer.parseInt(request.getParameter("powId")));
         superPowersToEdit.setName(request.getParameter("powerName"));
 

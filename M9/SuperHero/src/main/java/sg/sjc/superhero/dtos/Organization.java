@@ -7,6 +7,9 @@ package sg.sjc.superhero.dtos;
 
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -15,7 +18,13 @@ import java.util.Objects;
 public class Organization {
     
     private int orgId;
+    
+    @NotBlank(message = "Must enter a power name.")
+    @Size(max = 50, message = "Power name must be less than 50 characters.")
     private String name;
+    
+    @NotEmpty(message = "Please enter a description.")
+    @Size(max = 255, message = "Description must be less than 255 characters.")
     private String description;
     private String contactInfo;
     

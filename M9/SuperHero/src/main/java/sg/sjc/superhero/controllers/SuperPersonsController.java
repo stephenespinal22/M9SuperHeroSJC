@@ -67,6 +67,7 @@ public class SuperPersonsController {
 
     @PostMapping("addHeroVillain")
     public String addHeroVillain(HttpServletRequest request, @Valid SuperPerson superPerson, BindingResult result) {
+        
 
         String[] powIds = request.getParameterValues("powers");
         String[] orgIds = request.getParameterValues("organizations");
@@ -110,7 +111,8 @@ public class SuperPersonsController {
     }
 
     @PostMapping("editHeroVillain")
-    public String editHeroVillain(HttpServletRequest request) {
+    public String editHeroVillain(HttpServletRequest request, @Valid SuperPerson editSuper, BindingResult result) {
+
 
         String[] orgIds = request.getParameterValues("organizations");
         String[] powIds = request.getParameterValues("powers");

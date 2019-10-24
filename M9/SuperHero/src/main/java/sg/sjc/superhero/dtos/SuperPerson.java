@@ -8,6 +8,7 @@ package sg.sjc.superhero.dtos;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -19,10 +20,12 @@ public class SuperPerson {
     private int superId;
     
     @NotEmpty(message = "Please enter a name.")
+    @Size(max = 50, message = "Name must be less than 50 characters.")
     private String name;
     private boolean isVillain;
     
     @NotEmpty(message = "Please enter a description.")
+    @Size(max = 255, message = "Description must be less than 255 characters.")
     private String description;
     
     private List<SuperPowers> powers;
