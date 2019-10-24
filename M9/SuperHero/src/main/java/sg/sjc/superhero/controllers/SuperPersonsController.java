@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,16 +58,9 @@ public class SuperPersonsController {
         List<Organization> organizations = orgService.readAllOrganizations();
         List<SuperPowers> powers = spService.readAllSuperPowers();
 
-        Boolean displayUpload = false;
-
-        String file = "images/background.jpg";
-
         model.addAttribute("SuperPersons", superPersons);
         model.addAttribute("Powers", powers);
         model.addAttribute("Organizations", organizations);
-
-        model.addAttribute("displayUpload", displayUpload);
-        model.addAttribute("img", file);
 
         return "supers";
     }
@@ -175,7 +171,7 @@ public class SuperPersonsController {
 
     @PostMapping("upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
@@ -189,6 +185,12 @@ public class SuperPersonsController {
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
 
+            String pathString = path.toString();
+            String fixedPath = pathString.substring(25);
+
+            int superId = Integer.parseInt(request.getParameter("superId"));
+            service.addImagePath(fixedPath, superId);
+
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
 
@@ -196,7 +198,13 @@ public class SuperPersonsController {
             e.printStackTrace();
         }
 
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+
         return "redirect:/supers";
     }
-    
+
 }

@@ -23,4 +23,6 @@ public interface SuperPersonsService {
     void createSuperPower(int superId, int powId);
     void deleteSuper(int superId);    
     void deleteSuperPersonRelationshipSighting(int superId);
+    
+    void addImagePath(String path,int id);
 }
